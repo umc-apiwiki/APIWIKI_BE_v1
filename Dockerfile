@@ -1,8 +1,6 @@
 FROM maven:3.9.6-eclipse-temurin-17 AS builder
 WORKDIR /workspace
-COPY pom.xml mvnw mvnw.cmd ./
-COPY .mvn ./.mvn
-COPY src ./src
+COPY . .
 RUN chmod +x mvnw && ./mvnw -B -DskipTests clean package
 
 FROM eclipse-temurin:17-jre-alpine
