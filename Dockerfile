@@ -1,11 +1,13 @@
-FROM maven:3.9.6-eclipse-temurin-17 AS builder
+FROM eclipse-temurin:17-jdk-alpine AS builder
 WORKDIR /workspace
-COPY . .
-RUN chmod +x mvnw && ./mvnw -B -DskipTests clean package
+COPY gradlew gradlew.bat build.gradle settings.gradle ./
+COPY gradle ./gradle
+COPY src ./src
+RUN chmod +x gradlew && ./gradlew bootJar --no-daemon
 
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-COPY --from=builder /workspace/target/*.jar app.jar
+COPY --from=builder /workspace/build/libs/*.jar app.jar
 EXPOSE 8080
 ENV JAVA_OPTS=""
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
