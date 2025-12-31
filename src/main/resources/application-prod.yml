@@ -9,6 +9,10 @@ spring:
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  sql:
+    init:
+      mode: never  # 중요! Prod 환경에서는 data.sql 자동 실행을 절대 하지 않음
+
   jpa:
     hibernate:
       ddl-auto: update  # 프로젝트 초기에는 update가 편리 (나중엔 validate 권장)
