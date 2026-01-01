@@ -98,7 +98,3 @@ java -jar build/libs/apiwiki-backend-0.0.1-SNAPSHOT.jar
 2. 브랜치 생성 (`feat/#이슈번호-기능명`)
 3. 코드 작성 및 Commit
 4. PR 생성 및 리뷰 요청
-
-```
-
-
