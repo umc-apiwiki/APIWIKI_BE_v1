@@ -49,7 +49,7 @@ GitHub Actions를 통해 **CI/CD 자동 배포 파이프라인**이 구축되어
 
 ### 2. Installation
 ```bash
-git clone [https://github.com/Your-Github-ID/apiwiki-backend.git](https://github.com/Your-Github-ID/apiwiki-backend.git)
+git clone [https://github.com/umc-apiwiki/APIWIKI_BE_v1.git](https://github.com/umc-apiwiki/APIWIKI_BE_v1.git)
 cd apiwiki-backend
 ```
 
@@ -97,7 +97,7 @@ java -jar build/libs/apiwiki-backend-0.0.1-SNAPSHOT.jar
 
 ## 🤝 Contribution
 
-1. 이슈 생성 (Feature/Bug)
-2. 브랜치 생성 (`feat/#이슈번호-기능명`)
+1. 이슈 생성
+2. 브랜치 생성 (`feat/이슈번호-기능명`)
 3. 코드 작성 및 Commit
 4. PR 생성 및 리뷰 요청
