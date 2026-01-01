@@ -21,7 +21,7 @@ API 위키는 개발자들이 프로젝트에 적합한 API를 빠르고 정확�
 
 ## 🏗️ Architecture (Infra & Deployment)
 
-현재 AWS EC2 환경에 배포되어 있으며, **Nginx**를 리버스 프록시로 사용하여 **HTTPS(SSL)** 보안이 적용되어 있습니다.<br/>
+현재 AWS EC2 환경에 배포되어 있으며, **Nginx**를 리버스 프록시로 사용하여 <b>HTTPS(SSL)</b> 보안이 적용되어 있습니다.<br/>
 GitHub Actions를 통해 **CI/CD 자동 배포 파이프라인**이 구축되어 있습니다.<br/>
 
 * **Server URL:** `https://apiwiki-api.my-project.cloud`
@@ -32,7 +32,12 @@ GitHub Actions를 통해 **CI/CD 자동 배포 파이프라인**이 구축되어
 2.  **GitHub Actions** 트리거 (Build & Test)
 3.  `.jar` 파일 빌드 후 AWS EC2로 전송 (SCP)
 4.  EC2 내부 `deploy.sh` 스크립트 실행
-5.  기존 프로세스 종료 및 **무중단(또는 자동) 재배포**
+5.  기존 프로세스 종료 및 **자동 재배포**
+
+> **⚠️ 배포 시 유의사항 (Known Limitations)**
+> <br/>현재 인프라 비용 절감 및 구조 단순화를 위해 **단일 인스턴스 배포 방식**을 채택하고 있습니다.<br/>
+> 이에 따라 배포 스크립트 실행 시 기존 프로세스가 종료되고 새 프로세스가 실행되는 동안 <b>약 15~30초 간의 다운타임(서비스 일시 중단)</b>이 발생합니다.<br/>
+> 추후 트래픽 증가 시 **Nginx를 활용한 Blue/Green 무중단 배포** 도입을 통해 개선할 예정입니다.<br/>
 
 ## 🛠️ Getting Started (Local Development)
 
@@ -46,7 +51,6 @@ GitHub Actions를 통해 **CI/CD 자동 배포 파이프라인**이 구축되어
 ```bash
 git clone [https://github.com/Your-Github-ID/apiwiki-backend.git](https://github.com/Your-Github-ID/apiwiki-backend.git)
 cd apiwiki-backend
-
 ```
 
 ### 3. Environment Variables
@@ -58,7 +62,7 @@ cd apiwiki-backend
 
 1. 상단 실행 설정(`Run/Debug Configurations`) 클릭
 2. `Modify options` -> `Environment variables` 선택
-3. 아래 내용을 입력 (팀 노션/디스코드의 공유 문서 확인)
+3. 아래 내용을 입력
 
 | Key | Description | Example (Dummy) |
 | --- | --- | --- |
@@ -78,7 +82,6 @@ java -jar build/libs/apiwiki-backend-0.0.1-SNAPSHOT.jar
 # Windows
 ./gradlew.bat clean build
 java -jar build/libs/apiwiki-backend-0.0.1-SNAPSHOT.jar
-
 ```
 
 ## 📂 Tech Stack
