@@ -28,7 +28,7 @@ API 위키는 개발자들이 프로젝트에 적합한 API를 빠르고 정확�
 | **Ground Rules** | **[📜 팀 협업 규칙 및 기술 스택 상세](./docs/project-rules.md)** |
 | **DB Design** | **[💾 ERD](./docs/erd/erd.md)**                      |
 | **Logic Flow** | **[🔄 주요 기능 시퀀스 다이어그램](./docs/sequence/)**           |
-| **API Spec** | **[Swagger UI](https://apiwiki-api.my-project.cloud/swagger-ui/index.html)** (배포 환경) |
+| **API Spec** | **[Swagger UI](https://apiwiki-api.my-project.cloud/swagger-ui/index.html)** `배포 환경` |
 
 ## 🏗️ Architecture (Infra & Deployment)
 
@@ -36,7 +36,7 @@ API 위키는 개발자들이 프로젝트에 적합한 API를 빠르고 정확�
 GitHub Actions를 통해 **CI/CD 자동 배포 파이프라인**이 구축되어 있습니다.<br/>
 
 * **Server URL:** `https://apiwiki-api.my-project.cloud`
-* **Docs (Swagger):** `https://apiwiki-api.my-project.cloud/swagger-ui/index.html` (예정)
+* **Docs (Swagger):** `https://apiwiki-api.my-project.cloud/swagger-ui/index.html`
 
 ### 🔄 CI/CD Process
 1.  GitHub `main` 브랜치에 코드 Push
@@ -45,8 +45,8 @@ GitHub Actions를 통해 **CI/CD 자동 배포 파이프라인**이 구축되어
 4.  EC2 내부 `deploy.sh` 스크립트 실행
 5.  기존 프로세스 종료 및 **자동 재배포**
 
-> **⚠️ 배포 시 유의사항 (Known Limitations)**
-> <br/>현재 인프라 비용 절감 및 구조 단순화를 위해 **단일 인스턴스 배포 방식**을 채택하고 있습니다.<br/>
+> **⚠️ 배포 시 유의사항 (Known Limitations)**<br/>
+> 현재 인프라 비용 절감 및 구조 단순화를 위해 **단일 인스턴스 배포 방식**을 채택하고 있습니다.<br/>
 > 이에 따라 배포 스크립트 실행 시 기존 프로세스가 종료되고 새 프로세스가 실행되는 동안 <b>약 15~30초 간의 다운타임(서비스 일시 중단)</b>이 발생합니다.<br/>
 > 추후 트래픽 증가 시 **Nginx를 활용한 Blue/Green 무중단 배포** 도입을 통해 개선할 예정입니다.<br/>
 
@@ -72,7 +72,7 @@ cd apiwiki-backend
 **[IntelliJ 설정 방법]**
 
 1. 상단 실행 설정(`Run/Debug Configurations`) 클릭
-2. `Modify options` -> `Environment variables` 선택
+2. `Modify options` → `Environment variables` 선택
 3. 아래 내용을 입력
 
 | Key | Description | Example (Dummy) |
@@ -112,6 +112,6 @@ java -jar build/libs/apiwiki-backend-0.0.1-SNAPSHOT.jar
 
 기여하시기 전에 반드시 아래 문서를 확인해주세요.
 
-1. **[Ground Rules(협업 규칙)](./docs/project-rules.md)**을 먼저 읽어주세요.
-2. **[Contributing Guide](./CONTRIBUTING.md)**에 따라 이슈와 PR을 생성해주세요.
+1. <b>[Ground Rules(협업 규칙)](./docs/project-rules.md)</b>을 먼저 읽어주세요.
+2. <b>[Contributing Guide](./CONTRIBUTING.md)</b>에 따라 이슈와 PR을 생성해주세요.
 
