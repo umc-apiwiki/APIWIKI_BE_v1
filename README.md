@@ -4,8 +4,8 @@
 > **개발자들이 실제 사용 경험을 공유하며 함께 만드는 API 선택 가이드** <br/>
 > **API Wiki의 백엔드 리포지토리입니다.**
 
-![Java](https://img.shields.io/badge/Java-17-blue?logo=openjdk&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-green?logo=springboot&logoColor=white)
+![Java](https://img.shields.io/badge/Java-21-blue?logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.x-green?logo=springboot&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-orange?logo=mysql&logoColor=white)
 ![AWS EC2](https://img.shields.io/badge/AWS%20EC2-232F3E?logo=amazon-aws&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?logo=github-actions&logoColor=white)
@@ -19,13 +19,24 @@ API 위키는 개발자들이 프로젝트에 적합한 API를 빠르고 정확�
 - **품질 목표**: API 선택 후 교체율을 35%에서 10%로 감소
 - **커뮤니티 목표**: 월간 활성 기여자 100명 이상 확보
 
+## 📚 Documentation & Rules
+
+프로젝트의 설계 문서와 협업 규칙은 `docs/` 디렉토리에서 상세하게 관리하고 있습니다.
+
+| 문서 종류 | 내용 및 링크                                              |
+| --- |------------------------------------------------------|
+| **Ground Rules** | **[📜 팀 협업 규칙 및 기술 스택 상세](./docs/project-rules.md)** |
+| **DB Design** | **[💾 ERD](./docs/erd/erd.md)**                      |
+| **Logic Flow** | **[🔄 주요 기능 시퀀스 다이어그램](./docs/sequence/)**           |
+| **API Spec** | **[Swagger UI](https://apiwiki-api.my-project.cloud/swagger-ui/index.html)** `배포 환경` |
+
 ## 🏗️ Architecture (Infra & Deployment)
 
 현재 AWS EC2 환경에 배포되어 있으며, **Nginx**를 리버스 프록시로 사용하여 <b>HTTPS(SSL)</b> 보안이 적용되어 있습니다.<br/>
 GitHub Actions를 통해 **CI/CD 자동 배포 파이프라인**이 구축되어 있습니다.<br/>
 
 * **Server URL:** `https://apiwiki-api.my-project.cloud`
-* **Docs (Swagger):** `https://apiwiki-api.my-project.cloud/swagger-ui/index.html` (예정)
+* **Docs (Swagger):** `https://apiwiki-api.my-project.cloud/swagger-ui/index.html`
 
 ### 🔄 CI/CD Process
 1.  GitHub `main` 브랜치에 코드 Push
@@ -34,8 +45,8 @@ GitHub Actions를 통해 **CI/CD 자동 배포 파이프라인**이 구축되어
 4.  EC2 내부 `deploy.sh` 스크립트 실행
 5.  기존 프로세스 종료 및 **자동 재배포**
 
-> **⚠️ 배포 시 유의사항 (Known Limitations)**
-> <br/>현재 인프라 비용 절감 및 구조 단순화를 위해 **단일 인스턴스 배포 방식**을 채택하고 있습니다.<br/>
+> **⚠️ 배포 시 유의사항 (Known Limitations)**<br/>
+> 현재 인프라 비용 절감 및 구조 단순화를 위해 **단일 인스턴스 배포 방식**을 채택하고 있습니다.<br/>
 > 이에 따라 배포 스크립트 실행 시 기존 프로세스가 종료되고 새 프로세스가 실행되는 동안 <b>약 15~30초 간의 다운타임(서비스 일시 중단)</b>이 발생합니다.<br/>
 > 추후 트래픽 증가 시 **Nginx를 활용한 Blue/Green 무중단 배포** 도입을 통해 개선할 예정입니다.<br/>
 
@@ -49,7 +60,7 @@ GitHub Actions를 통해 **CI/CD 자동 배포 파이프라인**이 구축되어
 
 ### 2. Installation
 ```bash
-git clone [https://github.com/umc-apiwiki/APIWIKI_BE_v1.git](https://github.com/umc-apiwiki/APIWIKI_BE_v1.git)
+git clone https://github.com/umc-apiwiki/APIWIKI_BE_v1.git
 cd apiwiki-backend
 ```
 
@@ -61,7 +72,7 @@ cd apiwiki-backend
 **[IntelliJ 설정 방법]**
 
 1. 상단 실행 설정(`Run/Debug Configurations`) 클릭
-2. `Modify options` -> `Environment variables` 선택
+2. `Modify options` → `Environment variables` 선택
 3. 아래 내용을 입력
 
 | Key | Description | Example (Dummy) |
@@ -86,18 +97,21 @@ java -jar build/libs/apiwiki-backend-0.0.1-SNAPSHOT.jar
 
 ## 📂 Tech Stack
 
-| Category | Stack                                             |
-| --- |---------------------------------------------------|
-| **Language** | Java 21                                            |
-| **Framework** | Spring Boot 3.4, Spring Security, Spring Data JPA |
-| **Database** | MySQL                                             |
-| **Infra** | AWS EC2, RDS                                      |
-| **Web Server** | Nginx (Reverse Proxy, SSL/TLS)                    |
-| **CI/CD** | GitHub Actions                                    |
+자세한 기술 선정 이유와 버전 전략은 **[Docs > Project Rules](./docs/project-rules.md)** 문서를 참고해주세요.
+
+| Category | Stack                                               |
+| --- |-----------------------------------------------------|
+| **Language** | `Java 21`                                            |
+| **Framework** | `Spring Boot 3.4.2`, `Spring Security`, `Spring Data JPA` |
+| **Database** | `MySQL 8.0` (Prod), `H2` (Test) |
+| **Infra** | `AWS EC2`, `RDS`                                       |
+| **Web Server** | `Nginx` (Reverse Proxy, SSL/TLS) |
+| **CI/CD** | `GitHub Actions`                                      |
 
 ## 🤝 Contribution
 
-1. 이슈 생성
-2. 브랜치 생성 (`feat/이슈번호-기능명`)
-3. 코드 작성 및 Commit
-4. PR 생성 및 리뷰 요청
+기여하시기 전에 반드시 아래 문서를 확인해주세요.
+
+1. <b>[Ground Rules(협업 규칙)](./docs/project-rules.md)</b>을 먼저 읽어주세요.
+2. <b>[Contributing Guide](./CONTRIBUTING.md)</b>에 따라 이슈와 PR을 생성해주세요.
+
