@@ -42,7 +42,7 @@ sentry:
   enable-tracing: true
   logging:
     enabled: true
-    minimum-event-level: error
+    minimum-event-level: info
     minimum-breadcrumb-level: info
 
 logging:
