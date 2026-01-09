@@ -4,6 +4,4 @@ spring:
   profiles:
     default: dev # 아무 설정 없이 켜면 dev(개발용)로 실행됨
 
-sentry:
-  dsn: https://ddb0be7908d048d5a138b078f75daab9@glitchtip.supabin.com/3
-  traces-sample-rate: 1.0
+
