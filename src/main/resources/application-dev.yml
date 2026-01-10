@@ -21,7 +21,7 @@ spring:
   # 1. 서버 실행 후 브라우저 접속: http://localhost:8080/h2-console
   # 2. 로그인 화면 설정 값
   #    - Driver Class: org.h2.Driver
-  #    - JDBC URL: jdbc:h2:mem:testdb
+  #    - JDBC URL: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1
   #    - User Name: sa
   #    - Password:
   # 3. Connect 버튼 클릭
