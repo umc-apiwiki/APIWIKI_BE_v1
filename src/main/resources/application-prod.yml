@@ -30,7 +30,7 @@ logging:
     # org.hibernate.type: TRACE
 
 sentry:
-  dsn: https://ddb0be7908d048d5a138b078f75daab9@glitchtip.supabin.com/3
+  dsn: ${SENTRY_DSN:}
   traces-sample-rate: 1.0
   environment: prod
   enable-tracing: true
