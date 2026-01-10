@@ -35,19 +35,8 @@ spring:
         show_sql: true # 실행되는 SQL을 콘솔에 출력
     defer-datasource-initialization: true # data.sql 초기화 데이터를 위해 필요
 
-sentry:
-  dsn: https://ddb0be7908d048d5a138b078f75daab9@glitchtip.supabin.com/3
-  traces-sample-rate: 1.0
-  environment: dev
-  enable-tracing: true
-  logging:
-    enabled: true
-    minimum-event-level: info
-    minimum-breadcrumb-level: info
-
 logging:
   level:
     root: INFO
-    io.sentry: DEBUG # Sentry 디버그 로그 추가
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql: TRACE
+    org.hibernate.SQL: DEBUG # 쿼리 로그를 자세히 봄
+    org.hibernate.type.descriptor.sql: TRACE # 쿼리의 ? 파라미터에 뭐가 들어갔는지 보여줌
