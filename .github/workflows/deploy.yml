@@ -47,10 +47,10 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          # Secrets 값을 환경변수로 주입하여 스크립트 실행
-          envs: DB_HOST,DB_USERNAME,DB_PASSWORD
           script: |
             export DB_HOST=${{ secrets.DB_HOST }}
             export DB_USERNAME=${{ secrets.DB_USERNAME }}
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            export DNS=${{ secrets.SENTRY_DSN }}
+            chmod +x /home/ubuntu/deploy.sh
             /home/ubuntu/deploy.sh
