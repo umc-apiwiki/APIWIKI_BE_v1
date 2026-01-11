@@ -26,7 +26,6 @@ public class SecurityConfig {
                         // "/health"는 누구나 들어올 수 있게 허용
                         // Swagger 관련 주소들도 허용해뒀습니다 (나중에 확인 편하도록)
                         .requestMatchers("/health", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-
                         // 그 외 모든 요청은 인증된 사용자만 접근 가능 (지금은 로그인 기능 없으니 사실상 다 막힘)
                         .anyRequest().authenticated()
                 )

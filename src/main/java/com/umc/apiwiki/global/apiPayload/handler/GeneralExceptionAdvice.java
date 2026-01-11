@@ -4,6 +4,7 @@ import com.umc.apiwiki.global.apiPayload.ApiResponse;
 import com.umc.apiwiki.global.apiPayload.code.BaseErrorCode;
 import com.umc.apiwiki.global.apiPayload.code.GeneralErrorCode;
 import com.umc.apiwiki.global.apiPayload.exception.GeneralException;
+import io.sentry.Sentry;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -30,6 +31,7 @@ public class GeneralExceptionAdvice {
     public ResponseEntity<ApiResponse<String>> handleException(
             Exception ex
     ) {
+        Sentry.captureException(ex);
 
         BaseErrorCode code = GeneralErrorCode.INTERNAL_SERVER_ERROR;
         return ResponseEntity.status(code.getStatus())
