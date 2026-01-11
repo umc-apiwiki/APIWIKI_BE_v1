@@ -2,4 +2,6 @@ spring:
   application:
     name: my-project
   profiles:
-    default: dev  # 아무 설정 없이 켜면 dev(개발용)로 실행됨
+    default: dev # 아무 설정 없이 켜면 dev(개발용)로 실행됨
+
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 기본 스프링 부트 로그 설정 포함 -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <!-- application.yml의 설정값을 가져옴 -->
+    <springProperty scope="context" name="SENTRY_DSN" source="sentry.dsn"/>
+
+    <!-- Sentry Appender 설정 -->
+    <appender name="SENTRY" class="io.sentry.logback.SentryAppender">
+        <options>
+            <dsn>${SENTRY_DSN}</dsn>
+        </options>
+        <!-- 에러(ERROR) 레벨 이상만 Sentry로 전송 -->
+        <minimumEventLevel>ERROR</minimumEventLevel>
+    </appender>
+
+    <!-- root 로거 설정 -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="SENTRY" />
+    </root>
+</configuration>

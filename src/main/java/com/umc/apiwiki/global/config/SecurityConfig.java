@@ -40,8 +40,7 @@ public class SecurityConfig {
 
                         // Swagger 및 헬스 체크 허용
                         .requestMatchers("/health", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-
-                        // 나머지는 인증 필요
+                        // 그 외 모든 요청은 인증된 사용자만 접근 가능 (지금은 로그인 기능 없으니 사실상 다 막힘)
                         .anyRequest().authenticated()
                 )
 
