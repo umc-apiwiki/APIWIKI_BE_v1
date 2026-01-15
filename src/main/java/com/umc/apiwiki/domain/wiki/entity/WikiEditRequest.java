@@ -1,6 +1,7 @@
 package com.umc.apiwiki.domain.wiki.entity;
 
 import com.umc.apiwiki.domain.user.entity.User;
+import com.umc.apiwiki.domain.wiki.enums.RequestState;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
