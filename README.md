@@ -27,7 +27,7 @@ API 위키는 개발자들이 프로젝트에 적합한 API를 빠르고 정확�
 | --- |------------------------------------------------------|
 | **Ground Rules** | **[📜 팀 협업 규칙 및 기술 스택 상세](./docs/project-rules.md)** |
 | **DB Design** | **[💾 ERD](./docs/erd/erd.md)**                      |
-| **Logic Flow** | **[🔄 주요 기능 시퀀스 다이어그램](./docs/sequence/)**           |
+| **Infrastructure** | **[☁️ 인프라 구성 다이어그램](./docs/infra/architecture.png)** |
 | **API Spec** | **[Swagger UI](https://apiwiki-api.my-project.cloud/swagger-ui/index.html)** `배포 환경` |
 
 ## 🏗️ Architecture (Infra & Deployment)
