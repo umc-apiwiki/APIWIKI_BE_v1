@@ -23,5 +23,5 @@ public enum CategoryName {
     SNS("SNS"),
     COLLABORATION("협업");
 
-    private final String name;
+    private final String description;
 }
