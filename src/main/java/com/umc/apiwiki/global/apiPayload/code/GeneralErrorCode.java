@@ -19,7 +19,7 @@ public enum GeneralErrorCode implements BaseErrorCode{
             "금지된 요청입니다."),
     NOT_FOUND(HttpStatus.NOT_FOUND,
             "COMMON404",
-            "요청한 리소스를 찾을 수 없습니다."),
+            "요청한 리소스를 찾을 수 없습니다. 해당 경로는 존재하지 않습니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,
             "COMMON500",
             "서버 에러, 관리자에게 문의 바랍니다."),
