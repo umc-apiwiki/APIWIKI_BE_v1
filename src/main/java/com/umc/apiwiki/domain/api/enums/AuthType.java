@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum AuthType {
 
-    OAUTH("OAuth 2.0"),
+    OAUTH2("OAuth 2.0"),
     REFRESH_TOKEN("Refresh Token"),
     ACCESS_TOKEN("Access Token"),
     API_KEY("API Key 인증"),
