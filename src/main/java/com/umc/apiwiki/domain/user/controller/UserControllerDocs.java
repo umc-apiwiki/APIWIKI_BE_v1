@@ -36,4 +36,21 @@ public interface UserControllerDocs {
     ApiResponse<UserResDTO.Login> login(
             @RequestBody @Valid UserReqDTO.Login dto
     );
+
+    @Operation(
+            summary = "로그아웃 API By 이노",
+            description = """
+                    로그아웃합니다.<br>
+                    실제 로그아웃 로직(토큰 블랙리스트 등)은 현재 백엔드 상에서 구현되어 있지 않습니다.<br>
+                    <br>
+                    **[프론트엔드 동작]**<br>
+                    프론트엔드 측에서 해당 응답을 받으면 로컬 스토리지/쿠키의 토큰을 삭제하면 됩니다.
+                    """
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패")
+    })
+    @PostMapping("/auth/logout")
+    ApiResponse<String> logout();
 }
