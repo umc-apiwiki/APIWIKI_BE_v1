@@ -23,4 +23,17 @@ public interface UserControllerDocs {
     ApiResponse<UserResDTO.Login> signUp(
             @RequestBody @Valid UserReqDTO.Signup dto
     );
+
+    @Operation(
+            summary = "로그인 API By 이노",
+            description = "회원의 정보를 받아 로그인합니다."
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패")
+    })
+    @PostMapping("/auth/login")
+    ApiResponse<UserResDTO.Login> login(
+            @RequestBody @Valid UserReqDTO.Login dto
+    );
 }

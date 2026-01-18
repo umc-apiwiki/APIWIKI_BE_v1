@@ -7,4 +7,8 @@ public class UserReqDTO {
             String nickname
     ) {}
 
+    public record Login(
+            String email,
+            String password
+    ) {}
 }

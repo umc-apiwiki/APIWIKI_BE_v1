@@ -23,6 +23,8 @@ public enum GeneralErrorCode implements BaseErrorCode{
     // USER 관련 에러
     DUPLICATE_EMAIL(HttpStatus.BAD_REQUEST, "USER4000", "이미 사용 중인 이메일입니다."),
     DUPLICATE_NICKNAME(HttpStatus.BAD_REQUEST, "USER4001", "이미 사용 중인 닉네임입니다."),
+    USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "USER4002", "해당하는 아이디가 존재하지 않습니다."),
+    PASSWORD_MISMATCH(HttpStatus.BAD_REQUEST, "USER4003", "잘못된 비밀번호를 입력하였습니다.");
     ;
 
     private final HttpStatus status;

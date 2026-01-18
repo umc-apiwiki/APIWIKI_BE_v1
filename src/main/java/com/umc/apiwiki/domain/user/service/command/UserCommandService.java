@@ -8,6 +8,7 @@ import com.umc.apiwiki.domain.user.repository.UserRepository;
 import com.umc.apiwiki.global.apiPayload.code.GeneralErrorCode;
 import com.umc.apiwiki.global.apiPayload.exception.GeneralException;
 import com.umc.apiwiki.global.jwt.JwtUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -89,4 +90,27 @@ public class UserCommandService {
     // 헬퍼 메서드: null이거나, 빈 문자열("")이거나, 공백(" ")인 경우 true
     private boolean isInvalid(String value) {
         return value == null || value.isBlank();
-    }}
+    }
+
+
+    public UserResDTO.Login Login(UserReqDTO.Login dto) {
+        // 1. 이메일로 유저 찾기
+        User user = userRepository.findByEmail(dto.email())
+                .orElseThrow(() -> new GeneralException(GeneralErrorCode.USER_NOT_FOUND));
+
+        // 2. 비밀번호 검증
+        if (!passwordEncoder.matches(dto.password(), user.getPasswordHash())) {
+            throw new GeneralException(GeneralErrorCode.PASSWORD_MISMATCH);
+        }
+
+        // 3. 토큰 발급
+        String accessToken = jwtUtil.createAccessToken(user.getEmail(), "ROLE_USER");
+
+        // 4. 응답 반환
+        return UserResDTO.Login.builder()
+                .memberId(user.getId())
+                .accessToken(accessToken)
+                .nickname(user.getNickname())
+                .build();
+    }
+}

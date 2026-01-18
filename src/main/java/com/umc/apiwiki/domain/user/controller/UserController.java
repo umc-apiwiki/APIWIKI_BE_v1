@@ -26,4 +26,13 @@ public class UserController implements UserControllerDocs {
     ){
         return ApiResponse.onSuccess(GeneralSuccessCode.CREATED, userCommandService.signup(dto));
     }
+
+    @PostMapping("/auth/login")
+    @Override
+    public ApiResponse<UserResDTO.Login> login(
+            @RequestBody @Valid UserReqDTO.Login dto
+    ){
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, userCommandService.Login(dto));
+    }
+
 }
