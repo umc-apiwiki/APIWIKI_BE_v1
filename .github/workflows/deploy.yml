@@ -52,5 +52,6 @@ jobs:
             export DB_USERNAME=${{ secrets.DB_USERNAME }}
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             export SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+            export JWT_SECRET=${{ secrets.JWT_SECRET }}
             chmod +x /home/ubuntu/deploy.sh
             /home/ubuntu/deploy.sh
