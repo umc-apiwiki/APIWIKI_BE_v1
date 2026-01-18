@@ -23,12 +23,12 @@ API 위키는 개발자들이 프로젝트에 적합한 API를 빠르고 정확�
 
 프로젝트의 설계 문서와 협업 규칙은 `docs/` 디렉토리에서 상세하게 관리하고 있습니다.
 
-| 문서 종류 | 내용 및 링크                                              |
-| --- |------------------------------------------------------|
-| **Ground Rules** | **[📜 팀 협업 규칙 및 기술 스택 상세](./docs/project-rules.md)** |
-| **DB Design** | **[💾 ERD](./docs/erd/erd.md)**                      |
-| **Infrastructure** | **[☁️ 인프라 구성 다이어그램](./docs/infra/architecture.png)** |
-| **API Spec** | **[Swagger UI](https://apiwiki-api.my-project.cloud/swagger-ui/index.html)** `배포 환경` |
+| 문서 종류 | 내용 및 링크                                                                             |
+| --- |-------------------------------------------------------------------------------------|
+| **Ground Rules** | **[📜 팀 협업 규칙 및 기술 스택 상세](./docs/project-rules.md)**                                |
+| **DB Design** | **[💾 ERD](./docs/erd/erd.md)**                                                     |
+| **Infrastructure** | **[☁️ 인프라 구성 다이어그램](./docs/infra/architecture.png)**                                |
+| **API Spec** | **[Swagger UI](https://apiwiki-api.my-project.cloud/swagger-ui/index.html)** （배포 환경）|
 
 ## 🏗️ Architecture (Infra & Deployment)
 
@@ -75,13 +75,14 @@ cd apiwiki-backend
 2. `Modify options` → `Environment variables` 선택
 3. 아래 내용을 입력
 
-| Key | Description | Example (Dummy) |
-| --- | --- | --- |
-| `DB_HOST` | RDS 엔드포인트 또는 로컬 주소 | `localhost` |
-| `DB_PORT` | 데이터베이스 포트 | `3306` |
-| `DB_NAME` | 스키마 이름 | `apiwiki` |
-| `DB_USERNAME` | 데이터베이스 계정명 | `root` |
-| `DB_PASSWORD` | 데이터베이스 비밀번호 | `1234` |
+| Key | Description             | Example (Dummy) |
+| --- |-------------------------|--------------|
+| `DB_HOST` | RDS 엔드포인트 또는 로컬 주소      | `localhost`  |
+| `DB_PORT` | 데이터베이스 포트               | `3306`       |
+| `DB_NAME` | 스키마 이름                  | `apiwiki`    |
+| `DB_USERNAME` | 데이터베이스 계정명              | `root`       |
+| `DB_PASSWORD` | 데이터베이스 비밀번호             | `1234`       |
+| `JWT_SECRET` | JWT 서명키 (32자 이상 필수) | `R0EIc9AX4k...` |
 
 ### 4. Build & Run
 

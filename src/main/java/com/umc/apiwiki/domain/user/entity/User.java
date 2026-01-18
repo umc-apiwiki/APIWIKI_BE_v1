@@ -22,13 +22,13 @@ public class User extends BaseEntity {
     @Column(length = 50, unique = true, nullable = false)
     private String email;
 
-    @Column(length = 10, nullable = false)
+    @Column(length = 10)
     private String name;
 
-    @Column(length = 20)
+    @Column(length = 20, unique = true, nullable = false)
     private String nickname;
 
-    @Column(name = "password_hash")
+    @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
     @Enumerated(EnumType.STRING)

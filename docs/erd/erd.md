@@ -23,7 +23,7 @@ erDiagram
         varchar_10 name
         varchar_20 nickname
         varchar_255 password_hash 
-        enum provider "github/ google 소셜 로그인 도입시"
+        enum provider "local/github/google"
         datetime created_at
         datetime updated_at
         datetime deleted_at "소프트 딜리트 도입시"
