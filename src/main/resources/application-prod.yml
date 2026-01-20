@@ -1,5 +1,6 @@
 server:
   port: 8080
+  forward-headers-strategy: native  # Nginx가 보내준 X-Forwarded-* 헤더를 믿고 사용함
 
 spring:
   datasource:
