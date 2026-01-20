@@ -28,6 +28,8 @@ jobs:
       # 4. Gradle 빌드 (테스트 포함)
       - name: Build with Gradle
         run: ./gradlew clean build
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
       # 5. EC2로 JAR 파일 전송 (SCP)
       - name: Copy JAR to EC2
