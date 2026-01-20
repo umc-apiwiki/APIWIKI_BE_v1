@@ -1,6 +1,6 @@
-package com.umc.apiwiki.global.jwt;
+package com.umc.apiwiki.global.security.jwt;
 
-import com.umc.apiwiki.global.principal.CustomUserDetails;
+import com.umc.apiwiki.global.security.userdetails.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;

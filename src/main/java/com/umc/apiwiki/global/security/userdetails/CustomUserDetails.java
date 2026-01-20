@@ -1,4 +1,4 @@
-package com.umc.apiwiki.global.principal;
+package com.umc.apiwiki.global.security.userdetails;
 
 import com.umc.apiwiki.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;

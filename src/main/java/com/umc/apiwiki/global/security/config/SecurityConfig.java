@@ -1,4 +1,4 @@
-package com.umc.apiwiki.global.config;
+package com.umc.apiwiki.global.security.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
