@@ -20,7 +20,7 @@ public interface UserControllerDocs {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패")
     })
     @PostMapping("/auth/signup")
-    ApiResponse<UserResDTO.Login> signUp(
+    ApiResponse<UserResDTO.LoginRes> signUp(
             @RequestBody @Valid UserReqDTO.Signup dto
     );
 
@@ -33,8 +33,8 @@ public interface UserControllerDocs {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패")
     })
     @PostMapping("/auth/login")
-    ApiResponse<UserResDTO.Login> login(
-            @RequestBody @Valid UserReqDTO.Login dto
+    ApiResponse<UserResDTO.LoginRes> login(
+            @RequestBody @Valid UserReqDTO.LoginReq dto
     );
 
     @Operation(

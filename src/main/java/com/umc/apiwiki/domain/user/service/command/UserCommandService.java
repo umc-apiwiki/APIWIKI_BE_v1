@@ -28,7 +28,7 @@ public class UserCommandService {
     // 비밀번호 정규식 (영문+숫자, 8자 이상)
     private static final String PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
 
-    public UserResDTO.Login signup(UserReqDTO.Signup dto) {
+    public UserResDTO.LoginRes signup(UserReqDTO.Signup dto) {
         // 1. 유효성 검증
         validateFormat(dto);
 
@@ -55,7 +55,7 @@ public class UserCommandService {
         String accessToken = jwtUtil.createAccessToken(savedUser.getNickname(), "ROLE_USER");
 
         // 5. 응답 반환
-        return UserResDTO.Login.builder()
+        return UserResDTO.LoginRes.builder()
                 .memberId(savedUser.getId())
                 .accessToken(accessToken)
                 .nickname(savedUser.getNickname())
@@ -92,7 +92,7 @@ public class UserCommandService {
     }
 
 
-    public UserResDTO.Login Login(UserReqDTO.Login dto) {
+    public UserResDTO.LoginRes Login(UserReqDTO.LoginReq dto) {
         // 1. 이메일로 유저 찾기
         User user = userRepository.findByEmail(dto.email())
                 .orElseThrow(() -> new GeneralException(GeneralErrorCode.USER_NOT_FOUND));
@@ -106,7 +106,7 @@ public class UserCommandService {
         String accessToken = jwtUtil.createAccessToken(user.getEmail(), "ROLE_USER");
 
         // 4. 응답 반환
-        return UserResDTO.Login.builder()
+        return UserResDTO.LoginRes.builder()
                 .memberId(user.getId())
                 .accessToken(accessToken)
                 .nickname(user.getNickname())

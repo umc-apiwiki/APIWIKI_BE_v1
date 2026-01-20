@@ -21,7 +21,7 @@ public class UserController implements UserControllerDocs {
 
     @PostMapping("/auth/signup")
     @Override
-    public ApiResponse<UserResDTO.Login> signUp(
+    public ApiResponse<UserResDTO.LoginRes> signUp(
             @RequestBody @Valid UserReqDTO.Signup dto
     ){
         return ApiResponse.onSuccess(GeneralSuccessCode.CREATED, userCommandService.signup(dto));
@@ -29,8 +29,8 @@ public class UserController implements UserControllerDocs {
 
     @PostMapping("/auth/login")
     @Override
-    public ApiResponse<UserResDTO.Login> login(
-            @RequestBody @Valid UserReqDTO.Login dto
+    public ApiResponse<UserResDTO.LoginRes> login(
+            @RequestBody @Valid UserReqDTO.LoginReq dto
     ){
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, userCommandService.Login(dto));
     }

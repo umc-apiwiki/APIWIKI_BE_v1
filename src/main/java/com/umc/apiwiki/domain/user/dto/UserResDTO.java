@@ -5,7 +5,7 @@ import lombok.Builder;
 public class UserResDTO {
 
     @Builder
-    public record Login(
+    public record LoginRes(
             Long memberId,
             String accessToken,
             String nickname
