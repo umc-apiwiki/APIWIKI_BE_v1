@@ -1,4 +1,4 @@
-package com.umc.apiwiki.global.config;
+package com.umc.apiwiki.global.security.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -61,10 +61,11 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         // 허용할 출처(Origin) 설정
-        configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:5173",          // 로컬 프론트
-                "https://apiwiki.supabin.com"     // 배포된 프론트
-        ));
+        // 개발 단계임으로 편리성을 위해 모든 주소를 허용함
+        configuration.addAllowedOriginPattern("*");
+
+        // "http://localhost:5173",          // 로컬 프론트
+        // "https://apiwiki.supabin.com"     // 배포된 프론트
 
         // 허용할 HTTP 메서드
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));

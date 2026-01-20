@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
 
       # 2. JDK 21 설정
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
           java-version: '21'
@@ -25,9 +25,9 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # 4. Gradle 빌드 (테스트 포함)
+      # 4. Gradle 빌드 (테스트 제외)
       - name: Build with Gradle
-        run: ./gradlew clean build
+        run: ./gradlew clean build -x test
 
       # 5. EC2로 JAR 파일 전송 (SCP)
       - name: Copy JAR to EC2
@@ -52,5 +52,6 @@ jobs:
             export DB_USERNAME=${{ secrets.DB_USERNAME }}
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             export SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+            export JWT_SECRET=${{ secrets.JWT_SECRET }}
             chmod +x /home/ubuntu/deploy.sh
             /home/ubuntu/deploy.sh

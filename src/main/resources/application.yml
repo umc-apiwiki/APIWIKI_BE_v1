@@ -4,4 +4,10 @@ spring:
   profiles:
     default: dev # 아무 설정 없이 켜면 dev(개발용)로 실행됨
 
+jwt:
+  token:
+    secretKey: ${JWT_SECRET}
 
+    expiration:
+      # JWT Access Token 기간 일주일 + Refresh Token 생략
+      access: 604800000
