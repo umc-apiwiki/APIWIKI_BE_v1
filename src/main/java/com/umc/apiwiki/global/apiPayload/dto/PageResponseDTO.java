@@ -9,11 +9,11 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class PageResponseDTO<T> {
-    List<T> content;
-    int totalPage;
-    long totalElements;
-    boolean isFirst;
-    boolean isLast;
+    private List<T> content;
+    private int totalPage;
+    private long totalElements;
+    private boolean isFirst;
+    private boolean isLast;
 
     public PageResponseDTO(Page<T> page) {
         this.content = page.getContent();
