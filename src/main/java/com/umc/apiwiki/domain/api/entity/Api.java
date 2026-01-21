@@ -27,6 +27,8 @@ public class Api extends BaseEntity {
     @Column(length = 120)
     private String summary;
 
+    private String logoUrl;
+
     @Lob
     @Column(columnDefinition = "TEXT")
     private String longDescription;

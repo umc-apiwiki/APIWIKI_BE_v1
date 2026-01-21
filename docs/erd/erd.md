@@ -33,6 +33,7 @@ erDiagram
         long api_id PK
         varchar_20 name
         varchar_120 summary
+        varchar_255 logo_url
         text long_description
         varchar_255 official_url
         decimal_3_1 avg_rating
