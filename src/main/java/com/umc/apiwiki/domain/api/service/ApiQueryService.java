@@ -66,6 +66,15 @@ public class ApiQueryService {
             );
         }
 
+        // 검색 조건
+//        if (q != null && !q.isBlank()) {
+//            builder.and(
+//                    api.name.containsIgnoreCase(q)
+//                            .or(api.summary.containsIgnoreCase(q))
+//                            .or(api.longDescription.containsIgnoreCase(q))
+//            );
+//        }
+
         int pageSize = (size != null) ? size : 16;
         Pageable pageable = PageRequest.of(page, pageSize);
 
@@ -74,6 +83,18 @@ public class ApiQueryService {
                 JPAExpressions.select(review.count())
                         .from(review)
                         .where(review.api.id.eq(api.id));
+
+        // 정렬 옵션
+//        if (sort == null || sort.isBlank()) {
+//            sort = "latest";
+//        }
+
+//        var orderSpecifier = switch (sort) {
+//            case "popular" -> api.viewCounts.desc();
+//            case "mostReviewed" -> reviewCountSubQuery.desc();
+//            case "latest" -> api.createdAt.desc();
+//            default -> api.createdAt.desc(); // 잘못된 값 방어
+//        };
 
         // 목록 조회
         List<ApiDTO.ApiPreview> content = queryFactory
@@ -92,6 +113,7 @@ public class ApiQueryService {
                 .from(api)
                 .where(builder)
                 .orderBy(api.createdAt.desc())  // 정렬 적용
+//                .orderBy(orderSpecifier)   // 기존 createdAt.desc() → 동적 정렬
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
