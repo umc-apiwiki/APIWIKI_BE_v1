@@ -61,8 +61,6 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.32' // 텍스트 롬복 추가
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
 
-    // 8. 보안 취약점 우회 - commons-lang3 transitive dependency override
-    implementation 'org.apache.commons:commons-lang3:3.17.1'
 }
 
 tasks.withType(Test).configureEach {
