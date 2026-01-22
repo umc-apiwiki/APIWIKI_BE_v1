@@ -6,14 +6,17 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.umc.apiwiki.domain.api.dto.ApiDTO;
 import com.umc.apiwiki.domain.api.entity.QApi;
+import com.umc.apiwiki.domain.api.entity.QApiCategoriesMap;
 import com.umc.apiwiki.domain.api.enums.AuthType;
 import com.umc.apiwiki.domain.api.enums.PricingType;
 import com.umc.apiwiki.domain.api.enums.ProviderCompany;
-import com.umc.apiwiki.domain.api.repository.ApiRepository;
 import com.umc.apiwiki.domain.community.entity.review.QApiReview;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,13 +26,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ApiQueryService {
 
-    private final ApiRepository apiRepository;
     private final EntityManager entityManager;
 
-    // Explore / 필터용 API 목록 조회
     public Page<ApiDTO.ApiPreview> searchApis(
             int page,
             Integer size,
+            Long categoryId,
+//            String q,
+//            String sort,
             ProviderCompany providerCompany,
             AuthType authType,
             PricingType pricingType,
@@ -38,27 +42,32 @@ public class ApiQueryService {
 
         QApi api = QApi.api;
         QApiReview review = QApiReview.apiReview;
+        QApiCategoriesMap map = QApiCategoriesMap.apiCategoriesMap;
 
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
-
         BooleanBuilder builder = new BooleanBuilder();
 
-        // 동적 쿼리: 검색 조건
-        if (providerCompany != null) {
-            builder.and(api.providerCompany.eq(providerCompany));
-        }
-        if (authType != null) {
-            builder.and(api.authType.eq(authType));
-        }
-        if (pricingType != null) {
-            builder.and(api.pricingType.eq(pricingType));
-        }
-        if (minRating != null) {
-            builder.and(api.avgRating.goe(minRating));
+        // 필터 조건
+        if (providerCompany != null) builder.and(api.providerCompany.eq(providerCompany));
+        if (authType != null) builder.and(api.authType.eq(authType));
+        if (pricingType != null) builder.and(api.pricingType.eq(pricingType));
+        if (minRating != null) builder.and(api.avgRating.goe(minRating));
+
+        // 카테고리 필터 (exists 서브쿼리)
+        if (categoryId != null) {
+            builder.and(
+                    JPAExpressions.selectOne()
+                            .from(map)
+                            .where(
+                                    map.api.id.eq(api.id)
+                                            .and(map.category.id.eq(categoryId))
+                            )
+                            .exists()
+            );
         }
 
         int pageSize = (size != null) ? size : 16;
-        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Pageable pageable = PageRequest.of(page, pageSize);
 
         // reviewCount 서브쿼리
         var reviewCountSubQuery =
@@ -66,7 +75,7 @@ public class ApiQueryService {
                         .from(review)
                         .where(review.api.id.eq(api.id));
 
-        // 목록 조회 + DTO 직접 생성
+        // 목록 조회
         List<ApiDTO.ApiPreview> content = queryFactory
                 .select(Projections.constructor(
                         ApiDTO.ApiPreview.class,
@@ -74,14 +83,15 @@ public class ApiQueryService {
                         api.name,
                         api.summary,
                         api.avgRating,
-                        reviewCountSubQuery,     // Long
-                        api.viewCounts,          // Long (null 가능)
+                        reviewCountSubQuery,
+                        api.viewCounts,
                         api.pricingType,
                         api.authType,
                         api.providerCompany
                 ))
                 .from(api)
                 .where(builder)
+                .orderBy(api.createdAt.desc())  // 정렬 적용
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
