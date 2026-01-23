@@ -23,7 +23,7 @@ erDiagram
         varchar_10 name
         varchar_20 nickname
         varchar_255 password_hash 
-        enum provider "github/ google 소셜 로그인 도입시"
+        enum provider "local/github/google"
         datetime created_at
         datetime updated_at
         datetime deleted_at "소프트 딜리트 도입시"
@@ -31,15 +31,14 @@ erDiagram
 
     apis {
         long api_id PK
-        varchar_20 name
+        varchar_50 name
         varchar_120 summary
-        varchar_255 logo_url
         text long_description
         varchar_255 official_url
         decimal_3_1 avg_rating
         long view_counts 
-        text pricing_info "통합된 비용 정보(사람이 읽는 용도)"
-        enum pricing_type "비용 필터링용(무료, 혼합, 유료)"
+        text pricing_info "통합된 비용 정보 (사람이 읽는 용도)"
+        enum pricing_type "무료/혼합/유료 (비용 필터링용)"
         enum auth_type "api 인증방식"
         enum provider_company "api 제공 회사"
         datetime created_at
@@ -59,10 +58,9 @@ erDiagram
         long request_id PK
         long wiki_id FK
         long user_id FK "editor_id"
-        enum state "검토중, 통과, 거절"
+        enum state "검토중/통과/거절"
         longtext new_content_md "수정 요청 내용"
         datetime created_at "요청시간"
-        enum reason "비속어, 내용부족 등에 관한 변경 이유"
     }
 
     category {
