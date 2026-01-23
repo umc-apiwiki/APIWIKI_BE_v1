@@ -50,6 +50,7 @@ erDiagram
         long api_id FK
         long user_id FK "creator_id"
         longtext content_md "초기값 NULL, 수정시 반영"
+        bigint version "낙관적 락을 위한 버전 관리"
         datetime created_at
         datetime updated_at
     }
