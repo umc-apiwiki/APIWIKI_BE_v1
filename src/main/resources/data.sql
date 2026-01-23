@@ -1,3 +1,12 @@
+-- 목차
+-- 1. 관리자 유저 생성
+-- ２. API 데이터 삽입
+-- ３. 위키 데이터 삽입
+-- 4. 카테고리 데이터 삽입
+-- 5. API-카테고리 매핑
+
+
+-- 데이터 삽입
 -- 1. 관리자 유저 생성 (H2 예약어 충돌 방지를 위해 `users` 사용)
 INSERT INTO `users` (
     email, name, nickname, password_hash, provider, created_at, updated_at, deleted_at
@@ -14,58 +23,615 @@ INSERT INTO `users` (
 
 
 -- ２. API 데이터 삽입
+-- JPA 서버용 API INSERT 문
+-- long_description과 official_url은 기본값으로 채움
 
-INSERT INTO `apis` (name, summary, pricing_type, auth_type, provider_company, created_at, updated_at) VALUES
-                                                                                                          ('Spotify API', '음악 스트리밍 및 플레이리스트 관리 API', 'FREE', 'OAUTH2', 'GOOGLE', NOW(), NOW()), -- ID: 1
-                                                                                                          ('Jira API', '이슈 추적 및 애자일 관리', 'FREE', 'OAUTH2', 'GOOGLE', NOW(), NOW()), -- ID: 2
-                                                                                                          ('Google Translate', '다국어 번역 서비스', 'PAID', 'API_KEY', 'GOOGLE', NOW(), NOW()), -- ID: 3
-                                                                                                          ('Weather API', '실시간 날씨 및 기후 데이터', 'FREE', 'API_KEY', 'NAVER', NOW(), NOW()), -- ID: 4
-                                                                                                          ('Telegram Bot', '텔레그램 봇 생성 및 메시징 API', 'FREE', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 5
-                                                                                                          ('Mixpanel API', '사용자 행동 분석 플랫폼', 'FREE', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 6
-                                                                                                          ('Trello API', '프로젝트 관리 보드 API', 'FREE', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 7
-                                                                                                          ('Google Login', '구글 계정으로 간편하게 로그인하는 OAuth 2.0 인증', 'FREE', 'OAUTH2', 'GOOGLE', NOW(), NOW()), -- ID: 8
-                                                                                                          ('Stripe API', '온라인 결제 처리 API', 'PAID', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 9
-                                                                                                          ('LinkedIn API', '링크드인 프로필 및 네트워킹', 'FREE', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 10
-                                                                                                          ('Google Cloud Vision', '이미지 인식 및 OCR API', 'PAID', 'API_KEY', 'GOOGLE', NOW(), NOW()), -- ID: 11
-                                                                                                          ('Instagram API', '인스타그램 포스트 및 미디어 관리', 'FREE', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 12
-                                                                                                          ('Discord API', '디스코드 봇 및 서버 관리 API', 'FREE', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 13
-                                                                                                          ('Asana API', '팀 작업 및 프로젝트 추적', 'FREE', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 14
-                                                                                                          ('Wolfram Alpha', '계산 지식 엔진 API', 'PAID', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 15
-                                                                                                          ('Notion API', '노션 문서 및 데이터베이스 관리', 'FREE', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 16
-                                                                                                          ('HubSpot API', 'CRM 및 마케팅 자동화', 'FREE', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 17
-                                                                                                          ('Pexels API', '무료 스톡 이미지 및 비디오', 'FREE', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 18
-                                                                                                          ('Slack API', '슬랙 메시징 및 워크스페이스 통합 API', 'FREE', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 19
-                                                                                                          ('OpenStreetMap', '오픈소스 기반 전 세계 지도 데이터 제공', 'FREE', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 20
-                                                                                                          ('PayPal API', '글로벌 결제 및 송금 API', 'PAID', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 21
-                                                                                                          ('Reddit API', '레딧 포스트 및 커뮤니티 데이터', 'FREE', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 22
-                                                                                                          ('Dropbox API', '파일 동기화 및 공유 API', 'FREE', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 23
-                                                                                                          ('DeepL API', '고품질 AI 기반 번역', 'FREE', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 24
-                                                                                                          ('Twilio SMS', 'SMS 및 음성 통신 API', 'PAID', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 25
-                                                                                                          ('Azure Cognitive', '인지 서비스 및 AI API', 'PAID', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 26
-                                                                                                          ('News API', '전 세계 뉴스 헤드라인 및 기사', 'FREE', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 27
-                                                                                                          ('IBM Watson', 'AI 및 머신러닝 플랫폼', 'PAID', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 28
-                                                                                                          ('OpenAI GPT-4', '최신 AI 언어 모델로 대화, 텍스트 생성, 분석 등 지원', 'PAID', 'API_KEY', 'GOOGLE', NOW(), NOW()), -- ID: 29
-                                                                                                          ('Mailchimp', '이메일 마케팅 자동화 API', 'FREE', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 30
-                                                                                                          ('Google Analytics', '웹사이트 분석 및 추적', 'FREE', 'OAUTH2', 'GOOGLE', NOW(), NOW()), -- ID: 31
-                                                                                                          ('Shopify API', '전자상거래 스토어 관리', 'FREE', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 32
-                                                                                                          ('AWS Rekognition', '이미지 및 비디오 분석', 'PAID', 'API_KEY', 'GOOGLE', NOW(), NOW()), -- ID: 33
-                                                                                                          ('Google Drive', '클라우드 파일 저장 및 공유', 'FREE', 'OAUTH2', 'GOOGLE', NOW(), NOW()), -- ID: 34
-                                                                                                          ('Square API', '결제 및 POS 시스템 API', 'PAID', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 35
-                                                                                                          ('Amplitude API', '제품 분석 및 인사이트', 'FREE', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 36
-                                                                                                          ('Zoom API', '비디오 회의 및 웨비나 관리', 'FREE', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 37
-                                                                                                          ('WooCommerce', '워드프레스 기반 쇼핑몰 API', 'FREE', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 38
-                                                                                                          ('Unsplash API', '고품질 무료 이미지 라이브러리', 'FREE', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 39
-                                                                                                          ('SendGrid', '이메일 전송 및 마케팅 API', 'FREE', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 40
-                                                                                                          ('Naver Papago', '네이버 파파고 번역 API로 다양한 언어 번역', 'FREE', 'API_KEY', 'NAVER', NOW(), NOW()), -- ID: 41
-                                                                                                          ('Youtube API', '강력한 동영상 플랫폼 API로 업로드, 검색, 재생 등 다양한 기능 제공', 'FREE', 'API_KEY', 'GOOGLE', NOW(), NOW()), -- ID: 42
-                                                                                                          ('Giphy API', 'GIF 검색 및 임베드 API', 'FREE', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 43
-                                                                                                          ('AWS S3', '클라우드 스토리지 및 파일 관리', 'PAID', 'API_KEY', 'GOOGLE', NOW(), NOW()), -- ID: 44
-                                                                                                          ('GitHub API', 'GitHub 저장소 및 프로젝트 관리 API', 'FREE', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 45
-                                                                                                          ('Firebase', '백엔드 서비스 및 실시간 데이터베이스', 'FREE', 'OAUTH2', 'GOOGLE', NOW(), NOW()), -- ID: 46
-                                                                                                          ('Twitter API', '트위터 트윗 및 소셜 데이터 API', 'PAID', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 47
-                                                                                                          ('Salesforce API', '클라우드 기반 CRM 플랫폼', 'PAID', 'OAUTH2', 'KAKAO', NOW(), NOW()), -- ID: 48
-                                                                                                          ('Kakao Maps', '카카오맵 기반 한국 지역 지도 및 위치 서비스', 'FREE', 'API_KEY', 'KAKAO', NOW(), NOW()), -- ID: 49
-                                                                                                          ('Facebook Graph', '페이스북 그래프 API로 소셜 데이터 접근', 'FREE', 'OAUTH2', 'KAKAO', NOW(), NOW()); -- ID: 50
+INSERT INTO apis (
+    name, summary, long_description, official_url,
+    avg_rating, view_counts, pricing_info,
+    pricing_type, auth_type, provider_company,
+    logo_url, created_at, updated_at
+) VALUES
+-- 1. Spotify API
+(
+    'Spotify API',
+    '음악 스트리밍 및 플레이리스트 관리 API',
+    'Spotify API는 음악 스트리밍 서비스의 공식 API로, 방대한 음악 카탈로그와 사용자 데이터에 접근하여 음악 관련 애플리케이션을 개발할 수 있습니다. 트랙, 앨범, 아티스트 검색과 플레이리스트 관리, 재생 제어 등의 기능을 제공합니다.',
+    'https://developer.spotify.com/documentation/web-api',
+    4.5, 0, '무료 티어 제공, 상업용은 유료',
+    'FREE', 'OAUTH2', 'GOOGLE',
+    'https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg',
+    NOW(), NOW()
+),
+
+-- 2. Jira API
+(
+    'Jira API',
+    '이슈 추적 및 애자일 관리',
+    'Atlassian의 프로젝트 관리 및 이슈 추적 플랫폼 Jira의 RESTful API입니다. 개발 팀의 워크플로우를 자동화하고 외부 시스템과 통합할 수 있으며, 이슈 관리, 프로젝트 관리, JQL 검색 등의 기능을 제공합니다.',
+    'https://developer.atlassian.com/cloud/jira/platform/rest/v3/',
+    4.3, 0, '무료 플랜 제공, 사용자당 과금',
+    'FREE', 'OAUTH2', 'GOOGLE',
+    'https://cdn.worldvectorlogo.com/logos/jira-1.svg',
+    NOW(), NOW()
+),
+
+-- 3. Google Translate
+(
+    'Google Translate',
+    '다국어 번역 서비스',
+    'Google의 Neural Machine Translation을 기반으로 한 번역 API로 100개 이상의 언어를 지원합니다. 텍스트, 문서, 웹사이트를 자동으로 번역하며, 실시간 번역과 자동 언어 감지 기능을 제공합니다.',
+    'https://cloud.google.com/translate/docs',
+    4.7, 0, '월 50만 자 무료, 이후 유료',
+    'PAID', 'API_KEY', 'GOOGLE',
+    'https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg',
+    NOW(), NOW()
+),
+
+-- 4. Weather API
+(
+    'Weather API',
+    '실시간 날씨 및 기후 데이터',
+    '전 세계 지역의 실시간 날씨 정보와 예보 데이터를 제공하는 API입니다. 현재 날씨, 시간별 예보, 주간 예보 등을 조회할 수 있으며, 기온, 습도, 풍속 등의 상세 정보를 제공합니다.',
+    'https://openweathermap.org/api',
+    4.2, 0, '무료 플랜 제공, 호출량에 따라 유료',
+    'FREE', 'API_KEY', 'NAVER',
+    'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png',
+    NOW(), NOW()
+),
+
+-- 5. Telegram Bot
+(
+    'Telegram Bot',
+    '텔레그램 봇 생성 및 메시징 API',
+    'Telegram 메신저를 위한 봇 개발 API입니다. 메시지 송수신, 인라인 키보드, 파일 전송, 그룹 관리 등의 기능을 제공하며, 자동 응답 시스템이나 알림 서비스를 구축할 수 있습니다.',
+    'https://core.telegram.org/bots/api',
+    4.6, 0, '완전 무료',
+    'FREE', 'API_KEY', 'KAKAO',
+    'https://telegram.org/img/t_logo.png',
+    NOW(), NOW()
+),
+
+-- 6. Mixpanel API
+(
+    'Mixpanel API',
+    '사용자 행동 분석 플랫폼',
+    '웹과 모바일 앱의 사용자 행동을 추적하고 분석하는 API입니다. 이벤트 트래킹, 사용자 프로필 관리, 퍼널 분석, 코호트 분석 등의 기능을 제공하여 데이터 기반 의사결정을 지원합니다.',
+    'https://developer.mixpanel.com/reference/overview',
+    4.4, 0, '무료 플랜 제공, 이벤트 수에 따라 유료',
+    'FREE', 'API_KEY', 'KAKAO',
+    'https://mixpanel.com/wp-content/uploads/2021/07/mp-logo.svg',
+    NOW(), NOW()
+),
+
+-- 7. Trello API
+(
+    'Trello API',
+    '프로젝트 관리 보드 API',
+    'Trello의 칸반 보드를 프로그래밍 방식으로 제어할 수 있는 API입니다. 보드, 리스트, 카드 생성 및 관리, 체크리스트, 라벨, 첨부파일 등의 기능을 자동화할 수 있습니다.',
+    'https://developer.atlassian.com/cloud/trello/rest/',
+    4.3, 0, '무료',
+    'FREE', 'OAUTH2', 'KAKAO',
+    'https://cdn.worldvectorlogo.com/logos/trello.svg',
+    NOW(), NOW()
+),
+
+-- 8. Google Login
+(
+    'Google Login',
+    '구글 계정으로 간편하게 로그인하는 OAuth 2.0 인증',
+    'Google 계정을 통한 소셜 로그인을 구현할 수 있는 OAuth 2.0 기반 인증 API입니다. 사용자 인증, 프로필 정보 접근, 토큰 관리 등의 기능을 제공하여 안전하고 편리한 로그인 경험을 제공합니다.',
+    'https://developers.google.com/identity/protocols/oauth2',
+    4.8, 0, '무료',
+    'FREE', 'OAUTH2', 'GOOGLE',
+    'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg',
+    NOW(), NOW()
+),
+
+-- 9. Stripe API
+(
+    'Stripe API',
+    '온라인 결제 처리 API',
+    '온라인 결제를 처리하는 글로벌 결제 플랫폼 API입니다. 카드 결제, 구독 관리, 인보이스 발행, 환불 처리, 결제 분석 등의 기능을 제공하며, 다양한 결제 수단을 지원합니다.',
+    'https://stripe.com/docs/api',
+    4.7, 0, '거래당 수수료 부과',
+    'PAID', 'API_KEY', 'KAKAO',
+    'https://images.ctfassets.net/fzn2n1nzq965/HTTOloNPhisV9P4hlMPNA/cacf1bb88b9fc492dfad34378d844280/Stripe_icon_-_square.svg',
+    NOW(), NOW()
+),
+
+-- 10. LinkedIn API
+(
+    'LinkedIn API',
+    '링크드인 프로필 및 네트워킹',
+    '비즈니스 소셜 네트워크 LinkedIn의 API입니다. 사용자 프로필 조회, 포스트 공유, 회사 페이지 관리, 네트워크 연결 등의 기능을 제공하여 전문적인 네트워킹 기능을 구현할 수 있습니다.',
+    'https://docs.microsoft.com/en-us/linkedin/',
+    4.1, 0, '무료',
+    'FREE', 'OAUTH2', 'KAKAO',
+    'https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png',
+    NOW(), NOW()
+),
+
+-- 11. Google Cloud Vision
+(
+    'Google Cloud Vision',
+    '이미지 인식 및 OCR API',
+    'Google의 기계학습 모델을 활용한 이미지 분석 API입니다. 객체 감지, 얼굴 인식, 텍스트 추출(OCR), 로고 감지, 부적절한 콘텐츠 탐지 등의 기능을 제공합니다.',
+    'https://cloud.google.com/vision/docs',
+    4.6, 0, '월 1000건 무료, 이후 건당 과금',
+    'PAID', 'API_KEY', 'GOOGLE',
+    'https://www.gstatic.com/devrel-devsite/prod/v2210deb8920cd4a55bd580441aa58e7853afc04b39a9d9ac4198e1cd7fbe04ef/cloud/images/cloud-logo.svg',
+    NOW(), NOW()
+),
+
+-- 12. Instagram API
+(
+    'Instagram API',
+    '인스타그램 포스트 및 미디어 관리',
+    'Instagram의 콘텐츠와 데이터에 접근할 수 있는 API입니다. 포스트 게시, 미디어 조회, 댓글 관리, 인사이트 분석 등의 기능을 제공하며, 비즈니스 계정 관리를 지원합니다.',
+    'https://developers.facebook.com/docs/instagram-api',
+    4.0, 0, '무료',
+    'FREE', 'OAUTH2', 'KAKAO',
+    'https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg',
+    NOW(), NOW()
+),
+
+-- 13. Discord API
+(
+    'Discord API',
+    '디스코드 봇 및 서버 관리 API',
+    'Discord 플랫폼의 봇 개발과 서버 관리를 위한 API입니다. 메시지 송수신, 채널 관리, 역할 설정, 음성 연결 등의 기능을 제공하여 커뮤니티 자동화를 구현할 수 있습니다.',
+    'https://discord.com/developers/docs/intro',
+    4.5, 0, '무료',
+    'FREE', 'OAUTH2', 'KAKAO',
+    'https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png',
+    NOW(), NOW()
+),
+
+-- 14. Asana API
+(
+    'Asana API',
+    '팀 작업 및 프로젝트 추적',
+    'Asana 프로젝트 관리 플랫폼의 API입니다. 태스크 생성 및 할당, 프로젝트 관리, 팀 협업, 워크플로우 자동화 등의 기능을 제공하여 업무 효율성을 높일 수 있습니다.',
+    'https://developers.asana.com/docs',
+    4.3, 0, '무료',
+    'FREE', 'OAUTH2', 'KAKAO',
+    'https://luna1.co/eb0187.png',
+    NOW(), NOW()
+),
+
+-- 15. Wolfram Alpha
+(
+    'Wolfram Alpha',
+    '계산 지식 엔진 API',
+    '복잡한 수학 계산, 과학 데이터 분석, 통계 처리 등을 제공하는 계산 지식 엔진 API입니다. 자연어 질의를 통해 정확한 계산 결과와 시각화된 데이터를 제공합니다.',
+    'https://products.wolframalpha.com/api/',
+    4.4, 0, '월 2000건 무료, 이후 유료',
+    'PAID', 'API_KEY', 'KAKAO',
+    'https://www.wolframalpha.com/_next/static/images/share_HJWi6D.png',
+    NOW(), NOW()
+),
+
+-- 16. Notion API
+(
+    'Notion API',
+    '노션 문서 및 데이터베이스 관리',
+    'Notion 워크스페이스의 페이지와 데이터베이스를 프로그래밍 방식으로 제어할 수 있는 API입니다. 페이지 생성, 블록 편집, 데이터베이스 쿼리, 콘텐츠 동기화 등의 기능을 제공합니다.',
+    'https://developers.notion.com/',
+    4.5, 0, '무료',
+    'FREE', 'OAUTH2', 'KAKAO',
+    'https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png',
+    NOW(), NOW()
+),
+
+-- 17. HubSpot API
+(
+    'HubSpot API',
+    'CRM 및 마케팅 자동화',
+    'HubSpot의 CRM, 마케팅, 영업, 고객 서비스 기능에 접근할 수 있는 API입니다. 연락처 관리, 이메일 캠페인, 리드 추적, 분석 리포트 등의 기능을 자동화할 수 있습니다.',
+    'https://developers.hubspot.com/docs/api/overview',
+    4.3, 0, '무료 플랜 제공, 기능에 따라 유료',
+    'FREE', 'API_KEY', 'KAKAO',
+    'https://www.hubspot.com/hubfs/HubSpot_Logos/HubSpot-Inversed-Favicon.png',
+    NOW(), NOW()
+),
+
+-- 18. Pexels API
+(
+    'Pexels API',
+    '무료 스톡 이미지 및 비디오',
+    '고품질의 무료 스톡 이미지와 비디오를 제공하는 API입니다. 키워드 검색, 인기 콘텐츠 조회, 큐레이션된 컬렉션 접근 등의 기능을 제공하며, 상업적 용도로도 자유롭게 사용할 수 있습니다.',
+    'https://www.pexels.com/api/',
+    4.6, 0, '완전 무료',
+    'FREE', 'API_KEY', 'KAKAO',
+    'https://images.pexels.com/lib/api/pexels.png',
+    NOW(), NOW()
+),
+
+-- 19. Slack API
+(
+    'Slack API',
+    '슬랙 메시징 및 워크스페이스 통합 API',
+    'Slack 워크스페이스의 메시징과 협업 기능에 접근할 수 있는 API입니다. 메시지 전송, 채널 관리, 파일 공유, 봇 개발, 워크플로우 자동화 등의 기능을 제공합니다.',
+    'https://api.slack.com/',
+    4.7, 0, '무료',
+    'FREE', 'OAUTH2', 'KAKAO',
+    'https://a.slack-edge.com/80588/marketing/img/icons/icon_slack_hash_colored.png',
+    NOW(), NOW()
+),
+
+-- 20. OpenStreetMap
+(
+    'OpenStreetMap',
+    '오픈소스 기반 전 세계 지도 데이터 제공',
+    '오픈소스 기반의 전 세계 지도 데이터를 제공하는 API입니다. 지도 타일, 지오코딩, 경로 탐색, POI 검색 등의 기능을 무료로 사용할 수 있으며, 커뮤니티 기반으로 지속적으로 업데이트됩니다.',
+    'https://wiki.openstreetmap.org/wiki/API',
+    4.4, 0, '완전 무료 (공정 사용 정책)',
+    'FREE', 'API_KEY', 'KAKAO',
+    'https://wiki.openstreetmap.org/w/images/7/79/Public-images-osm_logo.svg',
+    NOW(), NOW()
+),
+
+-- 21. PayPal API
+(
+    'PayPal API',
+    '글로벌 결제 및 송금 API',
+    'PayPal을 통한 온라인 결제와 송금을 처리하는 API입니다. 결제 처리, 구독 관리, 인보이스 발행, 환불, 지불 추적 등의 기능을 제공하며, 전 세계적으로 사용 가능합니다.',
+    'https://developer.paypal.com/docs/api/overview/',
+    4.2, 0, '거래당 수수료 부과',
+    'PAID', 'OAUTH2', 'KAKAO',
+    'https://www.paypalobjects.com/webstatic/icon/pp258.png',
+    NOW(), NOW()
+),
+
+-- 22. Reddit API
+(
+    'Reddit API',
+    '레딧 포스트 및 커뮤니티 데이터',
+    'Reddit 커뮤니티의 포스트, 댓글, 사용자 데이터에 접근할 수 있는 API입니다. 서브레딧 조회, 포스트 작성, 댓글 관리, 투표, 사용자 프로필 등의 기능을 제공합니다.',
+    'https://www.reddit.com/dev/api/',
+    4.1, 0, '무료',
+    'FREE', 'OAUTH2', 'KAKAO',
+    'https://www.redditstatic.com/desktop2x/img/favicon/android-icon-192x192.png',
+    NOW(), NOW()
+),
+
+-- 23. Dropbox API
+(
+    'Dropbox API',
+    '파일 동기화 및 공유 API',
+    'Dropbox 클라우드 스토리지의 파일과 폴더를 관리할 수 있는 API입니다. 파일 업로드/다운로드, 공유 링크 생성, 폴더 구조 관리, 파일 검색 등의 기능을 제공합니다.',
+    'https://www.dropbox.com/developers/documentation',
+    4.3, 0, '무료',
+    'FREE', 'OAUTH2', 'KAKAO',
+    'https://cfl.dropboxstatic.com/static/images/logo_catalog/dropbox_webclip_152.png',
+    NOW(), NOW()
+),
+
+-- 24. DeepL API
+(
+    'DeepL API',
+    '고품질 AI 기반 번역',
+    'AI 기반의 고품질 번역을 제공하는 API입니다. 자연스러운 문맥 이해와 정확한 번역으로 Google Translate보다 높은 품질을 자랑하며, 30개 이상의 언어를 지원합니다.',
+    'https://www.deepl.com/docs-api',
+    4.8, 0, '월 50만 자 무료, 이후 유료',
+    'FREE', 'API_KEY', 'KAKAO',
+    'https://static.deepl.com/img/logo/DeepL_Logo_darkBlue_v2.svg',
+    NOW(), NOW()
+),
+
+-- 25. Twilio SMS
+(
+    'Twilio SMS',
+    'SMS 및 음성 통신 API',
+    'SMS 문자, 음성 통화, 영상 통화 등의 통신 기능을 제공하는 API입니다. 전 세계적으로 메시지 전송과 전화 기능을 구현할 수 있으며, 2단계 인증, 알림 서비스 등에 활용됩니다.',
+    'https://www.twilio.com/docs/sms',
+    4.5, 0, '사용량 기반 과금',
+    'PAID', 'API_KEY', 'KAKAO',
+    'https://www.twilio.com/content/dam/twilio-com/global/en/blog/legacy/2017/Twilio-Mark-Red.png',
+    NOW(), NOW()
+),
+
+-- 26. Azure Cognitive
+(
+    'Azure Cognitive',
+    '인지 서비스 및 AI API',
+    'Microsoft Azure의 AI 인지 서비스 API입니다. 컴퓨터 비전, 음성 인식, 자연어 처리, 감정 분석 등의 다양한 AI 기능을 제공하여 지능형 애플리케이션을 구축할 수 있습니다.',
+    'https://azure.microsoft.com/en-us/services/cognitive-services/',
+    4.4, 0, '무료 티어 제공, 사용량에 따라 유료',
+    'PAID', 'API_KEY', 'KAKAO',
+    'https://azure.microsoft.com/svghandler/cognitive-services/',
+    NOW(), NOW()
+),
+
+-- 27. News API
+(
+    'News API',
+    '전 세계 뉴스 헤드라인 및 기사',
+    '전 세계 뉴스 소스의 헤드라인과 기사를 실시간으로 제공하는 API입니다. 키워드 검색, 카테고리별 조회, 소스 필터링 등의 기능으로 최신 뉴스를 애플리케이션에 통합할 수 있습니다.',
+    'https://newsapi.org/docs',
+    4.3, 0, '무료 플랜 제공, 요청 수 제한',
+    'FREE', 'API_KEY', 'KAKAO',
+    'https://newsapi.org/images/n-logo-border.png',
+    NOW(), NOW()
+),
+
+-- 28. IBM Watson
+(
+    'IBM Watson',
+    'AI 및 머신러닝 플랫폼',
+    'IBM의 AI 플랫폼으로 자연어 처리, 음성 인식, 이미지 분석, 감정 분석 등의 기능을 제공합니다. 챗봇, 추천 시스템, 데이터 분석 등 다양한 AI 솔루션을 구축할 수 있습니다.',
+    'https://cloud.ibm.com/apidocs/watson',
+    4.2, 0, '무료 티어 제공, 사용량에 따라 유료',
+    'PAID', 'API_KEY', 'KAKAO',
+    'https://www.ibm.com/brand/experience-guides/developer/b1db1ae501d522a1a4b49613fe07c9f1/01_8-bar-positive.svg',
+    NOW(), NOW()
+),
+
+-- 29. OpenAI GPT-4
+(
+    'OpenAI GPT-4',
+    '최신 AI 언어 모델로 대화, 텍스트 생성, 분석 등 지원',
+    'OpenAI의 최신 대규모 언어 모델 API입니다. 자연어 이해, 텍스트 생성, 번역, 요약, 코드 생성 등 다양한 언어 처리 작업을 수행할 수 있으며, 챗봇과 AI 어시스턴트 개발에 활용됩니다.',
+    'https://platform.openai.com/docs/api-reference',
+    4.9, 0, '토큰당 과금',
+    'PAID', 'API_KEY', 'GOOGLE',
+    'https://openai.com/favicon.ico',
+    NOW(), NOW()
+),
+
+-- 30. Mailchimp
+(
+    'Mailchimp',
+    '이메일 마케팅 자동화 API',
+    '이메일 마케팅 캠페인을 관리하고 자동화하는 API입니다. 구독자 관리, 이메일 템플릿 생성, 캠페인 전송, 분석 리포트 등의 기능을 제공하여 효과적인 이메일 마케팅을 지원합니다.',
+    'https://mailchimp.com/developer/',
+    4.3, 0, '무료 플랜 제공, 구독자 수에 따라 유료',
+    'FREE', 'API_KEY', 'KAKAO',
+    'https://eep.io/images/yzco4xsimv0y/5fJHr9W3tKKCW65hQgXG7d/a761f1a83f7854d45c1cf0c2918c00ad/MC_Logo.svg',
+    NOW(), NOW()
+),
+
+-- 31. Google Analytics
+(
+    'Google Analytics',
+    '웹사이트 분석 및 추적',
+    '웹사이트와 앱의 트래픽과 사용자 행동을 추적하고 분석하는 API입니다. 페이지뷰, 이벤트, 전환율, 사용자 경로 등의 데이터를 수집하고 분석하여 마케팅 최적화에 활용할 수 있습니다.',
+    'https://developers.google.com/analytics',
+    4.6, 0, '무료',
+    'FREE', 'OAUTH2', 'GOOGLE',
+    'https://www.gstatic.com/analytics-suite/header/suite/v2/ic_analytics.svg',
+    NOW(), NOW()
+),
+
+-- 32. Shopify API
+(
+    'Shopify API',
+    '전자상거래 스토어 관리',
+    'Shopify 온라인 스토어의 상품, 주문, 고객 데이터를 관리하는 API입니다. 상품 등록, 재고 관리, 주문 처리, 결제 연동 등의 기능을 자동화하여 전자상거래 운영을 효율화할 수 있습니다.',
+    'https://shopify.dev/docs/api',
+    4.4, 0, '무료',
+    'FREE', 'OAUTH2', 'KAKAO',
+    'https://cdn.shopify.com/shopifycloud/brochure/assets/brand-assets/shopify-logo-primary-logo-456baa801ee66a0a435671082365958316831c9960c480451dd0330bcdae304f.svg',
+    NOW(), NOW()
+),
+
+-- 33. AWS Rekognition
+(
+    'AWS Rekognition',
+    '이미지 및 비디오 분석',
+    'Amazon의 이미지 및 비디오 분석 AI 서비스입니다. 얼굴 인식, 객체 감지, 장면 분석, 텍스트 추출, 유명인 인식 등의 기능을 제공하여 시각적 콘텐츠를 자동으로 분석할 수 있습니다.',
+    'https://docs.aws.amazon.com/rekognition/',
+    4.5, 0, '사용량 기반 과금',
+    'PAID', 'API_KEY', 'GOOGLE',
+    'https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2021/06/23/Amazon-Rekognition-Logo.png',
+    NOW(), NOW()
+),
+
+-- 34. Google Drive
+(
+    'Google Drive',
+    '클라우드 파일 저장 및 공유',
+    'Google Drive 클라우드 스토리지의 파일과 폴더를 관리하는 API입니다. 파일 업로드/다운로드, 공유 권한 설정, 검색, 버전 관리 등의 기능을 제공하여 클라우드 기반 파일 관리를 구현할 수 있습니다.',
+    'https://developers.google.com/drive/api',
+    4.6, 0, '무료 (15GB 제공)',
+    'FREE', 'OAUTH2', 'GOOGLE',
+    'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png',
+    NOW(), NOW()
+),
+
+-- 35. Square API
+(
+    'Square API',
+    '결제 및 POS 시스템 API',
+    'Square의 결제 처리와 POS 시스템 API입니다. 카드 결제, 모바일 결제, 인보이스, 재고 관리, 고객 관리 등의 기능을 제공하여 오프라인과 온라인 비즈니스를 통합 관리할 수 있습니다.',
+    'https://developer.squareup.com/docs',
+    4.4, 0, '거래당 수수료 부과',
+    'PAID', 'OAUTH2', 'KAKAO',
+    'https://images.ctfassets.net/2d5q1td6cyxq/5g0qkH0wLqQ0k8QgoqQomc/3bc1c2f85f85b8f6c1fa14f8e2e7aeaa/sq-logo.svg',
+    NOW(), NOW()
+),
+
+-- 36. Amplitude API
+(
+    'Amplitude API',
+    '제품 분석 및 인사이트',
+    '제품 사용 데이터를 분석하고 인사이트를 제공하는 API입니다. 사용자 행동 추적, 코호트 분석, 퍼널 분석, A/B 테스트 결과 등을 통해 데이터 기반 제품 의사결정을 지원합니다.',
+    'https://www.docs.developers.amplitude.com/',
+    4.5, 0, '무료 플랜 제공, 이벤트 수에 따라 유료',
+    'FREE', 'API_KEY', 'KAKAO',
+    'https://amplitude.com/favicon.ico',
+    NOW(), NOW()
+),
+
+-- 37. Zoom API
+(
+    'Zoom API',
+    '비디오 회의 및 웨비나 관리',
+    'Zoom 비디오 회의 플랫폼의 API입니다. 회의 생성 및 관리, 참가자 제어, 녹화, 웨비나 설정, 통계 조회 등의 기능을 자동화하여 화상 회의 솔루션을 구축할 수 있습니다.',
+    'https://marketplace.zoom.us/docs/api-reference/introduction',
+    4.4, 0, '무료',
+    'FREE', 'OAUTH2', 'KAKAO',
+    'https://st1.zoom.us/static/5.15.11.4272/image/new/ZoomLogo.png',
+    NOW(), NOW()
+),
+
+-- 38. WooCommerce
+(
+    'WooCommerce',
+    '워드프레스 기반 쇼핑몰 API',
+    'WordPress 플랫폼의 전자상거래 플러그인 WooCommerce API입니다. 상품 관리, 주문 처리, 고객 데이터, 결제 연동 등의 기능을 제공하여 온라인 쇼핑몰을 효율적으로 운영할 수 있습니다.',
+    'https://woocommerce.github.io/woocommerce-rest-api-docs/',
+    4.2, 0, '무료',
+    'FREE', 'OAUTH2', 'KAKAO',
+    'https://woocommerce.com/wp-content/themes/woo/images/logo-woocommerce.svg',
+    NOW(), NOW()
+),
+
+-- 39. Unsplash API
+(
+    'Unsplash API',
+    '고품질 무료 이미지 라이브러리',
+    '고품질의 무료 이미지를 제공하는 API입니다. 200만 장 이상의 전문 사진을 검색하고 다운로드할 수 있으며, 상업적 용도로도 자유롭게 사용 가능한 이미지를 제공합니다.',
+    'https://unsplash.com/developers',
+    4.7, 0, '무료 (출처 표시 권장)',
+    'FREE', 'API_KEY', 'KAKAO',
+    'https://unsplash.com/favicon-32x32.png',
+    NOW(), NOW()
+),
+
+-- 40. SendGrid
+(
+    'SendGrid',
+    '이메일 전송 및 마케팅 API',
+    '대량 이메일 전송과 이메일 마케팅을 위한 API입니다. 트랜잭션 이메일, 마케팅 캠페인, 이메일 검증, 전송 통계 등의 기능을 제공하여 안정적인 이메일 서비스를 구축할 수 있습니다.',
+    'https://docs.sendgrid.com/api-reference',
+    4.4, 0, '월 100건 무료, 이후 사용량 기반',
+    'FREE', 'API_KEY', 'KAKAO',
+    'https://sendgrid.com/wp-content/themes/sgdotcom/pages/resource/brand/2016/SendGrid-Logomark.png',
+    NOW(), NOW()
+),
+
+-- 41. Naver Papago
+(
+    'Naver Papago',
+    '네이버 파파고 번역 API로 다양한 언어 번역',
+    '네이버의 AI 기반 번역 API로 한국어를 포함한 다양한 언어를 지원합니다. 텍스트 번역, 웹사이트 번역, 이미지 번역(OCR) 등의 기능을 제공하며, 한국어 번역에 특화되어 있습니다.',
+    'https://developers.naver.com/docs/papago/',
+    4.6, 0, '일 10,000자 무료, 이후 유료',
+    'FREE', 'API_KEY', 'NAVER',
+    'https://ssl.pstatic.net/static/nid/papago/img_papago_191204.png',
+    NOW(), NOW()
+),
+
+-- 42. Youtube API
+(
+    'Youtube API',
+    '강력한 동영상 플랫폼 API로 업로드, 검색, 재생 등 다양한 기능 제공',
+    'YouTube 플랫폼의 동영상과 채널 데이터에 접근하는 API입니다. 동영상 업로드, 검색, 재생목록 관리, 댓글, 통계 조회 등의 기능을 제공하여 동영상 기반 애플리케이션을 개발할 수 있습니다.',
+    'https://developers.google.com/youtube/v3',
+    4.7, 0, '무료 (일일 할당량 제한)',
+    'FREE', 'API_KEY', 'GOOGLE',
+    'https://www.youtube.com/s/desktop/f506bd45/img/favicon_32.png',
+    NOW(), NOW()
+),
+
+-- 43. Giphy API
+(
+    'Giphy API',
+    'GIF 검색 및 임베드 API',
+    '세계 최대의 GIF 라이브러리를 제공하는 API입니다. GIF 검색, 트렌딩 GIF, 스티커, 랜덤 GIF 등의 기능을 제공하여 애플리케이션에 재미있는 GIF 콘텐츠를 통합할 수 있습니다.',
+    'https://developers.giphy.com/docs/api/',
+    4.5, 0, '무료',
+    'FREE', 'API_KEY', 'KAKAO',
+    'https://giphy.com/static/img/favicon.png',
+    NOW(), NOW()
+),
+
+-- 44. AWS S3
+(
+    'AWS S3',
+    '클라우드 스토리지 및 파일 관리',
+    'Amazon Web Services의 객체 스토리지 서비스 API입니다. 파일 업로드/다운로드, 버킷 관리, 접근 권한 설정, 정적 웹사이트 호스팅 등의 기능을 제공하여 확장 가능한 클라우드 스토리지를 구축할 수 있습니다.',
+    'https://docs.aws.amazon.com/s3/index.html',
+    4.6, 0, '사용량 기반 과금',
+    'PAID', 'API_KEY', 'GOOGLE',
+    'https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png',
+    NOW(), NOW()
+),
+
+-- 45. GitHub API
+(
+    'GitHub API',
+    'GitHub 저장소 및 프로젝트 관리 API',
+    'GitHub 플랫폼의 저장소, 이슈, PR 등을 관리하는 API입니다. 코드 저장소 관리, 이슈 트래킹, PR 리뷰, Actions 워크플로우, 협업 도구 등의 기능을 자동화할 수 있습니다.',
+    'https://docs.github.com/en/rest',
+    4.7, 0, '무료',
+    'FREE', 'OAUTH2', 'KAKAO',
+    'https://github.githubassets.com/favicons/favicon.svg',
+    NOW(), NOW()
+),
+
+-- 46. Firebase
+(
+    'Firebase',
+    '백엔드 서비스 및 실시간 데이터베이스',
+    'Google의 모바일 및 웹 앱 개발 플랫폼입니다. 실시간 데이터베이스, 인증, 클라우드 스토리지, 호스팅, 푸시 알림 등의 백엔드 서비스를 제공하여 빠른 앱 개발을 지원합니다.',
+    'https://firebase.google.com/docs',
+    4.7, 0, '무료 플랜 제공, 사용량에 따라 유료',
+    'FREE', 'OAUTH2', 'GOOGLE',
+    'https://www.gstatic.com/devrel-devsite/prod/v2210deb8920cd4a55bd580441aa58e7853afc04b39a9d9ac4198e1cd7fbe04ef/firebase/images/touchicon-180.png',
+    NOW(), NOW()
+),
+
+-- 47. Twitter API
+(
+    'Twitter API',
+    '트위터 트윗 및 소셜 데이터 API',
+    'X(구 Twitter) 플랫폼의 트윗과 소셜 데이터에 접근하는 API입니다. 트윗 작성, 검색, 타임라인 조회, 팔로우 관리, DM 등의 기능을 제공하여 소셜 미디어 통합 서비스를 구축할 수 있습니다.',
+    'https://developer.twitter.com/en/docs',
+    4.0, 0, '무료 플랜 제한적, 유료 플랜 필요',
+    'PAID', 'OAUTH2', 'KAKAO',
+    'https://abs.twimg.com/favicons/twitter.2.ico',
+    NOW(), NOW()
+),
+
+-- 48. Salesforce API
+(
+    'Salesforce API',
+    '클라우드 기반 CRM 플랫폼',
+    'Salesforce CRM 플랫폼의 API로 고객 관계 관리를 자동화합니다. 리드, 기회, 계정, 연락처 관리, 영업 프로세스 자동화, 리포트 생성 등의 기능을 제공합니다.',
+    'https://developer.salesforce.com/docs/apis',
+    4.5, 0, '플랜별 가격',
+    'PAID', 'OAUTH2', 'KAKAO',
+    'https://www.salesforce.com/content/dam/sfdc-docs/www/logos/logo-salesforce.svg',
+    NOW(), NOW()
+),
+
+-- 49. Kakao Maps
+(
+    'Kakao Maps',
+    '카카오맵 기반 한국 지역 지도 및 위치 서비스',
+    '카카오의 지도 서비스 API로 한국 지역에 최적화되어 있습니다. 지도 표시, 주소 검색, 좌표 변환, 길찾기, 로드뷰 등의 기능을 제공하여 위치 기반 서비스를 구축할 수 있습니다.',
+    'https://apis.map.kakao.com/',
+    4.6, 0, '일 30만건 무료, 이후 유료',
+    'FREE', 'API_KEY', 'KAKAO',
+    'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/thumnail.png',
+    NOW(), NOW()
+),
+
+-- 50. Facebook Graph
+(
+    'Facebook Graph',
+    '페이스북 그래프 API로 소셜 데이터 접근',
+    'Meta의 Facebook 플랫폼 API입니다. 사용자 프로필, 페이지, 그룹, 이벤트 관리, 포스트 게시, 광고 관리 등의 기능을 제공하여 소셜 미디어 통합 서비스를 개발할 수 있습니다.',
+    'https://developers.facebook.com/docs/graph-api',
+    4.2, 0, '무료',
+    'FREE', 'OAUTH2', 'KAKAO',
+    'https://static.xx.fbcdn.net/rsrc.php/yb/r/hLRJ1GG_y0J.ico',
+    NOW(), NOW()
+);
+
 
 -- ３. 위키 데이터 삽입
 INSERT INTO `wiki` (api_id, user_id, content_md, created_at, updated_at) VALUES
@@ -2487,3 +3053,237 @@ OAuth 2.0을 사용하며, 액세스 토큰을 통해 인증합니다.
     NOW(),
     NOW()
 );
+
+-- 4. 카테고리 데이터 삽입
+INSERT INTO categories (name, created_at, updated_at) VALUES
+-- ㄱ
+('개발', NOW(), NOW()),
+('게임', NOW(), NOW()),
+('계산', NOW(), NOW()),
+('결제', NOW(), NOW()),
+('금융', NOW(), NOW()),
+-- ㄴ ~ ㄹ
+('날씨', NOW(), NOW()),
+('뉴스', NOW(), NOW()),
+('데이터', NOW(), NOW()),
+-- ㅁ
+('마케팅', NOW(), NOW()),
+('머신러닝', NOW(), NOW()),
+('메시징', NOW(), NOW()),
+('미디어', NOW(), NOW()),
+-- ㅂ
+('백엔드', NOW(), NOW()),
+('번역', NOW(), NOW()),
+('봇', NOW(), NOW()),
+('분석', NOW(), NOW()),
+('비디오', NOW(), NOW()),
+('비즈니스', NOW(), NOW()),
+-- ㅅ
+('생산성', NOW(), NOW()),
+('소셜', NOW(), NOW()),
+('소셜로그인', NOW(), NOW()),
+('쇼핑', NOW(), NOW()),
+('스토리지', NOW(), NOW()),
+-- ㅇ
+('위치', NOW(), NOW()),
+('음악', NOW(), NOW()),
+('이미지', NOW(), NOW()),
+('이메일', NOW(), NOW()),
+('인지', NOW(), NOW()),
+('인증', NOW(), NOW()),
+-- ㅈ
+('전자상거래', NOW(), NOW()),
+('지도', NOW(), NOW()),
+('지식', NOW(), NOW()),
+-- ㅋ
+('커뮤니케이션', NOW(), NOW()),
+('커뮤니티', NOW(), NOW()),
+('클라우드', NOW(), NOW()),
+-- ㅌ ~ ㅎ
+('통신', NOW(), NOW()),
+('프로젝트관리', NOW(), NOW()),
+('협업', NOW(), NOW()),
+('화상회의', NOW(), NOW()),
+-- 영문
+('AI', NOW(), NOW()),
+('CRM', NOW(), NOW()),
+('DB', NOW(), NOW()),
+('GIF', NOW(), NOW()),
+('POS', NOW(), NOW()),
+('SMS', NOW(), NOW()),
+('SNS', NOW(), NOW());
+
+-- 5. API-카테고리 매핑
+INSERT INTO api_categories_map (api_id, category_id) VALUES
+-- 1. Spotify API ["음악","미디어"]
+(1, (SELECT id FROM categories WHERE name = '음악')),
+(1, (SELECT id FROM categories WHERE name = '미디어')),
+
+-- 2. Jira API ["개발","프로젝트관리"]
+(2, (SELECT id FROM categories WHERE name = '개발')),
+(2, (SELECT id FROM categories WHERE name = '프로젝트관리')),
+
+-- 3. Google Translate ["번역","AI"]
+(3, (SELECT id FROM categories WHERE name = '번역')),
+(3, (SELECT id FROM categories WHERE name = 'AI')),
+
+-- 4. Weather API ["날씨","데이터"]
+(4, (SELECT id FROM categories WHERE name = '날씨')),
+(4, (SELECT id FROM categories WHERE name = '데이터')),
+
+-- 5. Telegram Bot ["메시징","봇"]
+(5, (SELECT id FROM categories WHERE name = '메시징')),
+(5, (SELECT id FROM categories WHERE name = '봇')),
+
+-- 6. Mixpanel API ["분석","데이터"]
+(6, (SELECT id FROM categories WHERE name = '분석')),
+(6, (SELECT id FROM categories WHERE name = '데이터')),
+
+-- 7. Trello API ["프로젝트관리","협업"]
+(7, (SELECT id FROM categories WHERE name = '프로젝트관리')),
+(7, (SELECT id FROM categories WHERE name = '협업')),
+
+-- 8. Google Login ["소셜로그인","인증"]
+(8, (SELECT id FROM categories WHERE name = '소셜로그인')),
+(8, (SELECT id FROM categories WHERE name = '인증')),
+
+-- 9. Stripe API ["결제","금융"]
+(9, (SELECT id FROM categories WHERE name = '결제')),
+(9, (SELECT id FROM categories WHERE name = '금융')),
+
+-- 10. LinkedIn API ["비즈니스","SNS"]
+(10, (SELECT id FROM categories WHERE name = '비즈니스')),
+(10, (SELECT id FROM categories WHERE name = 'SNS')),
+
+-- 11. Google Cloud Vision ["AI","이미지"]
+(11, (SELECT id FROM categories WHERE name = 'AI')),
+(11, (SELECT id FROM categories WHERE name = '이미지')),
+
+-- 12. Instagram API ["SNS","소셜"]
+(12, (SELECT id FROM categories WHERE name = 'SNS')),
+(12, (SELECT id FROM categories WHERE name = '소셜')),
+
+-- 13. Discord API ["커뮤니케이션","게임"]
+(13, (SELECT id FROM categories WHERE name = '커뮤니케이션')),
+(13, (SELECT id FROM categories WHERE name = '게임')),
+
+-- 14. Asana API ["프로젝트관리","협업"]
+(14, (SELECT id FROM categories WHERE name = '프로젝트관리')),
+(14, (SELECT id FROM categories WHERE name = '협업')),
+
+-- 15. Wolfram Alpha ["지식","계산"]
+(15, (SELECT id FROM categories WHERE name = '지식')),
+(15, (SELECT id FROM categories WHERE name = '계산')),
+
+-- 16. Notion API ["생산성","협업"]
+(16, (SELECT id FROM categories WHERE name = '생산성')),
+(16, (SELECT id FROM categories WHERE name = '협업')),
+
+-- 17. HubSpot API ["마케팅","CRM"]
+(17, (SELECT id FROM categories WHERE name = '마케팅')),
+(17, (SELECT id FROM categories WHERE name = 'CRM')),
+
+-- 18. Pexels API ["이미지","비디오"]
+(18, (SELECT id FROM categories WHERE name = '이미지')),
+(18, (SELECT id FROM categories WHERE name = '비디오')),
+
+-- 19. Slack API ["협업","커뮤니케이션"]
+(19, (SELECT id FROM categories WHERE name = '협업')),
+(19, (SELECT id FROM categories WHERE name = '커뮤니케이션')),
+
+-- 20. OpenStreetMap ["지도","위치"]
+(20, (SELECT id FROM categories WHERE name = '지도')),
+(20, (SELECT id FROM categories WHERE name = '위치')),
+
+-- 21. PayPal API ["결제","금융"]
+(21, (SELECT id FROM categories WHERE name = '결제')),
+(21, (SELECT id FROM categories WHERE name = '금융')),
+
+-- 22. Reddit API ["SNS","커뮤니티"]
+(22, (SELECT id FROM categories WHERE name = 'SNS')),
+(22, (SELECT id FROM categories WHERE name = '커뮤니티')),
+
+-- 23. Dropbox API ["스토리지","클라우드"]
+(23, (SELECT id FROM categories WHERE name = '스토리지')),
+(23, (SELECT id FROM categories WHERE name = '클라우드')),
+
+-- 24. DeepL API ["번역","AI"]
+(24, (SELECT id FROM categories WHERE name = '번역')),
+(24, (SELECT id FROM categories WHERE name = 'AI')),
+
+-- 25. Twilio SMS ["SMS","통신"]
+(25, (SELECT id FROM categories WHERE name = 'SMS')),
+(25, (SELECT id FROM categories WHERE name = '통신')),
+
+-- 26. Azure Cognitive ["AI","인지"]
+(26, (SELECT id FROM categories WHERE name = 'AI')),
+(26, (SELECT id FROM categories WHERE name = '인지')),
+
+-- 27. News API ["뉴스","미디어"]
+(27, (SELECT id FROM categories WHERE name = '뉴스')),
+(27, (SELECT id FROM categories WHERE name = '미디어')),
+
+-- 28. IBM Watson ["AI","머신러닝"]
+(28, (SELECT id FROM categories WHERE name = 'AI')),
+(28, (SELECT id FROM categories WHERE name = '머신러닝')),
+
+-- 29. OpenAI GPT-4 ["AI","번역"]
+(29, (SELECT id FROM categories WHERE name = 'AI')),
+(29, (SELECT id FROM categories WHERE name = '번역')),
+
+-- 30. Mailchimp ["마케팅","이메일"]
+(30, (SELECT id FROM categories WHERE name = '마케팅')),
+(30, (SELECT id FROM categories WHERE name = '이메일')),
+
+-- 31. Google Analytics ["분석","마케팅"]
+(31, (SELECT id FROM categories WHERE name = '분석')),
+(31, (SELECT id FROM categories WHERE name = '마케팅')),
+
+-- 32. Shopify API ["전자상거래","쇼핑"]
+(32, (SELECT id FROM categories WHERE name = '전자상거래')),
+(32, (SELECT id FROM categories WHERE name = '쇼핑')),
+
+-- 33. AWS Rekognition ["AI","이미지"]
+(33, (SELECT id FROM categories WHERE name = 'AI')),
+(33, (SELECT id FROM categories WHERE name = '이미지')),
+
+-- 34. Google Drive ["스토리지","클라우드"]
+(34, (SELECT id FROM categories WHERE name = '스토리지')),
+(34, (SELECT id FROM categories WHERE name = '클라우드')),
+
+-- 35. Square API ["결제","POS"]
+(35, (SELECT id FROM categories WHERE name = '결제')),
+(35, (SELECT id FROM categories WHERE name = 'POS')),
+
+-- 36. Amplitude API ["분석","데이터"]
+(36, (SELECT id FROM categories WHERE name = '분석')),
+(36, (SELECT id FROM categories WHERE name = '데이터')),
+
+-- 37. Zoom API ["화상회의","협업"]
+(37, (SELECT id FROM categories WHERE name = '화상회의')),
+(37, (SELECT id FROM categories WHERE name = '협업')),
+
+-- 38. WooCommerce ["전자상거래","쇼핑"]
+(38, (SELECT id FROM categories WHERE name = '전자상거래')),
+(38, (SELECT id FROM categories WHERE name = '쇼핑')),
+
+-- 39. Unsplash API ["이미지","미디어"]
+(39, (SELECT id FROM categories WHERE name = '이미지')),
+(39, (SELECT id FROM categories WHERE name = '미디어')),
+
+-- 40. SendGrid ["이메일","마케팅"]
+(40, (SELECT id FROM categories WHERE name = '이메일')),
+(40, (SELECT id FROM categories WHERE name = '마케팅')),
+
+-- 41. Naver Papago ["번역","AI"]
+(41, (SELECT id FROM categories WHERE name = '번역')),
+(41, (SELECT id FROM categories WHERE name = 'AI')),
+
+-- 42. Youtube API ["미디어","SNS"]
+(42, (SELECT id FROM categories WHERE name = '미디어')),
+(42, (SELECT id FROM categories WHERE name = 'SNS')),
+
+-- 43. Giphy API ["GIF","미디어"]
+(43, (SELECT id FROM categories WHERE name = 'GIF')),
+(43, (SELECT id FROM categories WHERE name
+
