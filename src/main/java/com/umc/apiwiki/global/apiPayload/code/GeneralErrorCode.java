@@ -19,12 +19,18 @@ public enum GeneralErrorCode implements BaseErrorCode{
     MISSING_INPUT_VALUE(HttpStatus.BAD_REQUEST, "AUTH4000", "필수적인 입력값이 누락되었습니다."),
     INVALID_EMAIL_FORMAT(HttpStatus.BAD_REQUEST, "AUTH4001", "이메일의 형식이 유효하지 않습니다."),
     INVALID_PASSWORD_FORMAT(HttpStatus.BAD_REQUEST, "AUTH4002", "비밀번호는 영문+숫자 조합 8자 이상이어야 합니다."),
+    LOGIN_REQUIRED(HttpStatus.UNAUTHORIZED, "AUTH4003", "로그인이 필요한 기능입니다."),
 
     // USER 관련 에러
     DUPLICATE_EMAIL(HttpStatus.BAD_REQUEST, "USER4000", "이미 사용 중인 이메일입니다."),
     DUPLICATE_NICKNAME(HttpStatus.BAD_REQUEST, "USER4001", "이미 사용 중인 닉네임입니다."),
-    USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "USER4002", "해당하는 아이디가 존재하지 않습니다."),
-    PASSWORD_MISMATCH(HttpStatus.BAD_REQUEST, "USER4003", "잘못된 비밀번호를 입력하였습니다.");
+    USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "USER4002", "해당하는 사용자가 존재하지 않습니다."),
+    PASSWORD_MISMATCH(HttpStatus.BAD_REQUEST, "USER4003", "잘못된 비밀번호를 입력하였습니다."),
+
+    // WIKI 관련 에러
+    WIKI_NOT_FOUND(HttpStatus.BAD_REQUEST, "WIKI4000", "해당 위키가 존재하지 않습니다."),
+    INVALID_WIKI_FORMAT(HttpStatus.BAD_REQUEST, "WIKI4001", "유효하지 않은 입력값입니다."),
+    VERSION_ERROR(HttpStatus.BAD_REQUEST, "WIKI4002", "이미 수정된 위키입니다."),
     ;
 
     private final HttpStatus status;

@@ -30,4 +30,12 @@ public class Wiki extends BaseEntity {
     @Lob
     @Column(name = "content_md", columnDefinition = "LONGTEXT")
     private String contentMd;
+
+    @Version
+    private Long version;
+
+    public void updateContent(String newContent, User user) {
+        this.contentMd = newContent;
+        this.user = user;
+    }
 }
