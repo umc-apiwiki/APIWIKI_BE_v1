@@ -1,0 +1,30 @@
+---
+name: Lint Code Base
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Lint Code Base
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Lint Code Base
+        uses: github/super-linter@v5
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+          # [핵심] 에러가 나면 빌드를 실패(빨간 불) 처리합니다.
+          DISABLE_ERRORS: false 
+
+          #  특정 린터만 명시적으로 켭니다 (White-list)
+          VALIDATE_ALL_CODEBASE: false # 변경 코드만 검사
+          VALIDATE_GITLEAKS: true        # 비밀번호, API 키 유출 검사
+          VALIDATE_GOOGLE_JAVA_FORMAT: true # 자바 문법 오타 및 최소한의 포맷 검사
