@@ -52,7 +52,7 @@ public class UserCommandService {
         User savedUser = userRepository.save(newUser);
 
         // 4. 토큰 발급
-        String accessToken = jwtUtil.createAccessToken(savedUser.getNickname(), "ROLE_USER");
+        String accessToken = jwtUtil.createAccessToken(newUser.getEmail(), newUser.getNickname(), "ROLE_USER");
 
         // 5. 응답 반환
         return UserResDTO.LoginRes.builder()
@@ -103,7 +103,7 @@ public class UserCommandService {
         }
 
         // 3. 토큰 발급
-        String accessToken = jwtUtil.createAccessToken(user.getEmail(), "ROLE_USER");
+        String accessToken = jwtUtil.createAccessToken(user.getEmail(), user.getNickname(), "ROLE_USER");
 
         // 4. 응답 반환
         return UserResDTO.LoginRes.builder()

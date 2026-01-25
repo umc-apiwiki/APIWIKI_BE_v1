@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import org.springframework.security.access.AccessDeniedException;
+
 @RestControllerAdvice
 public class GeneralExceptionAdvice {
 
@@ -35,6 +37,17 @@ public class GeneralExceptionAdvice {
         BaseErrorCode code = GeneralErrorCode.NOT_FOUND;
         return ResponseEntity.status(code.getStatus())
                 .body(ApiResponse.onFailure(code, null));
+    }
+
+    // @PreAuthorize 검증 실패 시 발생하는 예외처리
+    @ExceptionHandler(AccessDeniedException.class)
+    public ApiResponse<Object> handleAccessDeniedException(AccessDeniedException e) {
+
+        // 로그인이 안 된 상태에서 터진 거라면 -> 401 로그인 필요
+        // (Authentication 객체를 확인해서 익명 사용자인지 체크해도 되지만,
+        // 보통 PreAuthorize("isAuthenticated") 실패는 로그인 필요 상황입니다.)
+
+        return ApiResponse.onFailure(GeneralErrorCode.LOGIN_REQUIRED, null);
     }
 
     // 그 외의 정의되지 않은 모든 예외 처리
