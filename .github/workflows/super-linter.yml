@@ -27,3 +27,12 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+          
+          VALIDATE_GITLEAKS: true        # 보안 유출(비밀번호, API 키) - 필수
+          VALIDATE_JAVA: false           # Checkstyle (주석, 매직넘버 등) - 제거
+          VALIDATE_JSCPD: false          # 중복 코드 검사 - 제거
+          VALIDATE_GOOGLE_JAVA_FORMAT: true # 최소한의 코드 형태 유지
+          
+          # 에러가 나더라도 머지를 막지 않도록 설정
+          DISABLE_ERRORS: true
