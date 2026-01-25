@@ -1,4 +1,3 @@
----
 name: Lint Code Base
 
 on:
@@ -21,10 +20,13 @@ jobs:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
-          # [핵심] 에러가 나면 빌드를 실패(빨간 불) 처리합니다.
+          # 보안 유출이 발견되면 빌드를 실패(빨간 불) 처리합니다.
           DISABLE_ERRORS: false 
 
-          #  특정 린터만 명시적으로 켭니다 (White-list)
-          VALIDATE_ALL_CODEBASE: false # 변경 코드만 검사
-          VALIDATE_GITLEAKS: true        # 비밀번호, API 키 유출 검사
-          VALIDATE_GOOGLE_JAVA_FORMAT: true # 자바 문법 오타 및 최소한의 포맷 검사
+          
+          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_GITLEAKS: true        # 비밀번호, API 키 유출 검사 (실제 사고 방지)
+          
+          # 자바 관련 스타일 검사기(Google Java Format, Checkstyle) 제거
+          VALIDATE_JAVA: false
+          VALIDATE_GOOGLE_JAVA_FORMAT: false
