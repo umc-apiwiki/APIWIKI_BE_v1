@@ -1,3 +1,5 @@
+# API Wiki ERD
+
 ```mermaid
 erDiagram
     users ||--o{ community : "writes"
