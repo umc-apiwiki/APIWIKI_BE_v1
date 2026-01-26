@@ -29,7 +29,7 @@ public class Api extends BaseEntity {
 
     @Lob
     @Column(columnDefinition = "LONGTEXT")
-    private String logoUrl; // Base64로 인코딩된 이미지 파일 자체
+    private String logo; // Base64로 인코딩된 이미지 파일 자체
 
     @Lob
     @Column(columnDefinition = "TEXT")
