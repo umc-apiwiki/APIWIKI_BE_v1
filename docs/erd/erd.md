@@ -35,6 +35,7 @@ erDiagram
         long api_id PK
         varchar_50 name
         varchar_120 summary
+        text logo "Base64로 인코딩된 이미지 파일"
         text long_description
         varchar_255 official_url
         decimal_3_1 avg_rating
