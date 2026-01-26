@@ -13,8 +13,8 @@ INSERT INTO `users` (
 ) VALUES (
              'admin@apiwiki.com',
              '관리자',
-             'Admin',
-             '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy',
+             'admin',
+             '$2a$10$SckJ.PsMNSxto8lZK6SaseywyHXBqZFvOMAZY.W/Rw./4Tm/VIAE6',
              'LOCAL',
              NOW(),
              NOW(),
@@ -23,614 +23,224 @@ INSERT INTO `users` (
 
 
 -- ２. API 데이터 삽입
--- JPA 서버용 API INSERT 문
--- long_description과 official_url은 기본값으로 채움
+-- 현재 long_description과 auth_type은 null로 채워져 있음
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 1, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Spotify API', '음악 스트리밍 및 플레이리스트 관리 API', 'https://developer.spotify.com/documentation/web-api', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAAYFBMVEUe12D///8A1VYA1VMa114R1lvf+Ocp2Wdy4pT4/vqC5aBB23Ts+/Bp4I3F8tHM9Neb6rGz7sSM56bn+uxS3X412m3T9d1445hk4IpI3Hjx/PTa9+Na3oOh67al7Lqs7b0n36NOAAACuElEQVRIiZ2X17qDIAyAYwAXDrBSq21P3/8tTxAVHB2fuSvlb0J2ITqSWDelTAASWTY6PrwC+6MqFQyF4EDChUAm0uo7mCnBHOOF05HKPoMKcUNNLKL6ANZwjDkU6ndgzt5iI8ryQzCT+Amzgn22BwsQ3zigK8UWLPhHMxdzebEGM/iJIxKyFSh/sHOyVoZg/tUvXjD3YM1+5wBYvYCbB/JFDkEOM6gWQzmlNENuZE8ik/GT2PFj9hGY4VQIDPtc15cgnYdLrZvWFksIc8xG0CnkorluK2CWWJc8rBmrkkB3wo7rdZG684XDhQWr0aWi/MxZ0WauAlYRmI6xF+l3kJqDcX6k2zBZCjjYb7K7VmkrE9tvTP/olL4PK3R2SATxFHye6Fq1yNC2m0mo4dCB6XThyVI4j4Ceg8jpznHboHDK58z+jfdRQ7NJb6fHihA+AvSr5XUEO+eSBkqx/m1hbrl6vl6vZ9M9DPrYC/agiE0GihKkN4/RazbRJGd1yfwEwaSZPSIh8flw0HZHiZVhYnrHfNljIPI3nJV7h29LXTTewOFyKYZ15g45W6OLTs4p1EOlboZcaAWh7/6CxC9uGGLeOVyUPYb1x62XsX0uDrstOsk5QTj4dtq4U2S9duCSLDYc2wRwKeBkUY3wtGC+3KUE0GGDc7nZlnnTNHkaxJ9jomPfYmzKxb7DcfFQVRw6k+Kfgqt9m8peAyV55A3iQREEcu12Q9OW1VTI8KkJZH+w7thjIVezreNYGK66oUo2iaGnBouDWikdW0dgK6SG2Ur2dewXh3ug0zWrVT/eBZK6LW/G7pHs2mP2fvA7FpHS+IrBQbYdAe8EoQ3uzCNgN3SOtAY3/NA5P+ZOD9bzo/z88nB6XTm/IJG1/fdwyoOVLDq9BEbn187o9KIbnV+trZxb5p388PfhH2ThHWNGRURSAAAAAElFTkSuQmCC', null, 'tier,monthly_requests,price_per_month,notes
+Free,Unlimited,Free,"개인 프로젝트용, 제한된 기능"
+Extended Quota,Unlimited,$1000/month,"상업용, 모든 기능 접근"', 'FREE', 'SPOTIFY');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 2, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Jira API', '이슈 추적 및 애자일 관리', 'https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACP0lEQVRYhe2Wv2tTURTHP+fHC6JoJxEKIkKqFuuPoJOLk2sdtKm4OjsouLSW1NjYTdBFHHTwz/BPEKxuVqtQsFUKgrhobZtchyZNWpLc5MW6mAMPHvfdc87nfO85lwd961sPdmwmPB2aCc96iSGpkxfDGZQ5IKCMfJiQ+TRxNC1AMIpVf5MyU2njpFLgaCkcSgJLgFeXymlVSKWAV8g3JIceVEgFoMLFnWtBGB+6H4b/CUCA802WTaR7FboHCEGAwRZfx4dLYWRXAbL32A8kreKVAxO7CrB6gPXIlq5U6Bzg8qvDAEu3WAV+t4tZrjD5VwGSa29zmkkWufL6DiIhwEJbByHfqQodAaglBXNXd5/l6psLEpiLuXSqQhRg742FnLmPmjtqbonb44rzMhpZyJ8ohlM9A7h6wdzFzDE3zP3cysKnn8CPWOyKxCeiLcDBm8s5cx9Vc8zrz8bGxnWEF7HgCPlsMZxMDSDiBTOXzcSGuaPumPmltXUe0n4aAFS1/e3YEmDw9vets68lt83kmPvAt+WP+4LwPAIAMNauF1oCWMYL6rXqtyqvvhuJJkd0nRngVwRAK9p6IpoCZKfWtldv9eRbQJbZ835avtCjCs0VSKqd78bOBmzohVUAgxKdqCDc7QggWww5VRltOO961Q1qqGXmAd5Nylcg/mMqjB0vhdNRAFUKVH/V1Gx79XWgzysDA4s1HxMeEFdBQpPbsdkRbKMUkU0QaxhD9ydMS6W2p6rCowgACGeje/r239kfQPqJNK3vYNEAAAAASUVORK5CYII=', null, 'tier,users,price_per_user_month,notes
+Free,Up to 10,Free,"소규모 팀용, 기본 기능"
+Standard,Unlimited,$7.75,"중소 팀용, 고급 기능"
+Premium,Unlimited,$15.25,"대규모 조직용, 모든 기능"
+Enterprise,Unlimited,Custom,"엔터프라이즈급 지원 및 보안"', 'FREE', 'ATLASSIAN');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 3, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Google Translate', '다국어 번역 서비스', 'https://cloud.google.com/translate/docs/reference/rest', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAA7VBMVEVHcEz/RkL/R0D+SEr/RUD/RkOwjlb/SD7/SE3/SUj/Vzb/VDf9TFb8TVeHoFb/YTD/byn8TVn/jRr/fSL/mxL/SEj+yQn/ohH/tQv+VUb/vQn/wwn+zgj9wQm3xQ39zgT6zQYwhv/7zgowhv8uhv0ek+Avhv7yzAPjywIvhv0whv7PyQHUygIth/y3yAEnivSlxwGSxgUak94fj+h5xAlgwxMLqp8NnsQVlte6xwBNwh45wC0xwDMLt28IrJgJpa0kjPCaxQEpvzsevkkWvVANumQQu18JtXkIsIgTvVYOvGALuWtJwh4OvF8OvF9ccfxCAAAAT3RSTlMAUZvT7P8T//+wiv//kAv6/mD//+V2jv//JKf//0EmxOr/rP7+MEX//x10/6eu//3+/9v///7I//+K//+KS/3/YeX//7dsnv7/////5s3tMAqBMAAAAXFJREFUeAF0jUUCwCAMwDp3d/f9/4krnVt6goQCFzheECVJFHgOPpB5RZHYIKqqyU+vGwpCXkVM07pp2zEQ8hSYiCBf1rsuFrQCvaSahHe+9wMqWHJuOD2E/lYoWsRxkUbBxcdJshY6bEQ3L6fpWmTnXXbxkBcpJTb8UBZFgUX156uyLLHI4Y+YgqL+DZqS0R7n7o4NLQX9GQwbI5tugpKI7wF5Rjd/BiNCCQZfX5BfCwyWrsnagGEYiKKpMkLqgJmZmXn/caKTzGoM7+v4IEiWPQdJ4fMhFujHCzjH7Wny6xFwMB9UKBa4KN3Tl4kh9AZYVJRbpXhVVRGX0asEXNP1a7MM0wQJA+0WFcQtyz7bcFzPAwn+8AkPwmjDcZK6WJGR75zwsCirOo7rpu0SojC2oQUeIF72/TCMY4sUKSj2wX9iXgAHwYgEoKBPizOBgx4EhwnCtxOtDnYTzn1Gnw3wzYQT3zDJrpmXYVjmpj7d/gPknlJE6eZSewAAAABJRU5ErkJggg==', null, 'model,tier,usage_type,usage_range,price_per_unit,notes
+NMT,Standard,Text translations,First 500,000 characters/month,Free ($10 credit),"Neural Machine Translation"
+NMT,Standard,Text translations,500,000 to 1 billion characters/month,$20 per million characters,""
+NMT,Standard,Document translation (DOCX/PPT/PDF),Pages sent/month,$0.08 per page,""
+Custom models,Standard,Text translations,First 500,000 characters/month,Free ($40 credit),"AutoML 커스텀 모델"
+Custom models,Standard,Text translations,500K to 250M characters/month,$80 per million characters,""
+Custom models,Standard,Text translations,250M to 2.5B characters/month,$60 per million characters,""
+Custom models,Standard,Text translations,2.5B to 4B characters/month,$40 per million characters,""
+Custom models,Standard,Text translations,Over 4B characters/month,$30 per million characters,""
+Custom models,Standard,Document translation (DOCX/PPT/PDF),Pages sent/month,$0.25 per page,""
+Translation LLM,Advanced,Input characters,All,$10 per million characters,"LLM 기반 번역 입력"
+Translation LLM,Advanced,Output characters,All,$10 per million characters,"LLM 기반 번역 출력"
+Adaptive Translation,Advanced,Input characters,All,$25 per million characters,"적응형 번역 입력"
+Adaptive Translation,Advanced,Output characters,All,$25 per million characters,"적응형 번역 출력"
+Translation Hub,Basic,Document translation,Per page per target language,$0.15 per page,"기본 문서 번역 플랫폼"
+Translation Hub,Advanced,Document translation,Per page per target language,$0.50 per page,"고급 기능(커스텀 모델, TM, 인간 검수 등) 포함"
+', 'PAID', 'GOOGLE');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 4, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Weather API', '실시간 날씨 및 기후 데이터', 'https://openweathermap.org/api', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAMFBMVEVHcEzrb0zugmLteVrrbEjrbEjrbkvrbUnrbkvrb0zrbkrrcE3rakbrbkvrbkvqZD7C68wNAAAADnRSTlMAxQcTN3zxQ9mmWiWTu2WJD8wAAACiSURBVCiRxZLdEgMRDEZJIv4W7/+2JR1Llb3qTM8YN2c+IaHUDwBEhL0K3jGzu+hbWZc7KS7O5Am2Z1eZrV1cZhzSrTL7c7ByR/1GhvOp41zkjdRP0j0npcu0Ue9w1VFXprDu+D6h0b/x/F7VjNewicpcBqFtMsqPWgZLKSHWTfoPJLROsSVQkerEie6xA4AUZoTG40Dz/BtCu3uSJSRU/+IF6N0RvXxb3tkAAAAASUVORK5CYII=', null, 'tier,calls_per_minute,calls_per_day,price_per_month,notes
+Free,60,1000,Free,"개인 프로젝트용"
+Startup,600,10000,$40,"스타트업용, 기본 기능"
+Developer,600,100000,$120,"개발자용, 고급 데이터"
+Professional,600,Unlimited,$600,"전문가용, 모든 데이터"', 'FREE', 'OPEN_WEATHER');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 5, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Telegram Bot', '텔레그램 봇 생성 및 메시징 API', 'https://core.telegram.org/bots/api', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAeFBMVEX////7/v+13fh2w/I5sO8Qp+1twPKq2Pfw+P2My/QpqeoAourU6/q74Pid0vQoqOno9PwAoeZfue0npeVwverI5PcAn+Tf8PstqeeQy/BBrugAneB+xO0lo+EAmOAkoN1KruR1veYkod4wo9sjoNwAl9eTyutcsuGUqcVdAAABAElEQVR4AazPVWKAMBAE0EWCu0OgaOj9b1gGl98+LMtE6R9IsqIypmq68Y1Mxpi1YMxWXrGD5MBsl25c23qwvds4ZM9UPtfzv+xgD83n/9CHaB+IaheHYZJ6+JHlBHJ4RQVOmYZolwRJvMuilEAPUVUEVQwhr7GH2iEyY+AEPAZdwpniJaNom8dYwyaOE4LyJ8enaRDyNSyapUrcwCl4gNrgDXAJRbK1Fw6Bs4UFgd42u24dKW9hTdc00HIdK7doYxro2+HAO4NGNNqOAEOHU8unFl/h0M4V7YuY6TSL6UH0dCOL9ooe4yD4FeKIOofe8nkUi7F2/oYj7XJwMBKdzgHYOCTeRThq/wAAAABJRU5ErkJggg==', null, 'tier,features,price,notes
+Free,Unlimited messages and bots,Free,"모든 기능 무료 제공"', 'FREE', 'TELEGRAM');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 6, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Mixpanel API', '사용자 행동 분석 플랫폼', 'https://mixpanel.com/help/reference/data-export-api', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAdVBMVEUbCzsWADgAACQAACYUADdCOlj29vbj4+XU09g7M1JMRWAAABz///8AACjIxs3t7O8TADYAAC2ZlqIAACsaCDqhnqlpY3cNADRVTmcAACKurLW3tL0AABoIADK/vsQAAC91b4N+eYqSj5uxrrhdV20AAAn08vYuieclAAAA3klEQVR4Ac2RBZKEMBBFB6ILH3d37n/E7YynuMB02Uu9JG233wzHdV3GH8wZHfiXE1IpLfjd/WmlpPdlua8AzQwGIRD58fe/SQogy4lcgiKxksYegLIiqAnq74cUjQTajL4oSLq5LbMOiPph6BUwZjc78qkIw3lZ5jBsB/PQtkngL8DaB8nF0dPsLv1suj7M0jFc1nUJx/RisxaQ/jT1EdBlt2sr27MV6dqOi+cQqp3As4cwmfGZXDkjSK3xOYcZvGuQaUAd1srOKFKPz7hQUXQK58u6TeMaZ6xhcr8Y/yELDnLkzJpYAAAAAElFTkSuQmCC', null, 'tier,monthly_tracked_users,price_per_month,notes
+Free,Up to 100000,Free,"스타트업 및 개인 프로젝트용"
+Growth,Custom,$25+ (volume-based),"성장 중인 비즈니스용"
+Enterprise,Custom,Custom,"대규모 조직용, 맞춤 계약"', 'FREE', 'MIXPANEL');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 7, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Trello API', '프로젝트 관리 보드 API', 'https://developer.atlassian.com/cloud/trello/rest/api-group-actions/', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAYFBMVEVHcEwffPciefcmhP8kgv0mhP8lhP8lg/8lg/4if/smhP8lgv4mhP8hevYmhP8mhP8MYtwBVM4mhP8OZN8JX9oCV9IFWdQTbOYQZ+Ilg/0VbegVbukadfAffPcmhP8if/q34KiNAAAAIHRSTlMASAnVaP/5W8jl8nO9HpinW8qA3/+h9nn/tWf///82g/gHqngAAACySURBVHgBvdEFDsQwEARB0zjMzP//5YV5xZcVu9QysS+Gc9qElDQqaINEEzAFtaMF2A6Bjgbgeu/ojwZbvWMArCmJ2qCQSMPIixcEv5tI0syxF5TiHqZpXsg1ve+alGmaVSvKW1iWZZrU9lsqkqYZmQd42VW1bTNy7a2o1Sk0u3bigq27nj/H0V038oh76mzmmQAm5evjT6m3otKY1RoXehvXF+7jeQZDjNsb8TI9+9v8ADB6C0XGahR7AAAAAElFTkSuQmCC', null, 'tier,boards,price_per_user_month,notes
+Free,10,Free,"개인 프로젝트용, 무제한 카드"
+Standard,Unlimited,$5,"소규모 팀용, 고급 체크리스트"
+Premium,Unlimited,$10,"대규모 팀용, 캘린더 뷰"
+Enterprise,Unlimited,$17.50,"조직용, 관리 기능 포함"', 'FREE', 'ATLASSIAN');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 8, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Google Login', '구글 계정으로 간편하게 로그인하는 OAuth 2.0 인증', 'https://developers.google.com/identity/sign-in/web/sign-in', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAA7VBMVEVHcEz/RkL/R0D+SEr/RUD/RkOwjlb/SD7/SE3/SUj/Vzb/VDf9TFb8TVeHoFb/YTD/byn8TVn/jRr/fSL/mxL/SEj+yQn/ohH/tQv+VUb/vQn/wwn+zgj9wQm3xQ39zgT6zQYwhv/7zgowhv8uhv0ek+Avhv7yzAPjywIvhv0whv7PyQHUygIth/y3yAEnivSlxwGSxgUak94fj+h5xAlgwxMLqp8NnsQVlte6xwBNwh45wC0xwDMLt28IrJgJpa0kjPCaxQEpvzsevkkWvVANumQQu18JtXkIsIgTvVYOvGALuWtJwh4OvF8OvF9ccfxCAAAAT3RSTlMAUZvT7P8T//+wiv//kAv6/mD//+V2jv//JKf//0EmxOr/rP7+MEX//x10/6eu//3+/9v///7I//+K//+KS/3/YeX//7dsnv7/////5s3tMAqBMAAAAXFJREFUeAF0jUUCwCAMwDp3d/f9/4krnVt6goQCFzheECVJFHgOPpB5RZHYIKqqyU+vGwpCXkVM07pp2zEQ8hSYiCBf1rsuFrQCvaSahHe+9wMqWHJuOD2E/lYoWsRxkUbBxcdJshY6bEQ3L6fpWmTnXXbxkBcpJTb8UBZFgUX156uyLLHI4Y+YgqL+DZqS0R7n7o4NLQX9GQwbI5tugpKI7wF5Rjd/BiNCCQZfX5BfCwyWrsnagGEYiKKpMkLqgJmZmXn/caKTzGoM7+v4IEiWPQdJ4fMhFujHCzjH7Wny6xFwMB9UKBa4KN3Tl4kh9AZYVJRbpXhVVRGX0asEXNP1a7MM0wQJA+0WFcQtyz7bcFzPAwn+8AkPwmjDcZK6WJGR75zwsCirOo7rpu0SojC2oQUeIF72/TCMY4sUKSj2wX9iXgAHwYgEoKBPizOBgx4EhwnCtxOtDnYTzn1Gnw3wzYQT3zDJrpmXYVjmpj7d/gPknlJE6eZSewAAAABJRU5ErkJggg==', null, 'tier,features,price,notes
+Free,Unlimited authentications,Free,"모든 인증 무료"', 'FREE', 'GOOGLE');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 9, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Stripe API', '온라인 결제 처리 API', 'https://stripe.com/docs/api', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAKlBMVEVHcExTOv1TOv1TOv3///9JLf2rov5PNf1AHf3h3v9qV/3Bu/5+b/6XjP7mn8mgAAAAA3RSTlMATNu3u8+LAAAAeUlEQVQokeXTSw7AIAgEUBRH0Or9r9tq+jOlJl13lrzMRpDIeTbjHZGzqcXRS6936d2Yv6OIjQIoSpEHClRzXVIIEXdsBe7zngElx2P+RMQQ/ocpZrEwLTUrMGylYZ8rtnXJsYn9bUvBVeARz/WaaGeO09OcHvXsO6zlzAtOlzDZtAAAAABJRU5ErkJggg==', null, 'tier,transaction_fee,additional_fees,notes
+Standard,2.9% + $0.30,None,"일반 결제"
+International,3.9% + $0.30,Currency conversion 1%,"해외 카드"
+Custom,Custom pricing,Negotiable,"대규모 거래량"', 'PAID', 'STRIPE');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 10, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'LinkedIn API', '링크드인 프로필 및 네트워킹', 'https://www.linkedin.com/developers/docs/rest-api', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABDUlEQVR4AWP4////gOLB44D6nTcsGIo33QHi/zTGd0B2YTiAPpYjHIHNAf/piQk6wGPW8f/rLz8HYRCbXg5AWI4GQGJ0cwDY12gAJDbcHUA4CkZAIqQUK7Ts/m/SfxBMs5RupswBaACr+P47b/5zlG/5DyzZ/r/+8hNF7vuvP//nn3r0X6JhJ+0ccPrR+/+H7735jw9cf/n5v0D1Nuo5gBxQve06zR0AjoL7b7/+//zjN4bc+ScfaOeA33///k9Yfg4mDw7u/Xdeo6uhnQP6D93FMNxlxjF0ZbRzgMXEQ9iyI90cALIMJoccDXRzAK6CZog6YNQBow6gIx54Bwx4x2RAu2bAysoEZu9o7xgAQrvkxt3WZi0AAAAASUVORK5CYII=', null, 'tier,features,price,notes
+Free,Basic profile access,Free,"제한된 기능"
+Marketing Developer Platform,Advanced features,Custom,"마케팅 솔루션용"', 'FREE', 'LINKEDIN');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 11, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Google Cloud Vision', '이미지 인식 및 OCR API', 'https://cloud.google.com/vision/docs/reference/rest', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAA7VBMVEVHcEz/RkL/R0D+SEr/RUD/RkOwjlb/SD7/SE3/SUj/Vzb/VDf9TFb8TVeHoFb/YTD/byn8TVn/jRr/fSL/mxL/SEj+yQn/ohH/tQv+VUb/vQn/wwn+zgj9wQm3xQ39zgT6zQYwhv/7zgowhv8uhv0ek+Avhv7yzAPjywIvhv0whv7PyQHUygIth/y3yAEnivSlxwGSxgUak94fj+h5xAlgwxMLqp8NnsQVlte6xwBNwh45wC0xwDMLt28IrJgJpa0kjPCaxQEpvzsevkkWvVANumQQu18JtXkIsIgTvVYOvGALuWtJwh4OvF8OvF9ccfxCAAAAT3RSTlMAUZvT7P8T//+wiv//kAv6/mD//+V2jv//JKf//0EmxOr/rP7+MEX//x10/6eu//3+/9v///7I//+K//+KS/3/YeX//7dsnv7/////5s3tMAqBMAAAAXFJREFUeAF0jUUCwCAMwDp3d/f9/4krnVt6goQCFzheECVJFHgOPpB5RZHYIKqqyU+vGwpCXkVM07pp2zEQ8hSYiCBf1rsuFrQCvaSahHe+9wMqWHJuOD2E/lYoWsRxkUbBxcdJshY6bEQ3L6fpWmTnXXbxkBcpJTb8UBZFgUX156uyLLHI4Y+YgqL+DZqS0R7n7o4NLQX9GQwbI5tugpKI7wF5Rjd/BiNCCQZfX5BfCwyWrsnagGEYiKKpMkLqgJmZmXn/caKTzGoM7+v4IEiWPQdJ4fMhFujHCzjH7Wny6xFwMB9UKBa4KN3Tl4kh9AZYVJRbpXhVVRGX0asEXNP1a7MM0wQJA+0WFcQtyz7bcFzPAwn+8AkPwmjDcZK6WJGR75zwsCirOo7rpu0SojC2oQUeIF72/TCMY4sUKSj2wX9iXgAHwYgEoKBPizOBgx4EhwnCtxOtDnYTzn1Gnw3wzYQT3zDJrpmXYVjmpj7d/gPknlJE6eZSewAAAABJRU5ErkJggg==', null, 'feature,units,price_per_1000_units,notes
+Label Detection,Images,$1.50,"물체 및 장면 인식"
+Text Detection (OCR),Images,$1.50,"이미지 내 텍스트 추출"
+Face Detection,Images,$1.50,"얼굴 인식 및 감정 분석"
+Explicit Content Detection,Images,$1.50,"부적절한 콘텐츠 탐지"
+Logo Detection,Images,$1.50,"브랜드 로고 인식"
+Landmark Detection,Images,$1.50,"유명 장소 인식"', 'PAID', 'GOOGLE');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 12, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Instagram API', '인스타그램 포스트 및 미디어 관리', 'https://developers.instagram.com/docs/instagram-graph-api', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAkFBMVEX////9/f+luu+BoeqqvvDD1/1/r/yfwfz6+//t8PsAYN4AT90AUt0KZeBspvwAb/lLlfsAePrl7f4aaOAAVN2ItPw5jvsAfPqdtO60xvIAXd8AXOPe6f6ZvvwhceZ1n/C50PzK2foAa/SqxPjW4vywzf+8y/Ijh/o9eODS3fgAcfrg5/l0qfuSsO9VkPBenPgPfDdCAAAApElEQVR4AeUQgwHAMCyzbdv6/7uZL6yNncDfHoJi+MoJkqK/PoblOF5gQJRkRVE/To3HGVTXDIUBMK23D+XthTqu569VpODlDN2NCa6zMvGVynjRykgrdNdpYunZNUmzheZSUeprlC8lDyeREgutKoBabwBUiXg62wzAWOM7L1wzn066rZqg7VdxcMd8kl53oNq2lXdxStPUgNfLs6tSkiXwrzcDVIoLHEbshVwAAAAASUVORK5CYII=', null, 'tier,features,price,notes
+Free,Basic Display API,Free,"개인 계정 데이터"
+Business,Instagram Graph API,Free,"비즈니스 계정 전용"', 'FREE', 'META');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 13, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Discord API', '디스코드 봇 및 서버 관리 API', 'https://discord.com/developers/docs/intro', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAASFBMVEVHcExYZPFXZPJXZPFXZPFXZPFXZPFXZPFYZPJYZfJYZPJXZfFWY/JhbfNsd/OSmvbS1fv////x8/6pr/hQXvLl5/2Bi/XAxfpYg8U1AAAADHRSTlMADzmFwOT8YtP/sloPkm6kAAABAklEQVR4AYWTBbLFIAxFcXs4lf3vFEg1X2+9JzITIZco40IqJQVnlGBRbewtoxFmziI59rCPRGhIfn5hiLKDYSkJkemZz98689IB9YlCjPMlxnBgr4ejgTebcqltqJacLFBDCQPHJZWX0gIOjHB4Lusbrgu4ciKQI3IVRALMGGaAkqgZNdQRK4U8foc0MtQw46oDbmC9pBkQomwHlBPOlOsW9lL2sK1XUknETNnKpNOl5slKm1AQfsFaxw2eF+RQBB9HwLq3PedxG3CPMyc7yufDqF6b5Q2+jfoFf5SPaH/WPXhQuCqvn5bNVqEXR1GzkST7e0wwxeyX0fSO/T/Uf65DBzQNHUMopTvLAAAAAElFTkSuQmCC', null, 'tier,features,price,notes
+Free,Unlimited bots and API access,Free,"모든 기능 무료"', 'FREE', 'DISCORD');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 14, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Asana API', '팀 작업 및 프로젝트 추적', 'https://developers.asana.com/docs', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAllBMVEVHcEz8cU37Ylj5VFv5VFv7Z2P6WG/5V2v5V2v6WXn6W377ZHf7YXz6YH/7XXL7YXX7Z3X7bmv7dGP7eVz7d138f1T8gk78h0f9h0j8gVD9jj36Y139kDv+mi39nSf+nCr9jj/6W4H8hUv9jUD6Wnz5Vmf9kDv9kzb5U1X5VVv5WHH5VFj8gk75VmP7eF35U1P5U1P5VV85qBOQAAAAMnRSTlMAAhdOei+i5fz//1nl/wd///////H///8gsf89tv5ekA9t54H52e9IafP//pL/ddSZylsdbMsAAAEMSURBVHgBxdAFcoRAEEDRbtwZwWHdcLn/5TJLPJmUxV4J8msUfgjil0lRNU1V5E03TMsyDV06zrAdx7FtQzbW9fyV535uQUgIFQgJA0mkjAuMSiK4UZykSRJHLnyW5WkhpHkGEmW1EaoSpLLtbrfN8PN2dH3/fH17XQ/epoNH+fGkgKCcjpx6h+D1FGef8qTY7cWwXZFw6p9fzlNebJ+wOL3eAG7XNGbEty9P+8K6aR1CeZyeEE+pGEictqmfotZZYqioPWIf8/tAq9MQVnUztI6obAQYGSW+0w7PI0GfurV6unj31tZNOjxR79X2XARA11ubCi/KeVmMEkHA0liWuYS3FAVhhYiKAv/nAUcgFk7gl8b6AAAAAElFTkSuQmCC', null, 'tier,users,price_per_user_month,notes
+Basic,Up to 15,Free,"소규모 팀용"
+Premium,Unlimited,$10.99,"중소 팀용, 타임라인 포함"
+Business,Unlimited,$24.99,"대규모 조직용, 고급 기능"', 'FREE', 'ASANA');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 15, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Wolfram Alpha', '계산 지식 엔진 API', 'https://www.wolframalpha.com/developers/', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAPFBMVEVHcEzZCQDdEQDdEQDdEQDdEADdEADdEADdEADdEQDdEQDdEQDdEQDdEADcDwDdEQDcDwDdEADdEQDdEQDFbgqGAAAAFHRSTlMABeug/2s+TCm+3cv2gBGwG1nXjtg3ENMAAAEXSURBVHgBYiAeAPqUjySJQQCAgQJkm+QE///r1uY8fZVC5H/Jhd/WDSBb5NmS+WIzLlAbPRF2Pfgiq55erJ6qfBW03T0C1i0qfOVtuvpJHVfpe/wZp+pQvefgTcjL2bXt7ZrduAfvqDHdGaBa9vWyD8gC9h7WfXjyLFbg9jkaQDNg4RnBRlg0rVm2YryhV94cVnUOn5WkxsiHPm4nEG1A61tvvIuV2oDFxRXoZ7DwqjnUtqwuJPNe1WriWdG4sUVtQNeRWbruQLjn0KhnNHM7inZt8wYIQHbCMAZNUOrFV24wZnecCfbKV8HM2ufq0Wrmlq+yS3S4mh2OXb5aNR3EaizkUw++2Pa3xQMIKfNbcfKvQx44+OoJ/r0K/hpJXxYAAAAASUVORK5CYII=', null, 'tier,queries_per_month,price_per_month,notes
+Free,2000,Free,"비상업용, 제한된 기능"
+Developer,10000,$5,"개발자용, 기본 기능"
+Professional,50000,$25,"전문가용, 고급 기능"
+Enterprise,Custom,Custom,"대규모 용도, 맞춤 계약"', 'PAID', 'WOLFRAM');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 16, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Notion API', '노션 문서 및 데이터베이스 관리', 'https://developers.notion.com/reference/intro', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAAAAABXZoBIAAAA80lEQVR4AZTRIYyDMBjF8efxBn3qfFD1IcGiUFOIyVokAos6h8IjEXNIfD6DqUXOVb7jNnK027pkf9mfeE0LvukjtOtifJRp6BpdqAi3kquDLSJV6KYbJjF/5zXGA8/o6SU4OYhyHzQyX4bupwSWA4FvOMUKpYvVtjlOsqz322QunumXP6A1MpGcK62eUQGoSKPBZ2QOQMj+JWYREIUwzVqgCWFCACaIM5AMIWQJxEG0ADxsdswUyfEB7R0lQm7J3EfKDcdZVm4ZbhX/yM55eHs1Mk84kDmaWp9S51O7AxkDwFda6Lrth8s+gN/BTaMgUWMCAITxMqVHQtVcAAAAAElFTkSuQmCC', null, 'tier,features,price,notes
+Free,Public API access,Free,"모든 Notion 플랜에서 사용 가능"', 'FREE', 'NOTION');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 17, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'HubSpot API', 'CRM 및 마케팅 자동화', 'https://api.hubapi.com', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAdVBMVEX/SAD/RAD/OgD/PAD/QAD9eVn61Mf7tqT/VCD3//n4+PH4/ff+XzP49e73//v8qJP51sr/KQD7vKz4+vT54NX/NAD8m4T55939fV7+WCb6wbH3////TAz8lHv+dVP+ZTz6zL7+akP4+fP9iW347OP7rZn8n4gNnNXlAAAA6ElEQVR4AbRQBY7EMAyM3RQSl12Xmf7/w2OOVnwj9qCs/hOA3kNO+0Gov3T6lxAiYyl8P0GcpNlPFnyT2LxQr/BKTgz+tGJFZEqB14aabCPqF9t2/VCNr73SGwV/5oJMqZ1f8jA0ohzgkgyZoFppE3BYrYNhDc2eULNphwXJaLdEbGkB13vwHsSqZluJWxvsp8BLAJvYsUrDPb7Eb0StdsiKXx/lHUSz4/QuprqQ8bQJunMVJdTkbM2k/1KoGzqJmc0lf7mlrNJD7jUIFydUzpdCURrRA+WSnH5sdAHbeqN6BECtnkcXAABQNw0zoKD0XwAAAABJRU5ErkJggg==', null, 'tier,marketing_contacts,price_per_month,notes
+Free,Up to 1000,Free,"기본 CRM 기능"
+Starter,1000+,$18,"소규모 비즈니스"
+Professional,2000+,$800,"성장 중인 기업"
+Enterprise,10000+,$3600,"대규모 조직"', 'FREE', 'HUBSPOT');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 18, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Pexels API', '무료 스톡 이미지 및 비디오', 'https://www.pexels.com/api/', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAANlBMVEVHcEwZGRkZGRkZGRkZGRkXFxcPDw8AAABVVVXPz8/////j4+N4eHigoKBBQUG4uLiVlZXy8vI6eK4DAAAABXRSTlMAatn/xWyC1CQAAACxSURBVHgBrdNFAsJAEETRGq2JJ/e/LKPxZpWP9wPiAJQ2L2mFmDVCFlBGTOH6n857Z1oaZ/JkCIY0tTMydH1sGOkeyKmvdVXxYkmv6Oc8HcclvY68INNwZSyk5d5wa6P8NeNO6BgnU8Exvg3+D84Spq2lS8hWxtS6bwumVhql16FvizTo35poJEwm4LbM1a4rtDLnTUNXqpsS3zR5385PUMuooWRUgJXQIqZ0w5XXy+EHUvoRJb4sHKIAAAAASUVORK5CYII=', null, 'tier,features,price,notes
+Free,Unlimited downloads,Free,"크레딧 표기 권장"', 'FREE', 'PEXELS');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 19, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Slack API', '슬랙 메시징 및 워크스페이스 통합 API', 'https://api.slack.com/', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAfCAMAAACxiD++AAAAllBMVEVHcEw2xfE2xfA2xfA1xfA2yPItt30utn0utn01xfA1xfA1xfA1xfEttn0utn01xvE2wsUutn02xfEutn03xfAstX0stn02xfDhSUzgHVngHVrgHVrhHVngHVrgHVjssi3ssi7ssi7rsi3gHlrgHlrgHlrgHVrfHljssi3ssi7tsi7gHlrssi3gHFrssi7rsC7rsS/tsS0S3plWAAAAMnRSTlMAc+D/wjlU4P9oSNaHlLWYCM2jriMqevYIUaWzQoUqOJCmTez/Y9QbyP/ndLKM1Shdc67V0pYAAAE1SURBVHgBdI8DEgRBEARrNbbu/v/RtZGBVg4aB1XdtN0YCWWU4AlvRmoxzUdeDNlMKGg2YfCgngXrzCx4PAirEL+E1E5C+BaQRFVV4lVwGwDOf3Dr/rJekaE7CTlST7b9N9qETchzkrf1NtQulDW65oLF9kk9Rwq05/mPrwO9xgiI+jQPCTlOF2Q3CzRjNJTdqBKAXHTJcETrKX7x/x/5UAhZGEAMAgEsY1RwqPv+w73U+xocgl2cJEkqQCSJVIA2dsM4IPbhQYbIH01SoMvqoNaQh0VI57bBVGdaorAKfm472otQbyeIaBPsRSghDvPdu6D7s6CBOM1lwS4wmH6lbDU7m7BFYONdGI0x0/BN2H7RDn+EyvDGVSh5I58Fucah5Y05HrnC1U9h4B2R54kCXFuf3ngHXY83KaRzhbUAAAAASUVORK5CYII=', null, 'tier,features,price_per_user_month,notes
+Free,Basic features,$0,"소규모 팀용"
+Pro,Advanced features,$7.25,"중소 팀용"
+Business+,Enterprise features,$12.50,"대규모 조직용"
+Enterprise Grid,Custom,Custom,"글로벌 기업용"', 'FREE', 'SLACK');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 20, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'OpenStreetMap', '오픈소스 기반 전 세계 지도 데이터 제공', 'https://wiki.openstreetmap.org/wiki/API', null, 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0lIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3NzU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Ny03Nzc3Nzc3Ny03NzA3LTctNzI1Nf/AABEIABwAHAMBIgACEQEDEQH/xAAbAAEAAgIDAAAAAAAAAAAAAAAGBQcDBAABAv/EACgQAAIBAwIFAwUAAAAAAAAAAAECAwAEEQUxEiFBYaEGUXEHExRSsf/EABgBAAIDAAAAAAAAAAAAAAAAAAIEAAED/8QAHBEAAwEAAgMAAAAAAAAAAAAAAAECESIxAxIh/9oADAMBAAIRAxEAPwC5NQuJrco0WCDupFaMuo3Uk0SW/CvFzxjp38Vm1iVkdQP1yKOzalbaZq1slzMFN6CiMzYGRzx233+PcUtyry+u/DKm9EE9/dW5RpQhjyOLhQg/01LKwZQynIIyCOtHpgGBeaQKmwz17DvU3ZKUs4VO6oAaYXYUNsMfUPWbjRdN/ItrJ7mTkiALkBicZPUjbkPG9GvSHpq9H3NV1pZbi6uRxMpjLKnjf45DarQlijmAEsauAcgMM4Ne6FwnoWA6LTWe9jFvDII8jiODge+9MFAUADYV3XKkQoKmcP/Z', null, 'tier,features,price,notes
+Free,Unlimited access,Free,"사용 정책 준수 필요"
+Tile Usage,Tile servers,Free,"적절한 사용량 유지"', 'MIXED', 'OPEN_STREET_MAP');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 21, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'PayPal API', '글로벌 결제 및 송금 API', 'https://developer.paypal.com/api/rest/', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAq1BMVEX///+FlMQAAIMAAIc1TqKyuthve7QAHo4AKZEAJ5AAI49jdLNFWKUACIqTn8n4+fwAJI0AIozq7PQAZdAAeOcAcd8AP7Xf5fLHzuQAgPAAjv8Aiv9j0P/r+P+jrdEAFIwAjP9/ibwAOaAAhv9BtP9czP+56P8AR7Aqov9gzf+M2f8AWcUwp/8Yedggnf9Uxf+q4v9Qr+hj0/+M2v9Uaa4YTKfV8f8wc746jtEyKvaVAAAA2klEQVR4AcTQRRYCMRAA0cBYJ7jbuOMu9z8ZESQ0jzV/W9Em/1SpGoppfUfbAYkyo0awOoOnRhO1FlCAdkcxUOwavPX60mA4+ozjBo+TqTJzPaLzAwCYTENp6rotPUYO0PjRktTNcvRYWqg4K+fzbKFHh0J7OZ1xyWqOYssAYOtys9mstq6IO/RYZ39wubmQ6c+1AqBsO1fQRtLkEQ7PlB2J7uQAO4vocosL+WAyYFcRvVarhScbGEb15s4zl2DciFvM5+gyjZuhV+oyvvPyo3kZ9zPm3H3USq4AAckc4OeYq5wAAAAASUVORK5CYII=', null, 'payment_type,domestic_rate,international_rate,notes
+Standard,2.9% + $0.30,4.4% + fixed fee,"일반 거래"
+Micropayments,5% + $0.05,6.5% + fixed fee,"$10 미만 거래"
+PayPal Here,2.7%,N/A,"대면 결제"', 'PAID', 'PAYPAL');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 22, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Reddit API', '레딧 포스트 및 커뮤니티 데이터', 'https://www.reddit.com/dev/api', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAllBMVEVHcEz/RQD/RQD/RQD/RQD/RQD/RQD/RQD/RQD/RQD/RQD/RQD/RgD/RQD+////RQD/PAD/NQD+QgDP3+fb6e7n8PLx9vcKEhX0/f/L1tz+jXL718/+XCr4+vv0e1/olIP6pJDi3N3PqqbfNAn7cU//VgP+9vQyODv1bEb+49rdzc3/v66xu77IXlHlXDhqcHKsLABrLBlRGkQ3AAAADnRSTlMAwkSK1tA47GYdh31HPrF7ujQAAAF5SURBVCiRbZOHcoMwDIahyYUkbW3Z2GbvlT3e/+UqQSCkiY4D5A9bvwaWNdpqYTucO/ZiZf23NYLRnPUL2iyfiEvJl5sn+5khLuJacP41sq85gyNje5joZs7kLWCMhUiHk+fxKu9+YswnuOx1zvd5FZRKHYAc0jzlIAFudwCoU9RLGWHuJEIIABHnx7I85jE6eOHyylqg+DCKwnDPHrYPycd0tpbNIWcfLAduU8hPjDEKymXs07spi2GxKA09/FhyCwNrkzB2FruEFpMqPtO3GgEeC5lKmK4aGRGMRFNplqgM8Fgb1eZ+4l8a3hJseXNBN0e1NqUid9oYE7VDzDYyiTE7San0RSi0Nv6p6zyv606+0boYikC5QOoqpZXXm9JaqRT68vWFh8x1XRVcPe8aKHzN4FH4vmUiDdwgwP10D1JUM7RsaDbw7FDgHrc4ZLzv2GOMfof5gLhO0zoG6Bs2DtH3NHYgh1a+s5lNo7l+Q7OhfoWOvX3+Dn+Ini8glo+XBwAAAABJRU5ErkJggg==', null, 'tier,requests_per_minute,price,notes
+Free,60,Free,"표준 OAuth 앱"
+Premium,100+,Custom,"대규모 프로젝트용"', 'FREE', 'REDDIT');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 23, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Dropbox API', '파일 동기화 및 공유 API', 'https://www.dropbox.com/developers/documentation', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACGElEQVRYhe3Uz4tNcRgG8M93lJ8bZfxo/gJThhoKC2FDZKiZWYiaHAssKDZK+TGRlTIlCgvfpEaakWIyC0pIiRrJxtbOLJQVmc2xuHdmjjv33HsOUmqeOpv3+zzv9znnvO/DLGbxXyBJByXphhL8TZL0ThFqaNKoG/czlbti2NdEM4yeTKVLDCPlDCTpIjzBxhzdHjE8rNH0YiiH/wLbxPCjuYEkPYHLeY4zeIldmIPHKPKLjonhar6BJF2P1wUaTeIK5uNQCU2nGN7VNzBt5BaSBk3GsUUMH6v8DjzDkgaaG2I4UlvMH8IkXVVt2lpzclYMF3I053GmpvoZW6fMFjYw3bQf5zCmMkhfmvCXqwxwB06L4WLTOwqYGJWk7SX4ayRp7uplUTYHBsWwv4lmCL2Zym/lwEI8lZ8Du8XwqEbTg+Ec/nNsL5oDxzGQ5ziDyRxowahiOXBUDNfyDZTPgQEswIz1aoBCORBxoEGTcazDt+rThjca58BNMRyuLbbUpcaQYDXqrdwpMaxAX/X8O3aKoRX9OWbb611OsRyYDJcPgk6pNrzFshrmJ6xV+SJjWKlRaBU2UDGxWAxfJel11H2TDC6J4eSUpgmKGpiLGSvUABNimFeEWH8GahHDBJbifQH2K42H8RcU+wJZJGkfbuecdovhQZl25Q3AwbRFagQ7qpV7Ytj7W73+CEnaJUk3//uLZzGLv4if1YCaYU4Fz4YAAAAASUVORK5CYII=', null, 'tier,storage,price_per_user_month,notes
+Basic,2 GB,Free,"개인용"
+Plus,2 TB,$11.99,"개인 프로"
+Professional,3 TB,$19.99,"전문가용"
+Business,Unlimited,$15,"팀용 (3명 이상)"', 'FREE', 'DROPBOX');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 24, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'DeepL API', '고품질 AI 기반 번역', 'https://www.deepl.com/docs-api', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAe1BMVEUEK0gAKUcAIUIAEzoAGT0AADFbanrv8PL///+XoKkAADQAJUQAJEQAFzzR1dnm6Ov09vdBU2cAHkB6hZEpQFgAGj0AJ0Xb3uFJXG+HkJsAAC3f4+Z0gI1seYepsLg2TGHJztKEjZgAABybpK3AxcpkcoJWZXYzSV8AACZgnHNyAAAAsElEQVR4AeQPgwHEQCznXG3b+y/4NiZobMCegJD/OcoI/5cTUqE2TDDp6wDrIm0HXUTPD2QYmTQmhFsJ5ZY8Z0mCaZYi5kVZuVA3EDWyrRpRsnPSQsSuwL5wBp274+RolU9z44hb5+xcOhe3dce6G5u8y8dyIeedHaaIqo0rvfJMA9FZPuZGP14eNBaF7mYCDRIwA0ICmvkxCQJy/VPkDoMXMJNX7zhRIUZ8AcgwkgEA3MELVVv5BCYAAAAASUVORK5CYII=', null, 'tier,characters_per_month,price_per_month,notes
+Free,500000,Free,"개인 및 테스트용"
+Pro,Unlimited,$5.49 per million chars,"상업용"', 'FREE', 'DEEPL');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 25, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Twilio SMS', 'SMS 및 음성 통신 API', 'https://www.twilio.com/docs/sms/api', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAYFBMVEXyL0byIz3xGDfxETP3jZb7yc394+X3kpv2gYz////xCzD4paz+7/D4oqn1dID4nKT96uz5tLrwABryJkD4maH5qbDxACL7xMn81dnzOk/6wMX0ZHL5r7X93+LxACv3iJILS7jBAAAAxklEQVR4Ac3RRQLDIBRFUSzQ93Gi9f3vsi6xee704LAtx4WUgq+QqrSuDF9gucM7RTOzgPMhxATkifL7PFuI11QawIxXFg+Lbc2t7wxQjyYquBKB3AJt0Yj8f2IFT3foM5DJYBB/KDUCr3O/Z4cDq49wNMGat5nVp1M9xfuykSxweC6rMMg/5Aap+DuegFM5w3P2r0DTPZbNp8sVmDyCAkyhuqZytyjGShnQ5nhUZ+BAbBIZvIt3m8brODg3eLb2o0TyTtvtBm40C2rIQtSSAAAAAElFTkSuQmCC', null, 'service,price,notes
+SMS (US),From $0.0079 per message,"미국 내 발신"
+SMS (International),From $0.045 per message,"국제 발신"
+Phone Number Rental,$1.00 per month,"전화번호 임대"
+WhatsApp Messages,From $0.005 per message,"WhatsApp 메시지"', 'PAID', 'TWILIO');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 26, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Azure Cognitive', '인지 서비스 및 AI API', 'https://learn.microsoft.com/en-us/azure/cognitive-services/', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAABnRSTlMAAAAAAABupgeRAAAAWklEQVR4AWP4FKBEJPrip8wABrV7GOp3EYtGhgWjFoxaMGrBqAXf/OSIRD995CEWVO9hqN1FLBoOYNlnotF3iI7/O4lHQOVL3hONPo9agB2NWjBqwagFoxYAAB2zMZ7bQW2tAAAAAElFTkSuQmCC', null, 'service,tier,price,notes
+Computer Vision,Free,20 calls/min,"무료 티어"
+Computer Vision,Standard,$1 per 1000 transactions,"표준 티어"
+Text Analytics,Free,5000 records/month,"무료 티어"
+Text Analytics,Standard,$2 per 1000 records,"표준 티어"
+Speech,Free,5 hours/month,"무료 티어"
+Speech,Standard,$1 per hour,"표준 티어"', 'PAID', 'MICROSOFT');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 27, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'News API', '전 세계 뉴스 헤드라인 및 기사', 'https://newsapi.org/docs', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAAAAABXZoBIAAAAm0lEQVR4AcXSERACQRSA4c8hjqOckhyaiXKnKMohzmdyDrIoX0jOs+Ak3Zmt66Dqeuk92X/2gydP+TP94Ro2z5wD3+jyG6s9TJtMR2yqj51g3yaNvTADuUXnDk5YhljhHOFtxyjCaxmxC7FCHWFZsQgxIw0CLAfGIZYZvrGgbt5rF3PC6dLktoMz0PaQGBPSO97q57Rfj8j9neYdKUxgGle+C2sAAAAASUVORK5CYII=', null, 'tier,requests_per_day,price_per_month,notes
+Developer,100,Free,"개인 프로젝트용"
+Business,250000,$449,"상업용"
+Enterprise,Unlimited,Custom,"대규모 조직용"', 'FREE', 'NEWS_API');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 28, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'IBM Watson', 'AI 및 머신러닝 플랫폼', 'https://cloud.ibm.com/apidocs/watson', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWMAAACOCAMAAADTsZk7AAAAe1BMVEX///8fcMEWbcBWj84AZ74AZL0Aab7f6vaLsNvu8/oRa792odX1+f0ic8M4fse6z+nC0umnwePP3vCZtNzo7vcreMXH1+yTtd2ux+UAYbxKiMsAYrwAXbqhveEAXrtwndPX4/IAWLmDqdhnmNFIhcm1yuZSjc13n9Mye8YlBSctAAAHhElEQVR4nO2d62KqOhBGIYYgiNejtEpVqtX2/Z/wWC0oCB+57b0LzPqrmZBVpDCTBMe1gOc7Pyw9G/F+GE8Gw+nSaWbB9TpgkUTwnCjU6kTMHb2jK/KHHF8khFyMR7M/5Zi/qjg+6fXy2x1fCb3xEJ/N2ufxQMXxgGl10grHF4TY+2D0uo5dLnMl+iEQmsfeEseXU8471vvQdiy28o7nnXf8bfnFumM2kXf8oXepaJXjyy97UnPB0HbscnQJKuBr/1Za5dhlNb9tfcdiKOv4RfNS8e2YWWB9d7y2Ea+WcL2vGn/saUd0ZR2vQs0e+NwZWGCT/zsKNjbioa4OFc8NqXav500qp9jfnHWPeCr7ZyQIgiAIgiCIXhDYwHI4xT5Ne22shkSG4UMLPDxL72zEk4E/ZOHitUkk0Zh8G3CD8J71nFBiI54UyT2frJ8TutKUfNPNzt9oWd6twEPKzNBxU/JNNzv/E73Fjt3QlmN3jB1PNLPzN1rt2IttOeYLpFg7O3+j1Y7Dgy3H4Qg51s7O32i143sxztSxy5HjldGlot2OXZ7dI5s7Bnn01DD4xbGwwO7h/thGPEnW2QSieG0YiYPJLAfPLPbl/nhogUP+0BUcbMST7Tb7p+cb93qoEXzB2lESBEEQBEEQBFGHD1GNFsFogX5T3wdVoqChqVww5SCyUoJ3DyA90zFjhsK9wZnsszd0JN7bqb7pFjd9pmpKqHKQd9nFDwFM7Kwko+TEKKki5qjpDOdjOHhMVS9eiOcgytl5r3OOPfDTVHf8nHxTz853zzEDF3N1x+GxHEM9O985x3DFjEahMyn/1xsrh+icY1gi0nAsSstOU/WCQ+ccc3BboeOYbYohDuoLpDvnGA5IZ1JEUgyoHkDB8RsqyzRMRngmRvWnNb4/Rk05nEO11ag/JYVVljHSUMObrONoO0dIRsnxUbhtqt8UFnFSPIjqiIULcqwTQWm3BoIgCIIgCIIgrkSnKUI13BJG0+PUWNTxdSPfniLMWjcTvHOAcq0pfkPh9BCNY9nu9CLvrs+xvuYxSz9L/82ckB5e8+Z3ugtlbsk33bnzvzLvpkV4bu5VezHSNfmmnp2/0RnHzJW46mHHoBYqXhxnAQzAMmpXHDMhMxDomG3AZxOcnd8gyR1xzMJUplfoWLxM6j/0UnCpYANYHemGYybgYjpJx9v/6j8Oh+BSIU7ddyyruOk8XoKDmhzrLwdhZMkxuj/WmItl8f7YW8kOAt4fr4fOxAO91H6SDJx9AgJLz8WKpjOEquMAh1NiKl3L8WGc1En1DmDpLOwcH0EQBEEQBEEQOXi+m9K7Yb5ZaswbM59Phue7LZrHWdd5bOX4/ua8TUW4/LM0mreZ3HYbW3Glvr+ujT7RniGdqDUxV3IJXENOqPk7z41uM1ZHnc+7uYyl1hwv1RwHfXHsslDqTJZxrPSaq+wFWn1wfDmT4fpfFcdThUPLVp/0wrGFmmnmOFI5j6M+OTav/WeOnU/ppUssW07dE8fGc1hyx6jIX+oyW31iyfHvrTVlB2E4F2uX78brgpJToUeWtdivwdeka01OvECoOg5gND3ixn97S9g+V+HL9uhLtYip1kQQBEEQBEEQ6kTD/xCq4XwYDb82AjaFeysspJsu8XAvDB+zqSf4TZmU4Dew1iTUa02w6oP3CEFN+QY1nSeo18KbbVw03GtPj+baV2sy2etGoJNGLid05dBQDiluSta+vJvRnk1oOaaCY78h+cYL04H75TgEb0NQcex84FR98erYL8fsAzRVcbyFF4vSn7Jfjt0xyCSqOMYD9oq3Pj1zzMGIVBzD+jQrDbhnjr20vqmS4xPop/wGQ1u1JrSN8i/aY/odrP+B20Pvym9+BF9+L03n2O/QEUnXmuxsB57xG/dKL/e6lB8v+qq6HIIgCIIgCILoHfF+ZE7+aBrYiCbLPt/zf6jd8s6i4tD3FU/6c+UhOq9eaIzI5wMvd+bRpEnyHP2HUGvpvTy7iypE7CpKhp9c9TidV7M3rV9h+euZ/807vB24V1UF5ZzQlf1TkHLK7QrMCVXSYscPr7mx4jh+OvZyyq1/jh/qE1YcP78PJKlK8fTKsXe/WNpxXK5PV78PqleOHxLZdhyX388kKnPbfXIsHkqZdhw7q2KYdWVuW8exhVVH/8Sx92BgozjuGsfF+nRYXfb+VD4pnVc2Nsa9Oxbm0eRgjz/kjavYuNrxsuCCVS9QGyn2NR5f7r1tkB+BlWhqXer0WmmvHEfmOwadEQRBEARBEEQ/mW4Gxpzz1EFgIRpkM6q6pR+dFaPUzxZ9vY7gvK/9wotiX4OB8+oxY8T9WXptHg2xPlaO+0OoheHVz9LXEewavvCp2Bdjrcq7MV4zk9ZS3u329/qOldTPce12blN8pTXjtun4WwhaadJlxyypF2PTcSTw7P7uOmbJEUxRt+nYOYYuBzPPu+pY8D2coW7V8Yzfx9MXx6E3PjSsAbDqOBrDBawdqzUxFnIxHs0as9yWak2ZRbh7nEat6bSaGPOV37Uux+bR7pyPL1OphUKDL7XAK7iaKh2hTw+KfU0m/wOZWG6/z53UxQAAAABJRU5ErkJggg==', null, 'service,tier,price,notes
+Watson Assistant,Lite,Free up to 10000 messages/month,"무료 플랜"
+Watson Assistant,Plus,$140/month,"프로페셔널"
+Watson Discovery,Lite,Free up to 1000 documents,"무료 플랜"
+Watson Discovery,Advanced,$500/month,"고급 기능"', 'PAID', 'IBM');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 29, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'OpenAI GPT-4', '최신 AI 언어 모델로 대화, 텍스트 생성, 분석 등 지원', 'https://platform.openai.com/docs/api-reference', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAAAAABXZoBIAAABEElEQVR4AbTJIWyDQACG0d+rWsxENQ6Jwi0YFLIWRTKFxecc6pIzJzF4QTKDT23lSby5BPUt6ZJe2i1ze/aJP/x/+ly5/z2PU7ne1rIYm4/tR9YDsNeaFqP3l9wFx6AJgPLylLN6rrpEcBaiQko6dR/YDq4659po55SL8D1ujI0MLGpbl/K84nr8SWbSCBj5lNrvWewQCy1wU0gZsDV+ABi603nHtI9sJ0KW9d/paCxBjwy6wawyQiwdg2VPiZeBY5S10j3XjJRNoxWMqn20DB4tKeeWTUWhDfqJsX9rSRl0gLUQe20McpCSSwWAUxdBgaek0rQ6lQEwFS/JZ1cNebWFrVaElInLlNmv0TNpYgIAMy6KDbFgKo8AAAAASUVORK5CYII=', null, 'model,input_price_per_1m_tokens,output_price_per_1m_tokens,notes
+GPT-4o,$2.50,$10.00,"최신 모델"
+GPT-4o mini,$0.15,$0.60,"경제적인 모델"
+GPT-4 Turbo,$10.00,$30.00,"고성능 모델"
+GPT-3.5 Turbo,$0.50,$1.50,"빠른 응답"', 'PAID', 'OPEN_AI');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 30, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Mailchimp', '이메일 마케팅 자동화 API', 'https://mailchimp.com/developer/', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAjVBMVEX/4Bv/4hv/5Rv/5hv11xukjxiLeRfkyBr/6BuXhBhfURbKsRnu0RtZTBbDqxk9MxUdFRVFOhbbwBpTRxb/6ht3ZxcAABUSChUiGhVnWRfpzBokHBVOQhY3LhWymxm4oRkWDRVzYxeEcxd+bRcaEhULABWplBjUuhqJeBe+phn/7BuZhhhgUhZtXhcpIBVVb8UJAAABLklEQVR4AbXSV2KEIBAAUAdYHXsfa+zdbO5/vPC3tt8dKzw6KN8PYBzkB56Mi5eqcY4K3hhQN0zLdlTX84OLghI6ESoxJV6aZHgxP+eRQxR6aZGo/GSstBiqP0FVx27aCDhi1AYs6tJ+GMdhoAmPBqaOvKJUAlE5l+yIvASwqCg8WwgLccnhUDHQedQ3RUE5R8bCl4YHdNYtIE+imJcZ16Dc2QfFb7c4pSfnsM35nCtbVX+UBd36zkdZNeAAwLCd4dBuJVbhpkO7CUVoU792x3bDTcuLlEztPb1qK1L6w4CZE9ZxU9CsxbVpORW8j4vERCXnmexbXlWrFQX2eZGiXioFGyLKeWlwOQYZpQX1q1kZZPLbbld/NJKMULuaDAbztO91jvB4woBxziR9N/4BL1MY48JVNNAAAAAASUVORK5CYII=', null, 'tier,contacts,price_per_month,notes
+Free,500,Free,"기본 기능"
+Essentials,500+,$13,"이메일 템플릿"
+Standard,500+,$20,"자동화 및 A/B 테스트"
+Premium,10000+,$350,"고급 세그먼트 및 분석"', 'FREE', 'MAILCHIMP');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 31, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Google Analytics', '웹사이트 분석 및 추적', 'https://developers.google.com/analytics/devguides/reporting/core/v4', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAA7VBMVEVHcEz/RkL/R0D+SEr/RUD/RkOwjlb/SD7/SE3/SUj/Vzb/VDf9TFb8TVeHoFb/YTD/byn8TVn/jRr/fSL/mxL/SEj+yQn/ohH/tQv+VUb/vQn/wwn+zgj9wQm3xQ39zgT6zQYwhv/7zgowhv8uhv0ek+Avhv7yzAPjywIvhv0whv7PyQHUygIth/y3yAEnivSlxwGSxgUak94fj+h5xAlgwxMLqp8NnsQVlte6xwBNwh45wC0xwDMLt28IrJgJpa0kjPCaxQEpvzsevkkWvVANumQQu18JtXkIsIgTvVYOvGALuWtJwh4OvF8OvF9ccfxCAAAAT3RSTlMAUZvT7P8T//+wiv//kAv6/mD//+V2jv//JKf//0EmxOr/rP7+MEX//x10/6eu//3+/9v///7I//+K//+KS/3/YeX//7dsnv7/////5s3tMAqBMAAAAXFJREFUeAF0jUUCwCAMwDp3d/f9/4krnVt6goQCFzheECVJFHgOPpB5RZHYIKqqyU+vGwpCXkVM07pp2zEQ8hSYiCBf1rsuFrQCvaSahHe+9wMqWHJuOD2E/lYoWsRxkUbBxcdJshY6bEQ3L6fpWmTnXXbxkBcpJTb8UBZFgUX156uyLLHI4Y+YgqL+DZqS0R7n7o4NLQX9GQwbI5tugpKI7wF5Rjd/BiNCCQZfX5BfCwyWrsnagGEYiKKpMkLqgJmZmXn/caKTzGoM7+v4IEiWPQdJ4fMhFujHCzjH7Wny6xFwMB9UKBa4KN3Tl4kh9AZYVJRbpXhVVRGX0asEXNP1a7MM0wQJA+0WFcQtyz7bcFzPAwn+8AkPwmjDcZK6WJGR75zwsCirOo7rpu0SojC2oQUeIF72/TCMY4sUKSj2wX9iXgAHwYgEoKBPizOBgx4EhwnCtxOtDnYTzn1Gnw3wzYQT3zDJrpmXYVjmpj7d/gPknlJE6eZSewAAAABJRU5ErkJggg==', null, 'tier,features,price,notes
+Free,Standard features,Free,"기본 분석"
+Analytics 360,Premium features,$150000/year,"엔터프라이즈 솔루션"', 'FREE', 'GOOGLE');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 32, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Shopify API', '전자상거래 스토어 관리', 'https://shopify.dev/docs/api', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAn1BMVEX////1+PGuzoGawk+ixmPk7dX7/Pnx9uuQvCygxV2QvDrP4bX8/fybwlfp8d/s8+O404/K3qzC2Z7S47ve6sumyGqpyHra4taVv0eTvkGQukZIgyi+15iVv0hcjD5ViS5xmlhik07k6uKUv0dejj5JgxvK18WtzXeuwqSEtgq00ISOrnuKuR+PuzVfjkC50456oWhBgAi8zbSctosfcwAVHUP+AAABXElEQVR4AW3ShWLCMBAA0HahIYS6bBdWF7SC/f+3LckS/KD6aifGPcwvNLOw8THmxDIXhC4/me24BvJ8a+Z+wCA0wqURRHHy/fNq2LFxYs99oGz1+6pWasSIvzLLYJUXZVU/3pgmiDSQAQDHtu3WN4o3jApgrFFYbLWZO8aF0mS/nylsDxrdHrilpnjG8I9jqTEmACr5iUrkYesUB2AbUaM5dhqFnalwYjDEhpFSyk2jzjUBIB7fsEyn8pALyiSa+wFuqHPBNAMaiL2I3rA9ql71In9L7C6HTOFYqTQFNvJejDS2BZYYEQBGMyIy3TCNp1piSAE2S9YH8sP1Y1Uum0Z8j+mJKrP7Y88SF5mogYyUgsb2Is/IZgUmv89/SGWUuWCScaUEoUGaxlGg1/c9zWTAA7adzAXP4zBBpCeskRdwHMe8uD6MEXbjNIG+Hxo+YKfieNb2eEk0JQcNf/qmMR8K5c7QAAAAAElFTkSuQmCC', null, 'plan,monthly_fee,transaction_fee,notes
+Basic,$39,2.9% + $0.30,"소규모 상점"
+Shopify,$105,2.7% + $0.30,"성장 중인 비즈니스"
+Advanced,$399,2.5% + $0.30,"대규모 상점"', 'FREE', 'SHOPIFY');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 33, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'AWS Rekognition', '이미지 및 비디오 분석', 'https://docs.aws.amazon.com/rekognition/latest/APIReference/', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAllBMVEVHcEz////////////////////////9/f7///////////////////////////////8AAAADBQX29vb/owD/+vG2trbZ2dmZmZn/26n/8d3v7+//9eb/yHpISUn/1Zr/48GmpqY+Pz8jIyP/rxb/u0oxMjJsbW3j4+PAwcH/6Mj/wGHMzMx7fHxfYGDFxcX/tC0NDg6Li4slqlgLAAAAD3RSTlMAooK1rWYj+jfodsRYfMGCSs7OAAABRElEQVQokW2T2XqDIBCFSZsE0w1EUEFi3Jfsff+XK6ttUubG4fzMcZxvBABEa4j+BVxHQMXbH4UQ8nvaqLqFpFOmgqWLTwReXSayPTaxr3z1Cvh7Z4tijO/MSTvgEmb0vsFxjGtf6qH2rFMi9po+w0vTxJN6XkMQkXEkUIgwRCJl2XBpgvB07m27AZjW5huHc6hSdYnv1SjSABRa+1biKQCZ1q4qyXSSPsJKaxVCY28sHqF5Vc9Og24X+1LfkBX97KdHyKyKh6rBOINPQ5guevRMIFYziCinFvKSmuESuySQINolyZEbSMvW4iXoTA8dd7Z525a8cBdowfP2WEp1tGsyH5Okk/lBRS6Vp+T5rNdkba/nCrtoZY6Q9lmByLXND6W83W6dLOfCKlCt9Wbn26BFsbxZmX7old++vP/7H+DX5xaAHw4uN1n/ebb2AAAAAElFTkSuQmCC', null, 'feature,price_per_1000_images,notes
+Image Analysis,$1.00,"객체 및 장면 탐지"
+Face Detection,$1.00,"얼굴 감지 및 분석"
+Face Recognition,$1.00,"얼굴 비교 및 검색"
+Custom Labels,$4.00,"커스텀 모델 추론"
+Video Analysis,$0.10 per minute,"비디오 분석"', 'PAID', 'AMAZON');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 34, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Google Drive', '클라우드 파일 저장 및 공유', 'https://developers.google.com/drive/api/v3/reference', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAA7VBMVEVHcEz/RkL/R0D+SEr/RUD/RkOwjlb/SD7/SE3/SUj/Vzb/VDf9TFb8TVeHoFb/YTD/byn8TVn/jRr/fSL/mxL/SEj+yQn/ohH/tQv+VUb/vQn/wwn+zgj9wQm3xQ39zgT6zQYwhv/7zgowhv8uhv0ek+Avhv7yzAPjywIvhv0whv7PyQHUygIth/y3yAEnivSlxwGSxgUak94fj+h5xAlgwxMLqp8NnsQVlte6xwBNwh45wC0xwDMLt28IrJgJpa0kjPCaxQEpvzsevkkWvVANumQQu18JtXkIsIgTvVYOvGALuWtJwh4OvF8OvF9ccfxCAAAAT3RSTlMAUZvT7P8T//+wiv//kAv6/mD//+V2jv//JKf//0EmxOr/rP7+MEX//x10/6eu//3+/9v///7I//+K//+KS/3/YeX//7dsnv7/////5s3tMAqBMAAAAXFJREFUeAF0jUUCwCAMwDp3d/f9/4krnVt6goQCFzheECVJFHgOPpB5RZHYIKqqyU+vGwpCXkVM07pp2zEQ8hSYiCBf1rsuFrQCvaSahHe+9wMqWHJuOD2E/lYoWsRxkUbBxcdJshY6bEQ3L6fpWmTnXXbxkBcpJTb8UBZFgUX156uyLLHI4Y+YgqL+DZqS0R7n7o4NLQX9GQwbI5tugpKI7wF5Rjd/BiNCCQZfX5BfCwyWrsnagGEYiKKpMkLqgJmZmXn/caKTzGoM7+v4IEiWPQdJ4fMhFujHCzjH7Wny6xFwMB9UKBa4KN3Tl4kh9AZYVJRbpXhVVRGX0asEXNP1a7MM0wQJA+0WFcQtyz7bcFzPAwn+8AkPwmjDcZK6WJGR75zwsCirOo7rpu0SojC2oQUeIF72/TCMY4sUKSj2wX9iXgAHwYgEoKBPizOBgx4EhwnCtxOtDnYTzn1Gnw3wzYQT3zDJrpmXYVjmpj7d/gPknlJE6eZSewAAAABJRU5ErkJggg==', null, 'plan,storage,price_per_month,notes
+Free,15 GB,Free,"무료 플랜"
+Google One Basic,100 GB,$1.99,"개인용"
+Google One Standard,200 GB,$2.99,"개인용"
+Google One Premium,2 TB,$9.99,"프리미엄"
+Business Standard,2 TB per user,$12,"비즈니스"', 'FREE', 'GOOGLE');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 35, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Square API', '결제 및 POS 시스템 API', 'https://square.com/developers/square-apis', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABHUlEQVR4AezWA09GYRiA4ZPn7IbckG3b5l9qaka2jSH9pOynO/vjQbq3a8Y5r5V31WEAi5jHnIqWMIx2fMgZcxCdbMENz81DdLaD+wohBmmC0gcxyBRMzv0NDnFio0PcQL6wCmURgvcWEY5AhNgoEOEYgeC9OVMjEAa18sC5tR8QA7XyxZG1HxAHtQrBya/4AAdUoQPN73SgBq5afkApxIxaLT+gG2JGp5Yf0Awxo/n/A371B/RAzOjS8gNyIWZUan0S5qMTze90ohROan3A/10QCbXywZGR7wEvUw+SJQje20ca4uyUhBVTT7JZiEFWofRCDDIKJQtikHLcNwTR2QreNADRySSc8KEc3K4bqmADFbvmG6BmTgRiF2QLAWMdhATUrYGDAAAAAElFTkSuQmCC', null, 'service,fee,notes
+Card Present,2.6% + $0.10,"대면 결제"
+Card Not Present,2.9% + $0.30,"온라인 결제"
+Invoices,2.9% + $0.30,"인보이스 발송"
+eCommerce API,2.9% + $0.30,"전자상거래 통합"', 'PAID', 'SQUARE');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 36, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Amplitude API', '제품 분석 및 인사이트', 'https://www.amplitude.com/developers/rest-api', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAWlBMVEVHcEweYfAeYfAeYfAeYfAeYfAeYfAeYfAeYfEeYfAeYfAeYfAeYfABWPAVXvAtafHL1vu9zPoMW/D///////8AU++rvfiAnvVUgPPn7f0eYfBvkvSUrPdCdPKaeQYmAAAAHnRSTlMAQYrL5v+4cBPWLfNa///92d3/ycj/4uz20pvw5/n5vSOhAAABKElEQVR4AWWSB3KEMAwARe+uMp3/fzOSRfA42atox2oAH0VZ1U1Tt10Pf+maxFBkapyajBYSs4SW5bNTnzuljVXp8GtHuXIe0YRP1iKl3rLiZnFPZ0tIfSp/hB3Nkid+k264uXB4neRJs8s/iruY2iULUDYCZ1R53hGqOGC48Ar0431whFLcWAe0T22tPbxdicOv971t1/Uo7pf6vBDRe2Q8/QoLd8Sd7jsV25nLH8/O8MmT0zbK7XgtiqCi/Ktj0yW0ccobleyJl0SXF1/O0ElMRuD660JDvyvqJfa7VEdbVM+xvKsfohUneYO9XRxT9pdQOx4b8r8JmDazwSDenLVINzRBrbI7Qeib3KrsEevrzMq5RJmpqYCM/vxU3cF/xq48z3LuU+QHl/MaK82X3ZQAAAAASUVORK5CYII=', null, 'plan,monthly_tracked_users,price_per_month,notes
+Free,Up to 10 million events,Free,"스타트업용"
+Growth,Custom,$49+,"성장 기업용"
+Enterprise,Custom,Custom,"대규모 조직용"', 'FREE', 'AMPLITUDE');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 37, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Zoom API', '비디오 회의 및 웨비나 관리', 'https://developers.zoom.us/docs/api/', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAgVBMVEVHcEw3ffUISMkJTNMJT908gfMOVOAeavoJT9wJTtoJVOs8gfM6gPQ4fvRNj+4PX/4IT93///8HS9UIUuYHVfAwePYISs4mcPgKXPw6gPQIR8cUY/1FifEAUviQqPcAV/5qjPcASOl+n/1phuZQgP05aeamu/5fifz4+v8YV+HL1ve1a3UaAAAAEHRSTlMAlLzgb2AR/mCWt7PD4BHDPsb0BwAAAVRJREFUKJF10u2WgiAQBuBRj/lR7oqgoCakaVb3f4E7A2ba7r4/qtPTC0MCsCT0Tlldn8/ZyQthl8NRSlmWZU2MOX69LYyiaFXHa9tr2/YXe85ipVbdrG27B0XZlhemfVP10g8+Igohtvxeu8YdETuMMYZYtciR4xASIeTFZjTKRMPQqlIPtu1ByrlgLnM30NvNfkY9QcA5n7TW+NXYsvugmX25KykzeCDyvp8Yu2Bx6LobG4y5sRE3hjzPEcl6ofEHRrOZcMbJCPPcmcVuwRGPBYWza49BFCvioSAoigdjTxxJW8T6TBuPps3AL4ppOcpTM8FFSWuPiOobkqqopqvLhKMLLif8z2SkVAJxRSkwdm46l6B0SsUADVllbWHhovCp+E2z6S5twpQedvOPHuw1af7k2F2ipPlknDp5XT/b3XO8udT+XtPD/tLHiR8QB36ytn4AXt86iMD2TUsAAAAASUVORK5CYII=', null, 'plan,price_per_license_month,features,notes
+Basic,Free,40-min limit on group meetings,"무료 플랜"
+Pro,$14.99,Unlimited meeting duration,"프로"
+Business,$21.99,Admin dashboard + more,"비즈니스"
+Enterprise,Custom,Unlimited cloud storage,"엔터프라이즈"', 'FREE', 'ZOOM');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 38, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'WooCommerce', '워드프레스 기반 쇼핑몰 API', 'https://woocommerce.github.io/woocommerce-rest-api-docs/', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAARVBMVEVHcEw0mc00mc00mc00mc00mc00mc00mc00mc00mc00mc0zmc00mc00mc0AAAABAQEBAQEBAQEBAQE0mc0BAQEBAQEBAQHH2IeWAAAAF3RSTlMAMYa43PGN/2imxRebVg/I5f+0ymasHVUkfPsAAADFSURBVHgBjZIFFsMwDEMVTpl7/5sOXL9M4/5ylZhxDmOdD8E7a/BKTIQFk0kRMgouvVFBqeXT5wY3muzls4bQykeHQic/WolSXhsQjfwyADxrrHrdGKH0w9CXzMzxgIJxmmZ5ObYsYkBZp2naAHW2IFBS/XSjLykEsMvhpq0QbLpBohgdQCKbVaNk9hHQpkYpINnfaBojuAr2KEKrLncordbP65ORHf5f4RHfW0b5uU/NdlCqpITAY8KGmA6MZcn+H+o/XAGnrwxdnwp9RAAAAABJRU5ErkJggg==', null, 'feature,price,notes
+Core Plugin,Free,"오픈소스"
+Extensions,Varies,"유료 확장 기능"
+WooCommerce Payments,2.9% + $0.30,"결제 수수료"', 'FREE', 'AUTOMATTIC');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 39, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Unsplash API', '고품질 무료 이미지 라이브러리', 'https://unsplash.com/developers', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAAAAABXZoBIAAAAbklEQVR4AWP4jwcMsOQdWRMgkL2DVfIGAxjcoLLkVYjkVeyu/QYGpHnl2R0gePYfmY2QTAJZFgWRjAKxk5Akc0ECaRDJNBA7lyTJTIhkJlZJr73bgWCvF6YkEqCeZBq6ZBqS5PYZaGD7AKY+PAAAvcZsGaVWSBYAAAAASUVORK5CYII=', null, 'tier,requests_per_hour,price,notes
+Demo,50,Free,"테스트용"
+Production,50,Free,"프로덕션, 크레딧 표기 필요"', 'FREE', 'UNSPLASH');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 40, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'SendGrid', '이메일 전송 및 마케팅 API', 'https://developer.sendgrid.com/docs', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAYFBMVEXyL0byIz3xGDfxETP3jZb7yc394+X3kpv2gYz////xCzD4paz+7/D4oqn1dID4nKT96uz5tLrwABryJkD4maH5qbDxACL7xMn81dnzOk/6wMX0ZHL5r7X93+LxACv3iJILS7jBAAAAxklEQVR4Ac3RRQLDIBRFUSzQ93Gi9f3vsi6xee704LAtx4WUgq+QqrSuDF9gucM7RTOzgPMhxATkifL7PFuI11QawIxXFg+Lbc2t7wxQjyYquBKB3AJt0Yj8f2IFT3foM5DJYBB/KDUCr3O/Z4cDq49wNMGat5nVp1M9xfuykSxweC6rMMg/5Aap+DuegFM5w3P2r0DTPZbNp8sVmDyCAkyhuqZytyjGShnQ5nhUZ+BAbBIZvIt3m8brODg3eLb2o0TyTtvtBm40C2rIQtSSAAAAAElFTkSuQmCC', null, 'plan,emails_per_day,price_per_month,notes
+Free,100,Free,"무료 플랜"
+Essentials,50000,$19.95,"기본 기능"
+Pro,1500000,$89.95,"고급 기능"
+Premier,Unlimited,Custom,"엔터프라이즈"', 'FREE', 'SENDGRID');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 41, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Naver Papago', '네이버 파파고 번역 API로 다양한 언어 번역', 'https://papago.naver.com/apis/nmt/translation', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAASFBMVEVHcEwD0mcE62cE6GcE7mcE7GcF7GcE4mdd4pE82H4C2mX////g9+rR9OCd57sC0mYCymVd0Y8Cw2UixnACvWYCuWYCt2YCuGa1Zq98AAAAGHRSTlMAS7X//73A//////////////////+1/78LKXJJAAAA0UlEQVR4AXWJhRHAQBACibtb/52GP+KyLzAsiOcH4YPA92BETyNikDj4IgyCCPDU9O9FePCDncTuBR/JlUCxI/nkKdM0zSzJIfPETlqQjKVkptuIXJgsWSqT4iJJ/ZBNbkeyyBpJrWj4k02Wkg3hDIakqCUFFK2TVV2Ibpdt407TOdmWkqnGFq2QzCQ7bQ/Z1/+yb/vyJnvhZMkcTPZil0PXddnIkrEMD9mPREF2ySr6oxwV0/jLBG9Wm3n0H9UDltkYFZe+ALIP5AxveqvJo1gBuZAlPbYzv2wAAAAASUVORK5CYII=', null, 'tier,characters_per_day,price,notes
+Free,10000,Free,"개인 및 테스트용"
+Pay-as-you-go,$20 per 1 million chars,Variable,"사용량 기반"', 'FREE', 'NAVER');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 42, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Youtube API', '강력한 동영상 플랫폼 API로 업로드, 검색, 재생 등 다양한 기능 제공', 'https://developers.youtube.com/youtube/v3', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAA7VBMVEVHcEz/RkL/R0D+SEr/RUD/RkOwjlb/SD7/SE3/SUj/Vzb/VDf9TFb8TVeHoFb/YTD/byn8TVn/jRr/fSL/mxL/SEj+yQn/ohH/tQv+VUb/vQn/wwn+zgj9wQm3xQ39zgT6zQYwhv/7zgowhv8uhv0ek+Avhv7yzAPjywIvhv0whv7PyQHUygIth/y3yAEnivSlxwGSxgUak94fj+h5xAlgwxMLqp8NnsQVlte6xwBNwh45wC0xwDMLt28IrJgJpa0kjPCaxQEpvzsevkkWvVANumQQu18JtXkIsIgTvVYOvGALuWtJwh4OvF8OvF9ccfxCAAAAT3RSTlMAUZvT7P8T//+wiv//kAv6/mD//+V2jv//JKf//0EmxOr/rP7+MEX//x10/6eu//3+/9v///7I//+K//+KS/3/YeX//7dsnv7/////5s3tMAqBMAAAAXFJREFUeAF0jUUCwCAMwDp3d/f9/4krnVt6goQCFzheECVJFHgOPpB5RZHYIKqqyU+vGwpCXkVM07pp2zEQ8hSYiCBf1rsuFrQCvaSahHe+9wMqWHJuOD2E/lYoWsRxkUbBxcdJshY6bEQ3L6fpWmTnXXbxkBcpJTb8UBZFgUX156uyLLHI4Y+YgqL+DZqS0R7n7o4NLQX9GQwbI5tugpKI7wF5Rjd/BiNCCQZfX5BfCwyWrsnagGEYiKKpMkLqgJmZmXn/caKTzGoM7+v4IEiWPQdJ4fMhFujHCzjH7Wny6xFwMB9UKBa4KN3Tl4kh9AZYVJRbpXhVVRGX0asEXNP1a7MM0wQJA+0WFcQtyz7bcFzPAwn+8AkPwmjDcZK6WJGR75zwsCirOo7rpu0SojC2oQUeIF72/TCMY4sUKSj2wX9iXgAHwYgEoKBPizOBgx4EhwnCtxOtDnYTzn1Gnw3wzYQT3zDJrpmXYVjmpj7d/gPknlJE6eZSewAAAABJRU5ErkJggg==', null, 'tier,quota_per_day,price,notes
+Free,10000 units,Free,"무료 할당량"
+Additional,10000 units,$100,"추가 할당량 구매"', 'FREE', 'GOOGLE');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 43, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Giphy API', 'GIF 검색 및 임베드 API', 'https://developers.giphy.com/docs/api', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAIAAAD9b0jDAAABFklEQVR4Ae3VA09GURzH8V9T7uyebDdkW2NjGLNdc1MzMsaa8qtpSlN+BU2Zp/+zx7af374X02f3TgfcCfNuVOKRkZLBbEUlWWlpsfqVlCRlxMdRVqP0OTWVyeJnUHwP0l2z/aP6j/4xMTdXl5YGxmxBP14GPp96VO3vNgD4GB2Vo1b+fhiTKnIgDvG5A9lC1MnRiQmK6I68PDBmNcoBLnF5NBUqzy5UPn1U/r1TRUVEOwyVv9uL0hASog6ojV9sTp4Pl2AXqhpBbWkLh5WiOXncYSgYlosefRwNoNxxKIlB39uEGou2lnp/kida4yxBWZRUUIkrgdNv850L1jXNYSF6I3BlQTeWoXLXKacpuRbme+e+/fsHaj5aO8QQ3xMAAAAASUVORK5CYII=', null, 'tier,requests_per_hour,price,notes
+Free,Unlimited,Free,"크레딧 표기 필요"', 'FREE', 'GIPHY');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 44, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'AWS S3', '클라우드 스토리지 및 파일 관리', 'https://docs.aws.amazon.com/s3/latest/API/', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAllBMVEVHcEz////////////////////////9/f7///////////////////////////////8AAAADBQX29vb/owD/+vG2trbZ2dmZmZn/26n/8d3v7+//9eb/yHpISUn/1Zr/48GmpqY+Pz8jIyP/rxb/u0oxMjJsbW3j4+PAwcH/6Mj/wGHMzMx7fHxfYGDFxcX/tC0NDg6Li4slqlgLAAAAD3RSTlMAooK1rWYj+jfodsRYfMGCSs7OAAABRElEQVQokW2T2XqDIBCFSZsE0w1EUEFi3Jfsff+XK6ttUubG4fzMcZxvBABEa4j+BVxHQMXbH4UQ8nvaqLqFpFOmgqWLTwReXSayPTaxr3z1Cvh7Z4tijO/MSTvgEmb0vsFxjGtf6qH2rFMi9po+w0vTxJN6XkMQkXEkUIgwRCJl2XBpgvB07m27AZjW5huHc6hSdYnv1SjSABRa+1biKQCZ1q4qyXSSPsJKaxVCY28sHqF5Vc9Og24X+1LfkBX97KdHyKyKh6rBOINPQ5guevRMIFYziCinFvKSmuESuySQINolyZEbSMvW4iXoTA8dd7Z525a8cBdowfP2WEp1tGsyH5Okk/lBRS6Vp+T5rNdkba/nCrtoZY6Q9lmByLXND6W83W6dLOfCKlCt9Wbn26BFsbxZmX7old++vP/7H+DX5xaAHw4uN1n/ebb2AAAAAElFTkSuQmCC', null, 'feature,price,notes
+Storage (Standard),From $0.023 per GB,"표준 스토리지"
+PUT/POST requests,$0.005 per 1000 requests,"업로드 요청"
+GET requests,$0.0004 per 1000 requests,"다운로드 요청"
+Data Transfer Out,From $0.09 per GB,"데이터 전송"', 'PAID', 'AMAZON');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 45, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'GitHub API', 'GitHub 저장소 및 프로젝트 관리 API', 'https://docs.github.com/en/rest/reference', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAC5UlEQVR4AaxXA4xdQRSd2u7MfNe24qS2bRtR7b5ujFpR46SI2Ua1bdu2ufckn7Mz7739fya57e7gnPuul/ldTZo0KRkUontAiC0BzveT3JRCfIbgZ+zhDHdwl9laNTkPEPA2yflHkv8+5SPe4G3WxHXr1i1FIHkkXwCajeAtMICVzVefAIgNAZZva0SEaE7+fIyHNgWYwPb+cpXcshLgcPP5CeXBNZKdtP8mC8L39HY3yVnVHdqYQLCoIEEpp+GsQ4cOxaWUk6QQz7EfT79LBH6Q5AD9fJH2P8QJ3tLenEQqUloOUnHBVdD0mmgPBALtMmoB5+Vpr7HjOEWZsv7//18kHA7Xj8ViVdL3SfFauuzIcAVyVmfGYDDYhuW4QqFQTIcNzmSFMxUZMt/YXBUgi/U0FStwM5ROUxEhC9TIVQFySzXCeq3jADfMv8WgwEJmaVFQTjRwbMHhft1hJBKpZ62f1KxZWccBbihwU2d+RDWzuAjzoUaBmww5rVHgHrO8iOyUygNuaPZVY55PthXAR6k84NaYJi5SCosxUJp4fmgUeAAFThpSZIwlfrdUP8GCnG8wROgpW4FIRHt0HOBWm4Wq4XwLwTfBhA9u1qBBgwoIOsOlf+hcbdq0KVFYYjQsfABh/DFgf0JzS5hoc1pqrA1JOQotNs0dj+iOExKiKxWoqibS2rVrV5JSdgpKuYze33YdTqTclHwY4bwuEfyMk70DEbQjkPOa3D2CrzOYe7/PGfFHVIg6aqCsTu9U1EQitOqpjYSs08+l83XwqYCjHckUs29PG1bm0d56TEhuIzbc40UODmCYhocoXXoWv/wHvZwVctG73y4KPAOHe/8WokWGEkLsRTRTykyn/1cOHTq0mIcCf0zkwPY7RESkEBd0QJhiPBT4qzH7JYxm2fxp5qg1HHXdQ4F/acH2kyRP88b/QrpQzm5EZqB9YkT3KLtvcQ/Tjr2hJj6SY+T24z6yXv74iDUXAHnsU9JuBm1tAAAAAElFTkSuQmCC', null, 'tier,features,price,notes
+Free,Basic API access,Free,"무료"
+Pro,$4/month,Advanced features,"프로 계정"
+Team,$4/user/month,Team features,"팀 계정"
+Enterprise,$21/user/month,Enterprise features,"엔터프라이즈"', 'FREE', 'GITHUB');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 46, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Firebase', '백엔드 서비스 및 실시간 데이터베이스', 'https://firebase.google.com/docs', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAA7VBMVEVHcEz/RkL/R0D+SEr/RUD/RkOwjlb/SD7/SE3/SUj/Vzb/VDf9TFb8TVeHoFb/YTD/byn8TVn/jRr/fSL/mxL/SEj+yQn/ohH/tQv+VUb/vQn/wwn+zgj9wQm3xQ39zgT6zQYwhv/7zgowhv8uhv0ek+Avhv7yzAPjywIvhv0whv7PyQHUygIth/y3yAEnivSlxwGSxgUak94fj+h5xAlgwxMLqp8NnsQVlte6xwBNwh45wC0xwDMLt28IrJgJpa0kjPCaxQEpvzsevkkWvVANumQQu18JtXkIsIgTvVYOvGALuWtJwh4OvF8OvF9ccfxCAAAAT3RSTlMAUZvT7P8T//+wiv//kAv6/mD//+V2jv//JKf//0EmxOr/rP7+MEX//x10/6eu//3+/9v///7I//+K//+KS/3/YeX//7dsnv7/////5s3tMAqBMAAAAXFJREFUeAF0jUUCwCAMwDp3d/f9/4krnVt6goQCFzheECVJFHgOPpB5RZHYIKqqyU+vGwpCXkVM07pp2zEQ8hSYiCBf1rsuFrQCvaSahHe+9wMqWHJuOD2E/lYoWsRxkUbBxcdJshY6bEQ3L6fpWmTnXXbxkBcpJTb8UBZFgUX156uyLLHI4Y+YgqL+DZqS0R7n7o4NLQX9GQwbI5tugpKI7wF5Rjd/BiNCCQZfX5BfCwyWrsnagGEYiKKpMkLqgJmZmXn/caKTzGoM7+v4IEiWPQdJ4fMhFujHCzjH7Wny6xFwMB9UKBa4KN3Tl4kh9AZYVJRbpXhVVRGX0asEXNP1a7MM0wQJA+0WFcQtyz7bcFzPAwn+8AkPwmjDcZK6WJGR75zwsCirOo7rpu0SojC2oQUeIF72/TCMY4sUKSj2wX9iXgAHwYgEoKBPizOBgx4EhwnCtxOtDnYTzn1Gnw3wzYQT3zDJrpmXYVjmpj7d/gPknlJE6eZSewAAAABJRU5ErkJggg==', null, 'plan,price,features,notes
+Spark,Free,Basic features,"무료 플랜"
+Flame,$25/month,Extended quotas,"고정 요금"
+Blaze,Pay as you go,Unlimited,"사용량 기반"', 'FREE', 'GOOGLE');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 47, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Twitter API', '트위터 트윗 및 소셜 데이터 API', 'https://api.twitter.com/2/documentation/api-reference', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAAAAABXZoBIAAAA/0lEQVR4AbXPIazCMACE4d+L2qoZFEGSIGcRc/gJJB5XMzGJmK9EN0HMi+qaibkKVF1txdQe4g0YzPK5yyWXHL9TaPNQ89LojH87N1rbJcXkMF4Fk31UMrf34hm14KUeoQxGArALHTMuQD2cAWQfJXOpgTbksGr9ng8qluShJTPhyCdx63POg7rEim95ZyR68I1ggQpnCEGwyPicw6hZtPEGmnhkycqOio1zm6XuFtyw5XDXfGvuau0dXHzJp8pfBPuhIXO9ZK5ILUCdSvLYMpc6ASBtl3EaC97I4KaFaOCaBE9Zn5jUsVqR2vcTJZO1DdbGoZryVp94Ka/mQfE7f2T3df0WBhLDAAAAAElFTkSuQmCC', null, 'tier,monthly_price,features,notes
+Free,$0,Limited access,"제한된 기능"
+Basic,$100,Enhanced access,"기본 기능"
+Pro,$5000,Full access,"전체 기능"
+Enterprise,Custom,Custom,"엔터프라이즈"', 'MIXED', 'TWITTER');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 48, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Salesforce API', '클라우드 기반 CRM 플랫폼', 'https://developer.salesforce.com/docs/api/rest/', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcBAMAAACAI8KnAAAAJ1BMVEXN6PcHndwAndwAndwCndwAndwAndwAndwAndwAndwAndwAndwAndxI7+MwAAAADXRSTlMBDzdMHaHm0YZ3/79m9L0GfgAAAJhJREFUeAFjoAwwKpsIMAjCuapp6S3OoZMEIDzmqlWrsnetWnaQESzgvQoCMqbGKAK5ZqvgoAYofwrBXXYAhbtqI4riVYsZWKKQuCsZOFahcMVWoSj2QuamoHInMIgj8TIcGDjhnPKtRxgYWNpgTjqkAvKC0IkqICe7LFgA6mErILfFBcZj4ClbleqAFDw6nYYowSVAViADABQkfCeMXxKLAAAAAElFTkSuQmCC', null, 'edition,price_per_user_month,features,notes
+Essentials,$25,Basic CRM,"소규모 팀"
+Professional,$75,Complete CRM,"성장 기업"
+Enterprise,$150,Customizable,"대기업"
+Unlimited,$300,Unlimited support,"무제한"', 'PAID', 'SALESFORCE');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 49, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Kakao Maps', '카카오맵 기반 한국 지역 지도 및 위치 서비스', 'https://apis.map.kakao.com/', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAZlBMVEX/3AD/3QD/4gDtzAOEdBOfihHwzwP/3gDdvwsAAB94ahV+bhXuzgLlxgdnWxj/4wBjVxrCqAdAOhzXugb/4AAgIB4nJh2RfhRWTRqokw6bhxQ5NBwOEh/41gBzZhQUFh/Krw22ng2wHHIZAAAAj0lEQVR4AcXSRQLEIAwF0PxSd1f0/occ2Sftsji8DZDQmwVRBNFUnKSSZnlRqhus0jusnxDIREST5BKC2iKRsKuKvgGLaTcU4zQTj82yDh2xuDV7cXTE4zlcRRMJGKen3ptZ+j5jC6tm4SmzWd1mhKdgbgqXEBi0KqN50oufmWAHA4IJgcCkyYz/NM+gN8sXfaYIEEtXhS0AAAAASUVORK5CYII=', null, 'tier,daily_calls,price,notes
+Free,300000,Free,"무료 할당량"
+Pay-as-you-go,Unlimited,₩2 per 1000 calls,"초과 사용량"', 'FREE', 'KAKAO');
+INSERT INTO apis (avg_rating, api_id, created_at, updated_at, view_counts, name, summary, official_url, auth_type, logo, long_description, pricing_info, pricing_type, provider_company) VALUES (0.0, 50, '2026-01-26 23:17:00.000000', '2026-01-26 23:17:00.000000', 0, 'Facebook Graph', '페이스북 그래프 API로 소셜 데이터 접근', 'https://developers.facebook.com/docs/graph-api', null, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAkFBMVEX////9/f+luu+BoeqqvvDD1/1/r/yfwfz6+//t8PsAYN4AT90AUt0KZeBspvwAb/lLlfsAePrl7f4aaOAAVN2ItPw5jvsAfPqdtO60xvIAXd8AXOPe6f6ZvvwhceZ1n/C50PzK2foAa/SqxPjW4vywzf+8y/Ijh/o9eODS3fgAcfrg5/l0qfuSsO9VkPBenPgPfDdCAAAApElEQVR4AeUQgwHAMCyzbdv6/7uZL6yNncDfHoJi+MoJkqK/PoblOF5gQJRkRVE/To3HGVTXDIUBMK23D+XthTqu569VpODlDN2NCa6zMvGVynjRykgrdNdpYunZNUmzheZSUeprlC8lDyeREgutKoBabwBUiXg62wzAWOM7L1wzn066rZqg7VdxcMd8kl53oNq2lXdxStPUgNfLs6tSkiXwrzcDVIoLHEbshVwAAAAASUVORK5CYII=', null, 'tier,features,price,notes
+Free,Basic access,Free,"무료"', 'FREE', 'META');
 
-INSERT INTO apis (
-    name, summary, long_description, official_url,
-    avg_rating, view_counts, pricing_info,
-    pricing_type, auth_type, provider_company,
-    logo_url, created_at, updated_at
-) VALUES
--- 1. Spotify API
-(
-    'Spotify API',
-    '음악 스트리밍 및 플레이리스트 관리 API',
-    'Spotify API는 음악 스트리밍 서비스의 공식 API로, 방대한 음악 카탈로그와 사용자 데이터에 접근하여 음악 관련 애플리케이션을 개발할 수 있습니다. 트랙, 앨범, 아티스트 검색과 플레이리스트 관리, 재생 제어 등의 기능을 제공합니다.',
-    'https://developer.spotify.com/documentation/web-api',
-    4.5, 0, '무료 티어 제공, 상업용은 유료',
-    'FREE', 'OAUTH2', 'GOOGLE',
-    'https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg',
-    NOW(), NOW()
-),
-
--- 2. Jira API
-(
-    'Jira API',
-    '이슈 추적 및 애자일 관리',
-    'Atlassian의 프로젝트 관리 및 이슈 추적 플랫폼 Jira의 RESTful API입니다. 개발 팀의 워크플로우를 자동화하고 외부 시스템과 통합할 수 있으며, 이슈 관리, 프로젝트 관리, JQL 검색 등의 기능을 제공합니다.',
-    'https://developer.atlassian.com/cloud/jira/platform/rest/v3/',
-    4.3, 0, '무료 플랜 제공, 사용자당 과금',
-    'FREE', 'OAUTH2', 'GOOGLE',
-    'https://cdn.worldvectorlogo.com/logos/jira-1.svg',
-    NOW(), NOW()
-),
-
--- 3. Google Translate
-(
-    'Google Translate',
-    '다국어 번역 서비스',
-    'Google의 Neural Machine Translation을 기반으로 한 번역 API로 100개 이상의 언어를 지원합니다. 텍스트, 문서, 웹사이트를 자동으로 번역하며, 실시간 번역과 자동 언어 감지 기능을 제공합니다.',
-    'https://cloud.google.com/translate/docs',
-    4.7, 0, '월 50만 자 무료, 이후 유료',
-    'PAID', 'API_KEY', 'GOOGLE',
-    'https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg',
-    NOW(), NOW()
-),
-
--- 4. Weather API
-(
-    'Weather API',
-    '실시간 날씨 및 기후 데이터',
-    '전 세계 지역의 실시간 날씨 정보와 예보 데이터를 제공하는 API입니다. 현재 날씨, 시간별 예보, 주간 예보 등을 조회할 수 있으며, 기온, 습도, 풍속 등의 상세 정보를 제공합니다.',
-    'https://openweathermap.org/api',
-    4.2, 0, '무료 플랜 제공, 호출량에 따라 유료',
-    'FREE', 'API_KEY', 'NAVER',
-    'https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png',
-    NOW(), NOW()
-),
-
--- 5. Telegram Bot
-(
-    'Telegram Bot',
-    '텔레그램 봇 생성 및 메시징 API',
-    'Telegram 메신저를 위한 봇 개발 API입니다. 메시지 송수신, 인라인 키보드, 파일 전송, 그룹 관리 등의 기능을 제공하며, 자동 응답 시스템이나 알림 서비스를 구축할 수 있습니다.',
-    'https://core.telegram.org/bots/api',
-    4.6, 0, '완전 무료',
-    'FREE', 'API_KEY', 'KAKAO',
-    'https://telegram.org/img/t_logo.png',
-    NOW(), NOW()
-),
-
--- 6. Mixpanel API
-(
-    'Mixpanel API',
-    '사용자 행동 분석 플랫폼',
-    '웹과 모바일 앱의 사용자 행동을 추적하고 분석하는 API입니다. 이벤트 트래킹, 사용자 프로필 관리, 퍼널 분석, 코호트 분석 등의 기능을 제공하여 데이터 기반 의사결정을 지원합니다.',
-    'https://developer.mixpanel.com/reference/overview',
-    4.4, 0, '무료 플랜 제공, 이벤트 수에 따라 유료',
-    'FREE', 'API_KEY', 'KAKAO',
-    'https://mixpanel.com/wp-content/uploads/2021/07/mp-logo.svg',
-    NOW(), NOW()
-),
-
--- 7. Trello API
-(
-    'Trello API',
-    '프로젝트 관리 보드 API',
-    'Trello의 칸반 보드를 프로그래밍 방식으로 제어할 수 있는 API입니다. 보드, 리스트, 카드 생성 및 관리, 체크리스트, 라벨, 첨부파일 등의 기능을 자동화할 수 있습니다.',
-    'https://developer.atlassian.com/cloud/trello/rest/',
-    4.3, 0, '무료',
-    'FREE', 'OAUTH2', 'KAKAO',
-    'https://cdn.worldvectorlogo.com/logos/trello.svg',
-    NOW(), NOW()
-),
-
--- 8. Google Login
-(
-    'Google Login',
-    '구글 계정으로 간편하게 로그인하는 OAuth 2.0 인증',
-    'Google 계정을 통한 소셜 로그인을 구현할 수 있는 OAuth 2.0 기반 인증 API입니다. 사용자 인증, 프로필 정보 접근, 토큰 관리 등의 기능을 제공하여 안전하고 편리한 로그인 경험을 제공합니다.',
-    'https://developers.google.com/identity/protocols/oauth2',
-    4.8, 0, '무료',
-    'FREE', 'OAUTH2', 'GOOGLE',
-    'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg',
-    NOW(), NOW()
-),
-
--- 9. Stripe API
-(
-    'Stripe API',
-    '온라인 결제 처리 API',
-    '온라인 결제를 처리하는 글로벌 결제 플랫폼 API입니다. 카드 결제, 구독 관리, 인보이스 발행, 환불 처리, 결제 분석 등의 기능을 제공하며, 다양한 결제 수단을 지원합니다.',
-    'https://stripe.com/docs/api',
-    4.7, 0, '거래당 수수료 부과',
-    'PAID', 'API_KEY', 'KAKAO',
-    'https://images.ctfassets.net/fzn2n1nzq965/HTTOloNPhisV9P4hlMPNA/cacf1bb88b9fc492dfad34378d844280/Stripe_icon_-_square.svg',
-    NOW(), NOW()
-),
-
--- 10. LinkedIn API
-(
-    'LinkedIn API',
-    '링크드인 프로필 및 네트워킹',
-    '비즈니스 소셜 네트워크 LinkedIn의 API입니다. 사용자 프로필 조회, 포스트 공유, 회사 페이지 관리, 네트워크 연결 등의 기능을 제공하여 전문적인 네트워킹 기능을 구현할 수 있습니다.',
-    'https://docs.microsoft.com/en-us/linkedin/',
-    4.1, 0, '무료',
-    'FREE', 'OAUTH2', 'KAKAO',
-    'https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png',
-    NOW(), NOW()
-),
-
--- 11. Google Cloud Vision
-(
-    'Google Cloud Vision',
-    '이미지 인식 및 OCR API',
-    'Google의 기계학습 모델을 활용한 이미지 분석 API입니다. 객체 감지, 얼굴 인식, 텍스트 추출(OCR), 로고 감지, 부적절한 콘텐츠 탐지 등의 기능을 제공합니다.',
-    'https://cloud.google.com/vision/docs',
-    4.6, 0, '월 1000건 무료, 이후 건당 과금',
-    'PAID', 'API_KEY', 'GOOGLE',
-    'https://www.gstatic.com/devrel-devsite/prod/v2210deb8920cd4a55bd580441aa58e7853afc04b39a9d9ac4198e1cd7fbe04ef/cloud/images/cloud-logo.svg',
-    NOW(), NOW()
-),
-
--- 12. Instagram API
-(
-    'Instagram API',
-    '인스타그램 포스트 및 미디어 관리',
-    'Instagram의 콘텐츠와 데이터에 접근할 수 있는 API입니다. 포스트 게시, 미디어 조회, 댓글 관리, 인사이트 분석 등의 기능을 제공하며, 비즈니스 계정 관리를 지원합니다.',
-    'https://developers.facebook.com/docs/instagram-api',
-    4.0, 0, '무료',
-    'FREE', 'OAUTH2', 'KAKAO',
-    'https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg',
-    NOW(), NOW()
-),
-
--- 13. Discord API
-(
-    'Discord API',
-    '디스코드 봇 및 서버 관리 API',
-    'Discord 플랫폼의 봇 개발과 서버 관리를 위한 API입니다. 메시지 송수신, 채널 관리, 역할 설정, 음성 연결 등의 기능을 제공하여 커뮤니티 자동화를 구현할 수 있습니다.',
-    'https://discord.com/developers/docs/intro',
-    4.5, 0, '무료',
-    'FREE', 'OAUTH2', 'KAKAO',
-    'https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png',
-    NOW(), NOW()
-),
-
--- 14. Asana API
-(
-    'Asana API',
-    '팀 작업 및 프로젝트 추적',
-    'Asana 프로젝트 관리 플랫폼의 API입니다. 태스크 생성 및 할당, 프로젝트 관리, 팀 협업, 워크플로우 자동화 등의 기능을 제공하여 업무 효율성을 높일 수 있습니다.',
-    'https://developers.asana.com/docs',
-    4.3, 0, '무료',
-    'FREE', 'OAUTH2', 'KAKAO',
-    'https://luna1.co/eb0187.png',
-    NOW(), NOW()
-),
-
--- 15. Wolfram Alpha
-(
-    'Wolfram Alpha',
-    '계산 지식 엔진 API',
-    '복잡한 수학 계산, 과학 데이터 분석, 통계 처리 등을 제공하는 계산 지식 엔진 API입니다. 자연어 질의를 통해 정확한 계산 결과와 시각화된 데이터를 제공합니다.',
-    'https://products.wolframalpha.com/api/',
-    4.4, 0, '월 2000건 무료, 이후 유료',
-    'PAID', 'API_KEY', 'KAKAO',
-    'https://www.wolframalpha.com/_next/static/images/share_HJWi6D.png',
-    NOW(), NOW()
-),
-
--- 16. Notion API
-(
-    'Notion API',
-    '노션 문서 및 데이터베이스 관리',
-    'Notion 워크스페이스의 페이지와 데이터베이스를 프로그래밍 방식으로 제어할 수 있는 API입니다. 페이지 생성, 블록 편집, 데이터베이스 쿼리, 콘텐츠 동기화 등의 기능을 제공합니다.',
-    'https://developers.notion.com/',
-    4.5, 0, '무료',
-    'FREE', 'OAUTH2', 'KAKAO',
-    'https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png',
-    NOW(), NOW()
-),
-
--- 17. HubSpot API
-(
-    'HubSpot API',
-    'CRM 및 마케팅 자동화',
-    'HubSpot의 CRM, 마케팅, 영업, 고객 서비스 기능에 접근할 수 있는 API입니다. 연락처 관리, 이메일 캠페인, 리드 추적, 분석 리포트 등의 기능을 자동화할 수 있습니다.',
-    'https://developers.hubspot.com/docs/api/overview',
-    4.3, 0, '무료 플랜 제공, 기능에 따라 유료',
-    'FREE', 'API_KEY', 'KAKAO',
-    'https://www.hubspot.com/hubfs/HubSpot_Logos/HubSpot-Inversed-Favicon.png',
-    NOW(), NOW()
-),
-
--- 18. Pexels API
-(
-    'Pexels API',
-    '무료 스톡 이미지 및 비디오',
-    '고품질의 무료 스톡 이미지와 비디오를 제공하는 API입니다. 키워드 검색, 인기 콘텐츠 조회, 큐레이션된 컬렉션 접근 등의 기능을 제공하며, 상업적 용도로도 자유롭게 사용할 수 있습니다.',
-    'https://www.pexels.com/api/',
-    4.6, 0, '완전 무료',
-    'FREE', 'API_KEY', 'KAKAO',
-    'https://images.pexels.com/lib/api/pexels.png',
-    NOW(), NOW()
-),
-
--- 19. Slack API
-(
-    'Slack API',
-    '슬랙 메시징 및 워크스페이스 통합 API',
-    'Slack 워크스페이스의 메시징과 협업 기능에 접근할 수 있는 API입니다. 메시지 전송, 채널 관리, 파일 공유, 봇 개발, 워크플로우 자동화 등의 기능을 제공합니다.',
-    'https://api.slack.com/',
-    4.7, 0, '무료',
-    'FREE', 'OAUTH2', 'KAKAO',
-    'https://a.slack-edge.com/80588/marketing/img/icons/icon_slack_hash_colored.png',
-    NOW(), NOW()
-),
-
--- 20. OpenStreetMap
-(
-    'OpenStreetMap',
-    '오픈소스 기반 전 세계 지도 데이터 제공',
-    '오픈소스 기반의 전 세계 지도 데이터를 제공하는 API입니다. 지도 타일, 지오코딩, 경로 탐색, POI 검색 등의 기능을 무료로 사용할 수 있으며, 커뮤니티 기반으로 지속적으로 업데이트됩니다.',
-    'https://wiki.openstreetmap.org/wiki/API',
-    4.4, 0, '완전 무료 (공정 사용 정책)',
-    'FREE', 'API_KEY', 'KAKAO',
-    'https://wiki.openstreetmap.org/w/images/7/79/Public-images-osm_logo.svg',
-    NOW(), NOW()
-),
-
--- 21. PayPal API
-(
-    'PayPal API',
-    '글로벌 결제 및 송금 API',
-    'PayPal을 통한 온라인 결제와 송금을 처리하는 API입니다. 결제 처리, 구독 관리, 인보이스 발행, 환불, 지불 추적 등의 기능을 제공하며, 전 세계적으로 사용 가능합니다.',
-    'https://developer.paypal.com/docs/api/overview/',
-    4.2, 0, '거래당 수수료 부과',
-    'PAID', 'OAUTH2', 'KAKAO',
-    'https://www.paypalobjects.com/webstatic/icon/pp258.png',
-    NOW(), NOW()
-),
-
--- 22. Reddit API
-(
-    'Reddit API',
-    '레딧 포스트 및 커뮤니티 데이터',
-    'Reddit 커뮤니티의 포스트, 댓글, 사용자 데이터에 접근할 수 있는 API입니다. 서브레딧 조회, 포스트 작성, 댓글 관리, 투표, 사용자 프로필 등의 기능을 제공합니다.',
-    'https://www.reddit.com/dev/api/',
-    4.1, 0, '무료',
-    'FREE', 'OAUTH2', 'KAKAO',
-    'https://www.redditstatic.com/desktop2x/img/favicon/android-icon-192x192.png',
-    NOW(), NOW()
-),
-
--- 23. Dropbox API
-(
-    'Dropbox API',
-    '파일 동기화 및 공유 API',
-    'Dropbox 클라우드 스토리지의 파일과 폴더를 관리할 수 있는 API입니다. 파일 업로드/다운로드, 공유 링크 생성, 폴더 구조 관리, 파일 검색 등의 기능을 제공합니다.',
-    'https://www.dropbox.com/developers/documentation',
-    4.3, 0, '무료',
-    'FREE', 'OAUTH2', 'KAKAO',
-    'https://cfl.dropboxstatic.com/static/images/logo_catalog/dropbox_webclip_152.png',
-    NOW(), NOW()
-),
-
--- 24. DeepL API
-(
-    'DeepL API',
-    '고품질 AI 기반 번역',
-    'AI 기반의 고품질 번역을 제공하는 API입니다. 자연스러운 문맥 이해와 정확한 번역으로 Google Translate보다 높은 품질을 자랑하며, 30개 이상의 언어를 지원합니다.',
-    'https://www.deepl.com/docs-api',
-    4.8, 0, '월 50만 자 무료, 이후 유료',
-    'FREE', 'API_KEY', 'KAKAO',
-    'https://static.deepl.com/img/logo/DeepL_Logo_darkBlue_v2.svg',
-    NOW(), NOW()
-),
-
--- 25. Twilio SMS
-(
-    'Twilio SMS',
-    'SMS 및 음성 통신 API',
-    'SMS 문자, 음성 통화, 영상 통화 등의 통신 기능을 제공하는 API입니다. 전 세계적으로 메시지 전송과 전화 기능을 구현할 수 있으며, 2단계 인증, 알림 서비스 등에 활용됩니다.',
-    'https://www.twilio.com/docs/sms',
-    4.5, 0, '사용량 기반 과금',
-    'PAID', 'API_KEY', 'KAKAO',
-    'https://www.twilio.com/content/dam/twilio-com/global/en/blog/legacy/2017/Twilio-Mark-Red.png',
-    NOW(), NOW()
-),
-
--- 26. Azure Cognitive
-(
-    'Azure Cognitive',
-    '인지 서비스 및 AI API',
-    'Microsoft Azure의 AI 인지 서비스 API입니다. 컴퓨터 비전, 음성 인식, 자연어 처리, 감정 분석 등의 다양한 AI 기능을 제공하여 지능형 애플리케이션을 구축할 수 있습니다.',
-    'https://azure.microsoft.com/en-us/services/cognitive-services/',
-    4.4, 0, '무료 티어 제공, 사용량에 따라 유료',
-    'PAID', 'API_KEY', 'KAKAO',
-    'https://azure.microsoft.com/svghandler/cognitive-services/',
-    NOW(), NOW()
-),
-
--- 27. News API
-(
-    'News API',
-    '전 세계 뉴스 헤드라인 및 기사',
-    '전 세계 뉴스 소스의 헤드라인과 기사를 실시간으로 제공하는 API입니다. 키워드 검색, 카테고리별 조회, 소스 필터링 등의 기능으로 최신 뉴스를 애플리케이션에 통합할 수 있습니다.',
-    'https://newsapi.org/docs',
-    4.3, 0, '무료 플랜 제공, 요청 수 제한',
-    'FREE', 'API_KEY', 'KAKAO',
-    'https://newsapi.org/images/n-logo-border.png',
-    NOW(), NOW()
-),
-
--- 28. IBM Watson
-(
-    'IBM Watson',
-    'AI 및 머신러닝 플랫폼',
-    'IBM의 AI 플랫폼으로 자연어 처리, 음성 인식, 이미지 분석, 감정 분석 등의 기능을 제공합니다. 챗봇, 추천 시스템, 데이터 분석 등 다양한 AI 솔루션을 구축할 수 있습니다.',
-    'https://cloud.ibm.com/apidocs/watson',
-    4.2, 0, '무료 티어 제공, 사용량에 따라 유료',
-    'PAID', 'API_KEY', 'KAKAO',
-    'https://www.ibm.com/brand/experience-guides/developer/b1db1ae501d522a1a4b49613fe07c9f1/01_8-bar-positive.svg',
-    NOW(), NOW()
-),
-
--- 29. OpenAI GPT-4
-(
-    'OpenAI GPT-4',
-    '최신 AI 언어 모델로 대화, 텍스트 생성, 분석 등 지원',
-    'OpenAI의 최신 대규모 언어 모델 API입니다. 자연어 이해, 텍스트 생성, 번역, 요약, 코드 생성 등 다양한 언어 처리 작업을 수행할 수 있으며, 챗봇과 AI 어시스턴트 개발에 활용됩니다.',
-    'https://platform.openai.com/docs/api-reference',
-    4.9, 0, '토큰당 과금',
-    'PAID', 'API_KEY', 'GOOGLE',
-    'https://openai.com/favicon.ico',
-    NOW(), NOW()
-),
-
--- 30. Mailchimp
-(
-    'Mailchimp',
-    '이메일 마케팅 자동화 API',
-    '이메일 마케팅 캠페인을 관리하고 자동화하는 API입니다. 구독자 관리, 이메일 템플릿 생성, 캠페인 전송, 분석 리포트 등의 기능을 제공하여 효과적인 이메일 마케팅을 지원합니다.',
-    'https://mailchimp.com/developer/',
-    4.3, 0, '무료 플랜 제공, 구독자 수에 따라 유료',
-    'FREE', 'API_KEY', 'KAKAO',
-    'https://eep.io/images/yzco4xsimv0y/5fJHr9W3tKKCW65hQgXG7d/a761f1a83f7854d45c1cf0c2918c00ad/MC_Logo.svg',
-    NOW(), NOW()
-),
-
--- 31. Google Analytics
-(
-    'Google Analytics',
-    '웹사이트 분석 및 추적',
-    '웹사이트와 앱의 트래픽과 사용자 행동을 추적하고 분석하는 API입니다. 페이지뷰, 이벤트, 전환율, 사용자 경로 등의 데이터를 수집하고 분석하여 마케팅 최적화에 활용할 수 있습니다.',
-    'https://developers.google.com/analytics',
-    4.6, 0, '무료',
-    'FREE', 'OAUTH2', 'GOOGLE',
-    'https://www.gstatic.com/analytics-suite/header/suite/v2/ic_analytics.svg',
-    NOW(), NOW()
-),
-
--- 32. Shopify API
-(
-    'Shopify API',
-    '전자상거래 스토어 관리',
-    'Shopify 온라인 스토어의 상품, 주문, 고객 데이터를 관리하는 API입니다. 상품 등록, 재고 관리, 주문 처리, 결제 연동 등의 기능을 자동화하여 전자상거래 운영을 효율화할 수 있습니다.',
-    'https://shopify.dev/docs/api',
-    4.4, 0, '무료',
-    'FREE', 'OAUTH2', 'KAKAO',
-    'https://cdn.shopify.com/shopifycloud/brochure/assets/brand-assets/shopify-logo-primary-logo-456baa801ee66a0a435671082365958316831c9960c480451dd0330bcdae304f.svg',
-    NOW(), NOW()
-),
-
--- 33. AWS Rekognition
-(
-    'AWS Rekognition',
-    '이미지 및 비디오 분석',
-    'Amazon의 이미지 및 비디오 분석 AI 서비스입니다. 얼굴 인식, 객체 감지, 장면 분석, 텍스트 추출, 유명인 인식 등의 기능을 제공하여 시각적 콘텐츠를 자동으로 분석할 수 있습니다.',
-    'https://docs.aws.amazon.com/rekognition/',
-    4.5, 0, '사용량 기반 과금',
-    'PAID', 'API_KEY', 'GOOGLE',
-    'https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2021/06/23/Amazon-Rekognition-Logo.png',
-    NOW(), NOW()
-),
-
--- 34. Google Drive
-(
-    'Google Drive',
-    '클라우드 파일 저장 및 공유',
-    'Google Drive 클라우드 스토리지의 파일과 폴더를 관리하는 API입니다. 파일 업로드/다운로드, 공유 권한 설정, 검색, 버전 관리 등의 기능을 제공하여 클라우드 기반 파일 관리를 구현할 수 있습니다.',
-    'https://developers.google.com/drive/api',
-    4.6, 0, '무료 (15GB 제공)',
-    'FREE', 'OAUTH2', 'GOOGLE',
-    'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png',
-    NOW(), NOW()
-),
-
--- 35. Square API
-(
-    'Square API',
-    '결제 및 POS 시스템 API',
-    'Square의 결제 처리와 POS 시스템 API입니다. 카드 결제, 모바일 결제, 인보이스, 재고 관리, 고객 관리 등의 기능을 제공하여 오프라인과 온라인 비즈니스를 통합 관리할 수 있습니다.',
-    'https://developer.squareup.com/docs',
-    4.4, 0, '거래당 수수료 부과',
-    'PAID', 'OAUTH2', 'KAKAO',
-    'https://images.ctfassets.net/2d5q1td6cyxq/5g0qkH0wLqQ0k8QgoqQomc/3bc1c2f85f85b8f6c1fa14f8e2e7aeaa/sq-logo.svg',
-    NOW(), NOW()
-),
-
--- 36. Amplitude API
-(
-    'Amplitude API',
-    '제품 분석 및 인사이트',
-    '제품 사용 데이터를 분석하고 인사이트를 제공하는 API입니다. 사용자 행동 추적, 코호트 분석, 퍼널 분석, A/B 테스트 결과 등을 통해 데이터 기반 제품 의사결정을 지원합니다.',
-    'https://www.docs.developers.amplitude.com/',
-    4.5, 0, '무료 플랜 제공, 이벤트 수에 따라 유료',
-    'FREE', 'API_KEY', 'KAKAO',
-    'https://amplitude.com/favicon.ico',
-    NOW(), NOW()
-),
-
--- 37. Zoom API
-(
-    'Zoom API',
-    '비디오 회의 및 웨비나 관리',
-    'Zoom 비디오 회의 플랫폼의 API입니다. 회의 생성 및 관리, 참가자 제어, 녹화, 웨비나 설정, 통계 조회 등의 기능을 자동화하여 화상 회의 솔루션을 구축할 수 있습니다.',
-    'https://marketplace.zoom.us/docs/api-reference/introduction',
-    4.4, 0, '무료',
-    'FREE', 'OAUTH2', 'KAKAO',
-    'https://st1.zoom.us/static/5.15.11.4272/image/new/ZoomLogo.png',
-    NOW(), NOW()
-),
-
--- 38. WooCommerce
-(
-    'WooCommerce',
-    '워드프레스 기반 쇼핑몰 API',
-    'WordPress 플랫폼의 전자상거래 플러그인 WooCommerce API입니다. 상품 관리, 주문 처리, 고객 데이터, 결제 연동 등의 기능을 제공하여 온라인 쇼핑몰을 효율적으로 운영할 수 있습니다.',
-    'https://woocommerce.github.io/woocommerce-rest-api-docs/',
-    4.2, 0, '무료',
-    'FREE', 'OAUTH2', 'KAKAO',
-    'https://woocommerce.com/wp-content/themes/woo/images/logo-woocommerce.svg',
-    NOW(), NOW()
-),
-
--- 39. Unsplash API
-(
-    'Unsplash API',
-    '고품질 무료 이미지 라이브러리',
-    '고품질의 무료 이미지를 제공하는 API입니다. 200만 장 이상의 전문 사진을 검색하고 다운로드할 수 있으며, 상업적 용도로도 자유롭게 사용 가능한 이미지를 제공합니다.',
-    'https://unsplash.com/developers',
-    4.7, 0, '무료 (출처 표시 권장)',
-    'FREE', 'API_KEY', 'KAKAO',
-    'https://unsplash.com/favicon-32x32.png',
-    NOW(), NOW()
-),
-
--- 40. SendGrid
-(
-    'SendGrid',
-    '이메일 전송 및 마케팅 API',
-    '대량 이메일 전송과 이메일 마케팅을 위한 API입니다. 트랜잭션 이메일, 마케팅 캠페인, 이메일 검증, 전송 통계 등의 기능을 제공하여 안정적인 이메일 서비스를 구축할 수 있습니다.',
-    'https://docs.sendgrid.com/api-reference',
-    4.4, 0, '월 100건 무료, 이후 사용량 기반',
-    'FREE', 'API_KEY', 'KAKAO',
-    'https://sendgrid.com/wp-content/themes/sgdotcom/pages/resource/brand/2016/SendGrid-Logomark.png',
-    NOW(), NOW()
-),
-
--- 41. Naver Papago
-(
-    'Naver Papago',
-    '네이버 파파고 번역 API로 다양한 언어 번역',
-    '네이버의 AI 기반 번역 API로 한국어를 포함한 다양한 언어를 지원합니다. 텍스트 번역, 웹사이트 번역, 이미지 번역(OCR) 등의 기능을 제공하며, 한국어 번역에 특화되어 있습니다.',
-    'https://developers.naver.com/docs/papago/',
-    4.6, 0, '일 10,000자 무료, 이후 유료',
-    'FREE', 'API_KEY', 'NAVER',
-    'https://ssl.pstatic.net/static/nid/papago/img_papago_191204.png',
-    NOW(), NOW()
-),
-
--- 42. Youtube API
-(
-    'Youtube API',
-    '강력한 동영상 플랫폼 API로 업로드, 검색, 재생 등 다양한 기능 제공',
-    'YouTube 플랫폼의 동영상과 채널 데이터에 접근하는 API입니다. 동영상 업로드, 검색, 재생목록 관리, 댓글, 통계 조회 등의 기능을 제공하여 동영상 기반 애플리케이션을 개발할 수 있습니다.',
-    'https://developers.google.com/youtube/v3',
-    4.7, 0, '무료 (일일 할당량 제한)',
-    'FREE', 'API_KEY', 'GOOGLE',
-    'https://www.youtube.com/s/desktop/f506bd45/img/favicon_32.png',
-    NOW(), NOW()
-),
-
--- 43. Giphy API
-(
-    'Giphy API',
-    'GIF 검색 및 임베드 API',
-    '세계 최대의 GIF 라이브러리를 제공하는 API입니다. GIF 검색, 트렌딩 GIF, 스티커, 랜덤 GIF 등의 기능을 제공하여 애플리케이션에 재미있는 GIF 콘텐츠를 통합할 수 있습니다.',
-    'https://developers.giphy.com/docs/api/',
-    4.5, 0, '무료',
-    'FREE', 'API_KEY', 'KAKAO',
-    'https://giphy.com/static/img/favicon.png',
-    NOW(), NOW()
-),
-
--- 44. AWS S3
-(
-    'AWS S3',
-    '클라우드 스토리지 및 파일 관리',
-    'Amazon Web Services의 객체 스토리지 서비스 API입니다. 파일 업로드/다운로드, 버킷 관리, 접근 권한 설정, 정적 웹사이트 호스팅 등의 기능을 제공하여 확장 가능한 클라우드 스토리지를 구축할 수 있습니다.',
-    'https://docs.aws.amazon.com/s3/index.html',
-    4.6, 0, '사용량 기반 과금',
-    'PAID', 'API_KEY', 'GOOGLE',
-    'https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png',
-    NOW(), NOW()
-),
-
--- 45. GitHub API
-(
-    'GitHub API',
-    'GitHub 저장소 및 프로젝트 관리 API',
-    'GitHub 플랫폼의 저장소, 이슈, PR 등을 관리하는 API입니다. 코드 저장소 관리, 이슈 트래킹, PR 리뷰, Actions 워크플로우, 협업 도구 등의 기능을 자동화할 수 있습니다.',
-    'https://docs.github.com/en/rest',
-    4.7, 0, '무료',
-    'FREE', 'OAUTH2', 'KAKAO',
-    'https://github.githubassets.com/favicons/favicon.svg',
-    NOW(), NOW()
-),
-
--- 46. Firebase
-(
-    'Firebase',
-    '백엔드 서비스 및 실시간 데이터베이스',
-    'Google의 모바일 및 웹 앱 개발 플랫폼입니다. 실시간 데이터베이스, 인증, 클라우드 스토리지, 호스팅, 푸시 알림 등의 백엔드 서비스를 제공하여 빠른 앱 개발을 지원합니다.',
-    'https://firebase.google.com/docs',
-    4.7, 0, '무료 플랜 제공, 사용량에 따라 유료',
-    'FREE', 'OAUTH2', 'GOOGLE',
-    'https://www.gstatic.com/devrel-devsite/prod/v2210deb8920cd4a55bd580441aa58e7853afc04b39a9d9ac4198e1cd7fbe04ef/firebase/images/touchicon-180.png',
-    NOW(), NOW()
-),
-
--- 47. Twitter API
-(
-    'Twitter API',
-    '트위터 트윗 및 소셜 데이터 API',
-    'X(구 Twitter) 플랫폼의 트윗과 소셜 데이터에 접근하는 API입니다. 트윗 작성, 검색, 타임라인 조회, 팔로우 관리, DM 등의 기능을 제공하여 소셜 미디어 통합 서비스를 구축할 수 있습니다.',
-    'https://developer.twitter.com/en/docs',
-    4.0, 0, '무료 플랜 제한적, 유료 플랜 필요',
-    'PAID', 'OAUTH2', 'KAKAO',
-    'https://abs.twimg.com/favicons/twitter.2.ico',
-    NOW(), NOW()
-),
-
--- 48. Salesforce API
-(
-    'Salesforce API',
-    '클라우드 기반 CRM 플랫폼',
-    'Salesforce CRM 플랫폼의 API로 고객 관계 관리를 자동화합니다. 리드, 기회, 계정, 연락처 관리, 영업 프로세스 자동화, 리포트 생성 등의 기능을 제공합니다.',
-    'https://developer.salesforce.com/docs/apis',
-    4.5, 0, '플랜별 가격',
-    'PAID', 'OAUTH2', 'KAKAO',
-    'https://www.salesforce.com/content/dam/sfdc-docs/www/logos/logo-salesforce.svg',
-    NOW(), NOW()
-),
-
--- 49. Kakao Maps
-(
-    'Kakao Maps',
-    '카카오맵 기반 한국 지역 지도 및 위치 서비스',
-    '카카오의 지도 서비스 API로 한국 지역에 최적화되어 있습니다. 지도 표시, 주소 검색, 좌표 변환, 길찾기, 로드뷰 등의 기능을 제공하여 위치 기반 서비스를 구축할 수 있습니다.',
-    'https://apis.map.kakao.com/',
-    4.6, 0, '일 30만건 무료, 이후 유료',
-    'FREE', 'API_KEY', 'KAKAO',
-    'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/thumnail.png',
-    NOW(), NOW()
-),
-
--- 50. Facebook Graph
-(
-    'Facebook Graph',
-    '페이스북 그래프 API로 소셜 데이터 접근',
-    'Meta의 Facebook 플랫폼 API입니다. 사용자 프로필, 페이지, 그룹, 이벤트 관리, 포스트 게시, 광고 관리 등의 기능을 제공하여 소셜 미디어 통합 서비스를 개발할 수 있습니다.',
-    'https://developers.facebook.com/docs/graph-api',
-    4.2, 0, '무료',
-    'FREE', 'OAUTH2', 'KAKAO',
-    'https://static.xx.fbcdn.net/rsrc.php/yb/r/hLRJ1GG_y0J.ico',
-    NOW(), NOW()
-);
 
 
 -- ３. 위키 데이터 삽입
@@ -3055,235 +2665,115 @@ OAuth 2.0을 사용하며, 액세스 토큰을 통해 인증합니다.
 );
 
 -- 4. 카테고리 데이터 삽입
-INSERT INTO categories (name, created_at, updated_at) VALUES
--- ㄱ
-('개발', NOW(), NOW()),
-('게임', NOW(), NOW()),
-('계산', NOW(), NOW()),
-('결제', NOW(), NOW()),
-('금융', NOW(), NOW()),
--- ㄴ ~ ㄹ
-('날씨', NOW(), NOW()),
-('뉴스', NOW(), NOW()),
-('데이터', NOW(), NOW()),
--- ㅁ
-('마케팅', NOW(), NOW()),
-('머신러닝', NOW(), NOW()),
-('메시징', NOW(), NOW()),
-('미디어', NOW(), NOW()),
--- ㅂ
-('백엔드', NOW(), NOW()),
-('번역', NOW(), NOW()),
-('봇', NOW(), NOW()),
-('분석', NOW(), NOW()),
-('비디오', NOW(), NOW()),
-('비즈니스', NOW(), NOW()),
--- ㅅ
-('생산성', NOW(), NOW()),
-('소셜', NOW(), NOW()),
-('소셜로그인', NOW(), NOW()),
-('쇼핑', NOW(), NOW()),
-('스토리지', NOW(), NOW()),
--- ㅇ
-('위치', NOW(), NOW()),
-('음악', NOW(), NOW()),
-('이미지', NOW(), NOW()),
-('이메일', NOW(), NOW()),
-('인지', NOW(), NOW()),
-('인증', NOW(), NOW()),
--- ㅈ
-('전자상거래', NOW(), NOW()),
-('지도', NOW(), NOW()),
-('지식', NOW(), NOW()),
--- ㅋ
-('커뮤니케이션', NOW(), NOW()),
-('커뮤니티', NOW(), NOW()),
-('클라우드', NOW(), NOW()),
--- ㅌ ~ ㅎ
-('통신', NOW(), NOW()),
-('프로젝트관리', NOW(), NOW()),
-('협업', NOW(), NOW()),
-('화상회의', NOW(), NOW()),
--- 영문
-('AI', NOW(), NOW()),
-('CRM', NOW(), NOW()),
-('DB', NOW(), NOW()),
-('GIF', NOW(), NOW()),
-('POS', NOW(), NOW()),
-('SMS', NOW(), NOW()),
-('SNS', NOW(), NOW());
+INSERT INTO category (name) VALUES
+                                ('음악'), ('미디어'), ('개발'), ('프로젝트관리'), ('번역'), ('AI'),
+                                ('날씨'), ('데이터'), ('메시징'), ('봇'), ('분석'), ('협업'),
+                                ('소셜로그인'), ('인증'), ('결제'), ('금융'), ('비즈니스'), ('SNS'),
+                                ('이미지'), ('소셜'), ('커뮤니케이션'), ('게임'), ('지식'), ('계산'),
+                                ('생산성'), ('마케팅'), ('CRM'), ('비디오'), ('지도'), ('위치'),
+                                ('커뮤니티'), ('스토리지'), ('클라우드'), ('SMS'), ('통신'), ('인지'),
+                                ('뉴스'), ('머신러닝'), ('이메일'), ('전자상거래'), ('쇼핑'), ('POS'),
+                                ('화상회의'), ('GIF'), ('백엔드'), ('DB');
 
 -- 5. API-카테고리 매핑
 INSERT INTO api_categories_map (api_id, category_id) VALUES
--- 1. Spotify API ["음악","미디어"]
-(1, (SELECT id FROM categories WHERE name = '음악')),
-(1, (SELECT id FROM categories WHERE name = '미디어')),
-
--- 2. Jira API ["개발","프로젝트관리"]
-(2, (SELECT id FROM categories WHERE name = '개발')),
-(2, (SELECT id FROM categories WHERE name = '프로젝트관리')),
-
--- 3. Google Translate ["번역","AI"]
-(3, (SELECT id FROM categories WHERE name = '번역')),
-(3, (SELECT id FROM categories WHERE name = 'AI')),
-
--- 4. Weather API ["날씨","데이터"]
-(4, (SELECT id FROM categories WHERE name = '날씨')),
-(4, (SELECT id FROM categories WHERE name = '데이터')),
-
--- 5. Telegram Bot ["메시징","봇"]
-(5, (SELECT id FROM categories WHERE name = '메시징')),
-(5, (SELECT id FROM categories WHERE name = '봇')),
-
--- 6. Mixpanel API ["분석","데이터"]
-(6, (SELECT id FROM categories WHERE name = '분석')),
-(6, (SELECT id FROM categories WHERE name = '데이터')),
-
--- 7. Trello API ["프로젝트관리","협업"]
-(7, (SELECT id FROM categories WHERE name = '프로젝트관리')),
-(7, (SELECT id FROM categories WHERE name = '협업')),
-
--- 8. Google Login ["소셜로그인","인증"]
-(8, (SELECT id FROM categories WHERE name = '소셜로그인')),
-(8, (SELECT id FROM categories WHERE name = '인증')),
-
--- 9. Stripe API ["결제","금융"]
-(9, (SELECT id FROM categories WHERE name = '결제')),
-(9, (SELECT id FROM categories WHERE name = '금융')),
-
--- 10. LinkedIn API ["비즈니스","SNS"]
-(10, (SELECT id FROM categories WHERE name = '비즈니스')),
-(10, (SELECT id FROM categories WHERE name = 'SNS')),
-
--- 11. Google Cloud Vision ["AI","이미지"]
-(11, (SELECT id FROM categories WHERE name = 'AI')),
-(11, (SELECT id FROM categories WHERE name = '이미지')),
-
--- 12. Instagram API ["SNS","소셜"]
-(12, (SELECT id FROM categories WHERE name = 'SNS')),
-(12, (SELECT id FROM categories WHERE name = '소셜')),
-
--- 13. Discord API ["커뮤니케이션","게임"]
-(13, (SELECT id FROM categories WHERE name = '커뮤니케이션')),
-(13, (SELECT id FROM categories WHERE name = '게임')),
-
--- 14. Asana API ["프로젝트관리","협업"]
-(14, (SELECT id FROM categories WHERE name = '프로젝트관리')),
-(14, (SELECT id FROM categories WHERE name = '협업')),
-
--- 15. Wolfram Alpha ["지식","계산"]
-(15, (SELECT id FROM categories WHERE name = '지식')),
-(15, (SELECT id FROM categories WHERE name = '계산')),
-
--- 16. Notion API ["생산성","협업"]
-(16, (SELECT id FROM categories WHERE name = '생산성')),
-(16, (SELECT id FROM categories WHERE name = '협업')),
-
--- 17. HubSpot API ["마케팅","CRM"]
-(17, (SELECT id FROM categories WHERE name = '마케팅')),
-(17, (SELECT id FROM categories WHERE name = 'CRM')),
-
--- 18. Pexels API ["이미지","비디오"]
-(18, (SELECT id FROM categories WHERE name = '이미지')),
-(18, (SELECT id FROM categories WHERE name = '비디오')),
-
--- 19. Slack API ["협업","커뮤니케이션"]
-(19, (SELECT id FROM categories WHERE name = '협업')),
-(19, (SELECT id FROM categories WHERE name = '커뮤니케이션')),
-
--- 20. OpenStreetMap ["지도","위치"]
-(20, (SELECT id FROM categories WHERE name = '지도')),
-(20, (SELECT id FROM categories WHERE name = '위치')),
-
--- 21. PayPal API ["결제","금융"]
-(21, (SELECT id FROM categories WHERE name = '결제')),
-(21, (SELECT id FROM categories WHERE name = '금융')),
-
--- 22. Reddit API ["SNS","커뮤니티"]
-(22, (SELECT id FROM categories WHERE name = 'SNS')),
-(22, (SELECT id FROM categories WHERE name = '커뮤니티')),
-
--- 23. Dropbox API ["스토리지","클라우드"]
-(23, (SELECT id FROM categories WHERE name = '스토리지')),
-(23, (SELECT id FROM categories WHERE name = '클라우드')),
-
--- 24. DeepL API ["번역","AI"]
-(24, (SELECT id FROM categories WHERE name = '번역')),
-(24, (SELECT id FROM categories WHERE name = 'AI')),
-
--- 25. Twilio SMS ["SMS","통신"]
-(25, (SELECT id FROM categories WHERE name = 'SMS')),
-(25, (SELECT id FROM categories WHERE name = '통신')),
-
--- 26. Azure Cognitive ["AI","인지"]
-(26, (SELECT id FROM categories WHERE name = 'AI')),
-(26, (SELECT id FROM categories WHERE name = '인지')),
-
--- 27. News API ["뉴스","미디어"]
-(27, (SELECT id FROM categories WHERE name = '뉴스')),
-(27, (SELECT id FROM categories WHERE name = '미디어')),
-
--- 28. IBM Watson ["AI","머신러닝"]
-(28, (SELECT id FROM categories WHERE name = 'AI')),
-(28, (SELECT id FROM categories WHERE name = '머신러닝')),
-
--- 29. OpenAI GPT-4 ["AI","번역"]
-(29, (SELECT id FROM categories WHERE name = 'AI')),
-(29, (SELECT id FROM categories WHERE name = '번역')),
-
--- 30. Mailchimp ["마케팅","이메일"]
-(30, (SELECT id FROM categories WHERE name = '마케팅')),
-(30, (SELECT id FROM categories WHERE name = '이메일')),
-
--- 31. Google Analytics ["분석","마케팅"]
-(31, (SELECT id FROM categories WHERE name = '분석')),
-(31, (SELECT id FROM categories WHERE name = '마케팅')),
-
--- 32. Shopify API ["전자상거래","쇼핑"]
-(32, (SELECT id FROM categories WHERE name = '전자상거래')),
-(32, (SELECT id FROM categories WHERE name = '쇼핑')),
-
--- 33. AWS Rekognition ["AI","이미지"]
-(33, (SELECT id FROM categories WHERE name = 'AI')),
-(33, (SELECT id FROM categories WHERE name = '이미지')),
-
--- 34. Google Drive ["스토리지","클라우드"]
-(34, (SELECT id FROM categories WHERE name = '스토리지')),
-(34, (SELECT id FROM categories WHERE name = '클라우드')),
-
--- 35. Square API ["결제","POS"]
-(35, (SELECT id FROM categories WHERE name = '결제')),
-(35, (SELECT id FROM categories WHERE name = 'POS')),
-
--- 36. Amplitude API ["분석","데이터"]
-(36, (SELECT id FROM categories WHERE name = '분석')),
-(36, (SELECT id FROM categories WHERE name = '데이터')),
-
--- 37. Zoom API ["화상회의","협업"]
-(37, (SELECT id FROM categories WHERE name = '화상회의')),
-(37, (SELECT id FROM categories WHERE name = '협업')),
-
--- 38. WooCommerce ["전자상거래","쇼핑"]
-(38, (SELECT id FROM categories WHERE name = '전자상거래')),
-(38, (SELECT id FROM categories WHERE name = '쇼핑')),
-
--- 39. Unsplash API ["이미지","미디어"]
-(39, (SELECT id FROM categories WHERE name = '이미지')),
-(39, (SELECT id FROM categories WHERE name = '미디어')),
-
--- 40. SendGrid ["이메일","마케팅"]
-(40, (SELECT id FROM categories WHERE name = '이메일')),
-(40, (SELECT id FROM categories WHERE name = '마케팅')),
-
--- 41. Naver Papago ["번역","AI"]
-(41, (SELECT id FROM categories WHERE name = '번역')),
-(41, (SELECT id FROM categories WHERE name = 'AI')),
-
--- 42. Youtube API ["미디어","SNS"]
-(42, (SELECT id FROM categories WHERE name = '미디어')),
-(42, (SELECT id FROM categories WHERE name = 'SNS')),
-
--- 43. Giphy API ["GIF","미디어"]
-(43, (SELECT id FROM categories WHERE name = 'GIF')),
-(43, (SELECT id FROM categories WHERE name
-
+-- 1번: 음악(1), 미디어(2)
+(1, 1), (1, 2),
+-- 2번: 개발(3), 프로젝트관리(4)
+(2, 3), (2, 4),
+-- 3번: 번역(5), AI(6)
+(3, 5), (3, 6),
+-- 4번: 날씨(7), 데이터(8)
+(4, 7), (4, 8),
+-- 5번: 메시징(9), 봇(10)
+(5, 9), (5, 10),
+-- 6번: 분석(11), 데이터(8)
+(6, 11), (6, 8),
+-- 7번: 프로젝트관리(4), 협업(12)
+(7, 4), (7, 12),
+-- 8번: 소셜로그인(13), 인증(14)
+(8, 13), (8, 14),
+-- 9번: 결제(15), 금융(16)
+(9, 15), (9, 16),
+-- 10번: 비즈니스(17), SNS(18)
+(10, 17), (10, 18),
+-- 11번: AI(6), 이미지(19)
+(11, 6), (11, 19),
+-- 12번: SNS(18), 소셜(20)
+(12, 18), (12, 20),
+-- 13번: 커뮤니케이션(21), 게임(22)
+(13, 21), (13, 22),
+-- 14번: 프로젝트관리(4), 협업(12)
+(14, 4), (14, 12),
+-- 15번: 지식(23), 계산(24)
+(15, 23), (15, 24),
+-- 16번: 생산성(25), 협업(12)
+(16, 25), (16, 12),
+-- 17번: 마케팅(26), CRM(27)
+(17, 26), (17, 27),
+-- 18번: 이미지(19), 비디오(28)
+(18, 19), (18, 28),
+-- 19번: 협업(12), 커뮤니케이션(21)
+(19, 12), (19, 21),
+-- 20번: 지도(29), 위치(30)
+(20, 29), (20, 30),
+-- 21번: 결제(15), 금융(16)
+(21, 15), (21, 16),
+-- 22번: SNS(18), 커뮤니티(31)
+(22, 18), (22, 31),
+-- 23번: 스토리지(32), 클라우드(33)
+(23, 32), (23, 33),
+-- 24번: 번역(5), AI(6)
+(24, 5), (24, 6),
+-- 25번: SMS(34), 통신(35)
+(25, 34), (25, 35),
+-- 26번: AI(6), 인지(36)
+(26, 6), (26, 36),
+-- 27번: 뉴스(37), 미디어(2)
+(27, 37), (27, 2),
+-- 28번: AI(6), 머신러닝(38)
+(28, 6), (28, 38),
+-- 29번: AI(6), 번역(5)
+(29, 6), (29, 5),
+-- 30번: 마케팅(26), 이메일(39)
+(30, 26), (30, 39),
+-- 31번: 분석(11), 마케팅(26)
+(31, 11), (31, 26),
+-- 32번: 전자상거래(40), 쇼핑(41)
+(32, 40), (32, 41),
+-- 33번: AI(6), 이미지(19)
+(33, 6), (33, 19),
+-- 34번: 스토리지(32), 클라우드(33)
+(34, 32), (34, 33),
+-- 35번: 결제(15), POS(42)
+(35, 15), (35, 42),
+-- 36번: 분석(11), 데이터(8)
+(36, 11), (36, 8),
+-- 37번: 화상회의(43), 협업(12)
+(37, 43), (37, 12),
+-- 38번: 전자상거래(40), 쇼핑(41)
+(38, 40), (38, 41),
+-- 39번: 이미지(19), 미디어(2)
+(39, 19), (39, 2),
+-- 40번: 이메일(39), 마케팅(26)
+(40, 39), (40, 26),
+-- 41번: 번역(5), AI(6)
+(41, 5), (41, 6),
+-- 42번: 미디어(2), SNS(18)
+(42, 2), (42, 18),
+-- 43번: GIF(44), 미디어(2)
+(43, 44), (43, 2),
+-- 44번: 클라우드(33), 스토리지(32)
+(44, 33), (44, 32),
+-- 45번: 개발(3), 협업(12)
+(45, 3), (45, 12),
+-- 46번: 백엔드(45), DB(46)
+(46, 45), (46, 46),
+-- 47번: SNS(18), 소셜(20)
+(47, 18), (47, 20),
+-- 48번: CRM(27), 비즈니스(17)
+(48, 27), (48, 17),
+-- 49번: 지도(29), 위치(30)
+(49, 29), (49, 30),
+-- 50번: SNS(18), 소셜(20)
+(50, 18), (50, 20);
