@@ -16,7 +16,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create # 프로젝트 초기에는 update가 편리 (나중엔 validate 권장)
+      ddl-auto: validate # 초기 DB 구축을 마쳤음으로 update 대신 validate 사용
     properties:
       hibernate:
         format_sql: true
