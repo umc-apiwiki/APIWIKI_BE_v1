@@ -33,4 +33,9 @@ public class Wiki extends BaseEntity {
 
     @Version
     private Long version;
+
+    public void updateContent(String newContent, User user) {
+        this.contentMd = newContent;
+        this.user = user;
+    }
 }
