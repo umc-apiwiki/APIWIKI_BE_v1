@@ -44,7 +44,7 @@ public class ApiDTO {
             String name
     ) {
         public static CategoryItem from(Category category) {
-            return new CategoryItem(category.getId(), category.getName());
+            return new CategoryItem(category.getId(), category.getName().getDescription());
         }
     }
 }
