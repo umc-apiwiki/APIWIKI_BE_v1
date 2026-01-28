@@ -31,6 +31,14 @@ public enum GeneralErrorCode implements BaseErrorCode{
     WIKI_NOT_FOUND(HttpStatus.BAD_REQUEST, "WIKI4000", "해당 위키가 존재하지 않습니다."),
     INVALID_WIKI_FORMAT(HttpStatus.BAD_REQUEST, "WIKI4001", "유효하지 않은 입력값입니다."),
     VERSION_ERROR(HttpStatus.BAD_REQUEST, "WIKI4002", "이미 수정된 위키입니다."),
+
+    // API 조회 / 탐색 관련 에러
+    API_BAD_REQUEST(HttpStatus.BAD_REQUEST, "API4000", "잘못된 요청입니다."),
+    API_NOT_FOUND(HttpStatus.NOT_FOUND, "API4001", "요청한 API를 찾을 수 없습니다."),
+    API_LIST_FETCH_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "API4002", "API 목록 조회 중 오류가 발생했습니다."),
+    INVALID_API_FILTER(HttpStatus.BAD_REQUEST, "API4003", "유효하지 않은 필터 또는 정렬 조건입니다."),
+    API_NOT_PROCESSABLE(HttpStatus.BAD_REQUEST, "API4004", "요청을 처리할 수 없습니다."),
+    API_FORBIDDEN(HttpStatus.FORBIDDEN, "API4005", "요청에 대한 권한이 없습니다.");
     ;
 
     private final HttpStatus status;
