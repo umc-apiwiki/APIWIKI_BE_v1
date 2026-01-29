@@ -3,27 +3,31 @@ package com.umc.apiwiki.domain.user.controller;
 import com.umc.apiwiki.domain.user.dto.UserReqDTO;
 import com.umc.apiwiki.domain.user.dto.UserResDTO;
 import com.umc.apiwiki.domain.user.service.command.UserCommandService;
+import com.umc.apiwiki.domain.wiki.service.query.WikiQueryService;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
 import com.umc.apiwiki.global.apiPayload.code.GeneralSuccessCode;
+import com.umc.apiwiki.global.security.userdetails.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class UserController implements UserControllerDocs {
 
-    private final UserCommandService  userCommandService;
+    private final UserCommandService userCommandService;
+    private final WikiQueryService wikiQueryService;
 
     @PostMapping("/auth/signup")
     @Override
     public ApiResponse<UserResDTO.LoginRes> signUp(
             @RequestBody @Valid UserReqDTO.Signup dto
-    ){
+    ) {
         return ApiResponse.onSuccess(GeneralSuccessCode.CREATED, userCommandService.signup(dto));
     }
 
@@ -31,13 +35,23 @@ public class UserController implements UserControllerDocs {
     @Override
     public ApiResponse<UserResDTO.LoginRes> login(
             @RequestBody @Valid UserReqDTO.LoginReq dto
-    ){
+    ) {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, userCommandService.Login(dto));
     }
 
-    @PostMapping("/auth/logout")
+    @PatchMapping("/auth/logout")
     @Override
     public ApiResponse<String> logout() {
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK,"로그아웃 성공");
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, "로그아웃 성공");
+    }
+
+    @PostMapping("/users/me/wikis")
+    @PreAuthorize("isAuthenticated()")
+    @Override
+    public ApiResponse<List<UserResDTO.MyWikiHistory>> viewMyWikiHistory(
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long userId = userDetails.getUser().getId();
+
+        return  ApiResponse.onSuccess(GeneralSuccessCode.OK, wikiQueryService.returnMyWikiHistory(userId));
     }
 }
