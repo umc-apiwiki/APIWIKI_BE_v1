@@ -3,6 +3,7 @@ package com.umc.apiwiki.domain.wiki.controller;
 import com.umc.apiwiki.domain.wiki.dto.WikiReqDTO;
 import com.umc.apiwiki.domain.wiki.dto.WikiResDTO;
 import com.umc.apiwiki.domain.wiki.service.command.WikiCommandService;
+import com.umc.apiwiki.domain.wiki.service.query.WikiQueryService;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
 import com.umc.apiwiki.global.apiPayload.code.GeneralSuccessCode;
 import com.umc.apiwiki.global.security.userdetails.CustomUserDetails;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class WikiController implements WikiControllerDocs{
 
     private final WikiCommandService wikiCommandService;
+    private final WikiQueryService wikiQueryService;
 
     @GetMapping("/apis/{apiId}/wiki")
     @PreAuthorize("isAuthenticated()")
@@ -25,7 +27,7 @@ public class WikiController implements WikiControllerDocs{
     public ApiResponse<WikiResDTO.Content> returnWiki(
             @PathVariable Long apiId
     ) {
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, wikiCommandService.returnWiki(apiId));
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, wikiQueryService.returnWiki(apiId));
     }
 
     @PatchMapping("/apis/{apiId}/wiki")

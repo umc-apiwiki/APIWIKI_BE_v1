@@ -24,17 +24,6 @@ public class WikiCommandService {
     private final WikiEditRequestRepository  wikiEditRequestRepository;
     private final UserRepository userRepository;
 
-    @Transactional(readOnly = true)
-    public WikiResDTO.Content returnWiki(Long apiId) {
-        Wiki wiki = wikiRepository.findByApiId(apiId)
-                .orElseThrow(() -> new GeneralException(GeneralErrorCode.WIKI_NOT_FOUND));
-
-        return WikiResDTO.Content.builder()
-                .content(wiki.getContentMd())
-                .version(wiki.getVersion())
-                .build();
-    }
-
     public String editingWiki(Long userId, Long apiId, WikiReqDTO.EditContent dto) {
         // 1. 유효성 검사
         // dto.content의 내용 누락 or 용량 초과
