@@ -5,6 +5,8 @@ import com.umc.apiwiki.domain.user.repository.UserRepository;
 import com.umc.apiwiki.domain.wiki.dto.WikiReqDTO;
 import com.umc.apiwiki.domain.wiki.dto.WikiResDTO;
 import com.umc.apiwiki.domain.wiki.entity.Wiki;
+import com.umc.apiwiki.domain.wiki.entity.WikiEditRequest;
+import com.umc.apiwiki.domain.wiki.repository.WikiEditRequestRepository;
 import com.umc.apiwiki.domain.wiki.repository.WikiRepository;
 import com.umc.apiwiki.global.apiPayload.code.GeneralErrorCode;
 import com.umc.apiwiki.global.apiPayload.exception.GeneralException;
@@ -19,6 +21,7 @@ public class WikiCommandService {
 
     private static final int MAX_CONTENT_LENGTH = 50000;
     private final WikiRepository wikiRepository;
+    private final WikiEditRequestRepository  wikiEditRequestRepository;
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
@@ -52,7 +55,10 @@ public class WikiCommandService {
             throw new GeneralException(GeneralErrorCode.VERSION_ERROR);
         }
 
-        // 5. 내용 반영
+        // 5. 위키 수정 요청 생성
+        wikiEditRequestRepository.save(WikiEditRequest.createWikiEditRequest(wiki, user, dto.content()));
+
+        // 6. 수정 내용 반영
         wiki.updateContent(dto.content(), user);
 
         return "위키 수정 완료";
