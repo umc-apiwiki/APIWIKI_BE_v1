@@ -14,7 +14,7 @@ public class ApiController implements ApiControllerDocs {
     private final ApiQueryService apiQueryService;
 
     @GetMapping("/{apiId}")
-    public ApiResponse<ApiDTO.ApiDetail> getApiDetail(Long apiId) {
+    public ApiResponse<ApiDTO.ApiDetail> getApiDetail(@PathVariable Long apiId) {
         return ApiResponse.onSuccess(
                 GeneralSuccessCode.OK,
                 apiQueryService.getApiDetail(apiId)

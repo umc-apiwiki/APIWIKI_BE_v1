@@ -23,7 +23,6 @@ public class ApiQueryService {
 
         Api api = em.find(Api.class, apiId);
         if (api == null) {
-            // API4001
             throw new GeneralException(GeneralErrorCode.API_NOT_FOUND);
         }
 
@@ -36,6 +35,25 @@ public class ApiQueryService {
                 .setParameter("apiId", apiId)
                 .getResultList();
 
-        return ApiDTO.ApiDetail.from(api, categories);
+        List<ApiDTO.CategoryItem> categoryItems = categories.stream()
+                .map(c -> new ApiDTO.CategoryItem(
+                        c.getId(),
+                        c.getName()
+                ))
+                .toList();
+
+        return new ApiDTO.ApiDetail(
+                api.getId(),
+                api.getName(),
+                api.getSummary(),
+                api.getLongDescription(),
+                api.getOfficialUrl(),
+                api.getAvgRating(),
+                api.getViewCounts(),
+                categoryItems,
+                api.getLogo(),
+                api.getCreatedAt(),
+                api.getUpdatedAt()
+        );
     }
 }
