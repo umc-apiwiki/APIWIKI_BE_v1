@@ -1,6 +1,7 @@
 package com.umc.apiwiki.global.security.userdetails;
 
 import com.umc.apiwiki.domain.user.entity.User;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+@Getter
 @RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
@@ -25,9 +27,10 @@ public class CustomUserDetails implements UserDetails {
     }
 
     @Override
-    public String getUsername() {
-        return user.getNickname();
-    }
+    // 유저 식별자
+    public String getUsername() { return user.getEmail(); }
+
+    public String getNickname() { return user.getNickname(); }
 
     // 계정 만료 여부 등은 true(정상)로 반환
     @Override public boolean isAccountNonExpired() { return true; }

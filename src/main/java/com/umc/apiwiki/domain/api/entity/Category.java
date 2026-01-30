@@ -1,6 +1,5 @@
 package com.umc.apiwiki.domain.api.entity;
 
-import com.umc.apiwiki.domain.api.enums.CategoryName;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,6 +14,6 @@ public class Category {
     @Column(name = "category_id")
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private CategoryName name;
+    @Column(nullable = false, unique = true)
+    private String name;
 }

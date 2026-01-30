@@ -21,11 +21,15 @@ public class Api extends BaseEntity {
     @Column(name = "api_id")
     private Long id;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 50, nullable = false)
     private String name;
 
     @Column(length = 120)
     private String summary;
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
+    private String logo; // Base64로 인코딩된 이미지 파일 자체
 
     @Lob
     @Column(columnDefinition = "TEXT")
@@ -37,7 +41,7 @@ public class Api extends BaseEntity {
     private BigDecimal avgRating;
 
     @Column(columnDefinition = "bigint default 0")
-    private Long viewCounts;
+    private Long viewCounts = 0L;
 
     @Lob
     @Column(columnDefinition = "TEXT")

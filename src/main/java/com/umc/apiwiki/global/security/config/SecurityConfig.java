@@ -1,5 +1,9 @@
 package com.umc.apiwiki.global.security.config;
 
+import com.umc.apiwiki.global.security.handler.CustomAuthenticationEntryPoint;
+import com.umc.apiwiki.global.security.jwt.JwtFilter;
+import com.umc.apiwiki.global.security.jwt.JwtUtil;
+import com.umc.apiwiki.global.security.userdetails.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -12,6 +16,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -24,6 +29,10 @@ import java.util.Collections;
 @EnableMethodSecurity // 컨트롤러에서 @PreAuthorize 어노테이션을 사용 가능하게 함
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtUtil jwtUtil;
+    private final CustomUserDetailsService userDetailsService;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -45,9 +54,16 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
                 )
 
-                // 4. 세션 설정 (Stateless)
+                // 4. 예외 처리 설정 (인증 실패 시 커스텀 핸들러 실행)
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                )
+
+                // 5. 세션 설정 (Stateless)
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                .addFilterBefore(new JwtFilter(jwtUtil, userDetailsService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
