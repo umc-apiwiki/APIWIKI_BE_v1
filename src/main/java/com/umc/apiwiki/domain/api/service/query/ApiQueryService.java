@@ -1,4 +1,4 @@
-package com.umc.apiwiki.domain.api.service;
+package com.umc.apiwiki.domain.api.service.query;
 
 import com.umc.apiwiki.domain.api.dto.ApiDTO;
 import com.umc.apiwiki.domain.api.entity.Api;
