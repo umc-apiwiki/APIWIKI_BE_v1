@@ -1,39 +1,39 @@
 package com.umc.apiwiki.domain.api.service;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.umc.apiwiki.domain.api.dto.ApiDTO;
 import com.umc.apiwiki.domain.api.entity.QApi;
 import com.umc.apiwiki.domain.api.entity.QApiCategoriesMap;
-import com.umc.apiwiki.domain.api.enums.AuthType;
-import com.umc.apiwiki.domain.api.enums.PricingType;
-import com.umc.apiwiki.domain.api.enums.ProviderCompany;
+import com.umc.apiwiki.domain.api.enums.*;
 import com.umc.apiwiki.domain.community.entity.review.QApiReview;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.querydsl.core.types.dsl.Expressions;
+
 
 import java.math.BigDecimal;
 import java.util.List;
 
+
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ApiQueryService {
 
-    private final EntityManager entityManager;
+    private final JPAQueryFactory queryFactory;
 
     public Page<ApiDTO.ApiPreview> searchApis(
             int page,
             Integer size,
             Long categoryId,
-//            String q,
-//            String sort,
+            String q,
+            ApiSortType sort,
+            SortDirection direction,
             ProviderCompany providerCompany,
             AuthType authType,
             PricingType pricingType,
@@ -44,104 +44,106 @@ public class ApiQueryService {
         QApiReview review = QApiReview.apiReview;
         QApiCategoriesMap map = QApiCategoriesMap.apiCategoriesMap;
 
-        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
         BooleanBuilder builder = new BooleanBuilder();
 
-        // 필터 조건
-        if (providerCompany != null) builder.and(api.providerCompany.eq(providerCompany));
-        if (authType != null) builder.and(api.authType.eq(authType));
-        if (pricingType != null) builder.and(api.pricingType.eq(pricingType));
-        if (minRating != null) builder.and(api.avgRating.goe(minRating));
+        // 필터
+        if (providerCompany != null)
+            builder.and(api.providerCompany.eq(providerCompany));
 
-        // 카테고리 필터 (exists 서브쿼리)
-        if (categoryId != null) {
+        if (authType != null)
+            builder.and(api.authType.eq(authType));
+
+        if (pricingType != null)
+            builder.and(api.pricingType.eq(pricingType));
+
+        if (minRating != null)
+            builder.and(api.avgRating.goe(minRating));
+
+        // 검색 (CLOB 제외)
+        if (q != null && !q.isBlank()) {
+            String keyword = "%" + q.toLowerCase() + "%";
+
             builder.and(
-                    JPAExpressions.selectOne()
-                            .from(map)
-                            .where(
-                                    map.api.id.eq(api.id)
-                                            .and(map.category.id.eq(categoryId))
-                            )
-                            .exists()
+                    api.name.lower().like(keyword)
+                            .or(api.summary.lower().like(keyword))
+                            .or(Expressions.stringTemplate(
+                                    "lower({0})",
+                                    api.providerCompany.stringValue()
+                            ).like(keyword))
+                            .or(Expressions.stringTemplate(
+                                    "lower({0})",
+                                    api.authType.stringValue()
+                            ).like(keyword))
+                            .or(Expressions.stringTemplate(
+                                    "lower({0})",
+                                    api.pricingType.stringValue()
+                            ).like(keyword))
             );
         }
-
-        // 검색 조건
-//        if (q != null && !q.isBlank()) {
-//            builder.and(
-//                    api.name.containsIgnoreCase(q)
-//                            .or(api.summary.containsIgnoreCase(q))
-//                            .or(api.longDescription.containsIgnoreCase(q))
-//            );
-//        }
 
         int pageSize = (size != null) ? size : 16;
         Pageable pageable = PageRequest.of(page, pageSize);
 
-        // reviewCount 서브쿼리
-        var reviewCountSubQuery =
-                JPAExpressions.select(review.count())
-                        .from(review)
-                        .where(review.api.id.eq(api.id));
-
-        // 정렬 옵션
-//        if (sort == null || sort.isBlank()) {
-//            sort = "latest";
-//        }
-
-//        var orderSpecifier = switch (sort) {
-//            case "popular" -> api.viewCounts.desc();
-//            case "mostReviewed" -> reviewCountSubQuery.desc();
-//            case "latest" -> api.createdAt.desc();
-//            default -> api.createdAt.desc(); // 잘못된 값 방어
-//        };
-
-        // 목록 조회
-        List<ApiDTO.ApiPreview> content = queryFactory
+        var query = queryFactory
                 .select(Projections.constructor(
                         ApiDTO.ApiPreview.class,
                         api.id,
                         api.name,
                         api.summary,
-                        api.avgRating,
-                        reviewCountSubQuery,
-                        api.viewCounts,
+                        api.avgRating.coalesce(BigDecimal.ZERO),
+                        review.id.count(),
+                        api.viewCounts.coalesce(0L),
                         api.pricingType,
                         api.authType,
                         api.providerCompany
                 ))
                 .from(api)
-                .where(builder)
-                .orderBy(api.createdAt.desc())  // 정렬 적용
-//                .orderBy(orderSpecifier)   // 기존 createdAt.desc() → 동적 정렬
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+                .leftJoin(review).on(review.api.id.eq(api.id));
 
-        // total count
-        Long total = queryFactory
-                .select(api.count())
-                .from(api)
-                .where(builder)
-                .fetchOne();
+        // 카테고리 필터
+        if (categoryId != null) {
+            query.join(map)
+                    .on(map.api.id.eq(api.id))
+                    .where(map.category.id.eq(categoryId));
+        }
 
-        long totalCount = (total != null) ? total : 0L;
+        // 정렬 처리
 
-        // null 안전처리
-        content = content.stream()
-                .map(p -> new ApiDTO.ApiPreview(
-                        p.apiId(),
-                        p.name(),
-                        p.summary(),
-                        p.avgRating() != null ? p.avgRating() : BigDecimal.ZERO,
-                        p.reviewCount() != null ? p.reviewCount() : 0L,
-                        p.viewCounts() != null ? p.viewCounts() : 0L,
-                        p.pricingType(),
-                        p.authType(),
-                        p.providerCompany()
-                ))
-                .toList();
+        boolean desc = direction == SortDirection.DESC;
 
-        return new PageImpl<>(content, pageable, totalCount);
+        OrderSpecifier<?> order =
+                switch (sort) {
+
+                    case POPULAR ->
+                            desc ? api.viewCounts.desc()
+                                    : api.viewCounts.asc();
+
+                    case MOST_REVIEWED ->
+                            desc ? review.id.count().desc()
+                                    : review.id.count().asc();
+
+                    case LATEST ->
+                            desc ? api.createdAt.desc()
+                                    : api.createdAt.asc();
+                };
+
+        List<ApiDTO.ApiPreview> content =
+                query
+                        .where(builder)
+                        .groupBy(api.id)
+                        .orderBy(order)
+                        .offset(pageable.getOffset())
+                        .limit(pageable.getPageSize())
+                        .fetch();
+
+        Long total =
+                queryFactory
+                        .select(api.count())
+                        .from(api)
+                        .where(builder)
+                        .fetchOne();
+
+        return new PageImpl<>(content, pageable, total == null ? 0 : total);
     }
 }
+
