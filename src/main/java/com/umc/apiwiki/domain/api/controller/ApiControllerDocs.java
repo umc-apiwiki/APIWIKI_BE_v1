@@ -34,6 +34,7 @@ public interface ApiControllerDocs {
                     - mostReviewed : 리뷰 많은 순
                     """
     )
+    @GetMapping("/apis")
     ApiResponse<PageResponseDTO<ApiDTO.ApiPreview>> searchApis(
 
             @PositiveOrZero int page,

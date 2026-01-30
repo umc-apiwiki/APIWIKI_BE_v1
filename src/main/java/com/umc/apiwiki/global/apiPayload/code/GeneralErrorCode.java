@@ -39,7 +39,7 @@ public enum GeneralErrorCode implements BaseErrorCode{
     INVALID_API_FILTER(HttpStatus.BAD_REQUEST, "API4003", "유효하지 않은 필터 또는 정렬 조건입니다."),
     API_NOT_PROCESSABLE(HttpStatus.BAD_REQUEST, "API4004", "요청을 처리할 수 없습니다."),
     API_FORBIDDEN(HttpStatus.FORBIDDEN, "API4005", "요청에 대한 권한이 없습니다.");
-    ;
+
 
     private final HttpStatus status;
     private final String code;
