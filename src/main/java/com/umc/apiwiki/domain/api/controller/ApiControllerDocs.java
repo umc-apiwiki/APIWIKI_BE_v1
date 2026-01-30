@@ -9,12 +9,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigDecimal;
 
-@Tag(name = "API 탐색", description = "Explore 페이지 API 목록 조회 및 필터")
+@Tag(name = "API 탐색", description = "Explore 페이지 API 목록 조회 + 필터 + 상세 조회")
 public interface ApiControllerDocs {
 
+    // API 목록 조회, 필터링
     @Operation(
             summary = "API 목록 조회 (Explore + 필터) By 악어",
             description = """
@@ -44,5 +48,19 @@ public interface ApiControllerDocs {
             @Positive
             @DecimalMax("5.0")
             BigDecimal minRating
+    );
+
+    // API 상세 조회
+    @Operation(
+            summary = "API 상세 조회 By 제인",
+            description = "API 개요 탭에서 한줄 설명, 카테고리 태그, 긴 설명 등을 반환합니다."
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "API 상세 조회 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "요청한 API를 찾을 수 없습니다. (API4001)")
+    })
+    @GetMapping("/apis/{apiId}")
+    ApiResponse<ApiDTO.ApiDetail> getApiDetail(
+            @PathVariable Long apiId
     );
 }

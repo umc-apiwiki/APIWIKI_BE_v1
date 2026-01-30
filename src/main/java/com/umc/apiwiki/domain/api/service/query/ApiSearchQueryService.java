@@ -1,4 +1,4 @@
-package com.umc.apiwiki.domain.api.service;
+package com.umc.apiwiki.domain.api.service.query;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ApiQueryService {
+public class ApiSearchQueryService {
 
     private final JPAQueryFactory queryFactory;
 

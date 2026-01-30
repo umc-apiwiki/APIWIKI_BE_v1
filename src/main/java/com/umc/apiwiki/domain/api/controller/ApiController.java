@@ -1,8 +1,9 @@
 package com.umc.apiwiki.domain.api.controller;
 
 import com.umc.apiwiki.domain.api.dto.ApiDTO;
+import com.umc.apiwiki.domain.api.service.query.ApiSearchQueryService;
+import com.umc.apiwiki.domain.api.service.query.ApiDetailQueryService;
 import com.umc.apiwiki.domain.api.enums.*;
-import com.umc.apiwiki.domain.api.service.ApiQueryService;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
 import com.umc.apiwiki.global.apiPayload.code.GeneralSuccessCode;
 import com.umc.apiwiki.global.apiPayload.dto.PageResponseDTO;
@@ -10,6 +11,7 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +22,21 @@ import java.math.BigDecimal;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/apis")
+@RequestMapping("/api/v1")
 public class ApiController implements ApiControllerDocs{
 
-    private final ApiQueryService apiQueryService;
+    private final ApiDetailQueryService apiDetailQueryService;
+    private final ApiSearchQueryService apiSearchQueryService;
 
-    @GetMapping
+    @GetMapping("/apis/{apiId}")
+    public ApiResponse<ApiDTO.ApiDetail> getApiDetail(@PathVariable Long apiId) {
+        return ApiResponse.onSuccess(
+                GeneralSuccessCode.OK,
+                apiDetailQueryService.getApiDetail(apiId)
+        );
+    }
+
+    @GetMapping("/apis")
     public ApiResponse<PageResponseDTO<ApiDTO.ApiPreview>> searchApis(
             // page는 0-based 로 명시(Pageable 기준과 일치)
             // 음수 방지
@@ -43,7 +54,7 @@ public class ApiController implements ApiControllerDocs{
             @RequestParam(required = false) @Positive @DecimalMax("5.0") BigDecimal minRating
     ) {
 
-        Page<ApiDTO.ApiPreview> resultPage = apiQueryService.searchApis(
+        Page<ApiDTO.ApiPreview> resultPage = apiSearchQueryService.searchApis(
                 page,
                 size,
                 categoryId,
