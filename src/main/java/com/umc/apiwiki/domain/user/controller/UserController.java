@@ -6,14 +6,15 @@ import com.umc.apiwiki.domain.user.service.command.UserCommandService;
 import com.umc.apiwiki.domain.wiki.service.query.WikiQueryService;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
 import com.umc.apiwiki.global.apiPayload.code.GeneralSuccessCode;
+import com.umc.apiwiki.global.apiPayload.dto.PageResponseDTO;
 import com.umc.apiwiki.global.security.userdetails.CustomUserDetails;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -48,10 +49,12 @@ public class UserController implements UserControllerDocs {
     @PostMapping("/users/me/wikis")
     @PreAuthorize("isAuthenticated()")
     @Override
-    public ApiResponse<List<UserResDTO.MyWikiHistory>> viewMyWikiHistory(
-            @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ApiResponse<PageResponseDTO<UserResDTO.MyWikiHistory>> viewMyWikiHistory(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestParam(defaultValue = "0") @PositiveOrZero int page,
+            @RequestParam(required = false, defaultValue = "16") @Positive Integer size) {
         Long userId = userDetails.getUser().getId();
 
-        return  ApiResponse.onSuccess(GeneralSuccessCode.OK, wikiQueryService.returnMyWikiHistory(userId));
+        return  ApiResponse.onPageSuccess(GeneralSuccessCode.OK, wikiQueryService.returnMyWikiHistory(page, size, userId));
     }
 }

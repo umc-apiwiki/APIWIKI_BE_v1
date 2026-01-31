@@ -9,11 +9,12 @@ import com.umc.apiwiki.domain.wiki.repository.WikiRepository;
 import com.umc.apiwiki.global.apiPayload.code.GeneralErrorCode;
 import com.umc.apiwiki.global.apiPayload.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,13 +33,16 @@ public class WikiQueryService {
                 .build();
     }
 
-    public List<UserResDTO.MyWikiHistory> returnMyWikiHistory(Long userId) {
-        // 1. Repository에서 유저의 수정 요청 목록을 조회 (Entity)
-        List<WikiEditRequest> requests = wikiEditRequestRepository.findAllByUserId(userId);
+    public Page<UserResDTO.MyWikiHistory> returnMyWikiHistory(int page, Integer size, Long userId) {
+        // 1. Pageable 객체 생성
+        // 정렬: 생성일 기준 내림차순(DESC)
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
 
-        // 2. Entity -> DTO 변환
-        return requests.stream()
-                .map(UserResDTO.MyWikiHistory::from)
-                .collect(Collectors.toList());
+        // 2. Repository 조회
+        Page<WikiEditRequest> requestPage = wikiEditRequestRepository.findAllByUserId(userId, pageable);
+
+        // 3. Entity Page -> DTO Page 변환
+        // .map()을 쓰면 내부의 내용물만 쏙쏙 바꿔줍니다.
+        return requestPage.map(UserResDTO.MyWikiHistory::from);
     }
 }
