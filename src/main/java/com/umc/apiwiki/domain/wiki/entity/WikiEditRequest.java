@@ -9,6 +9,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+import static com.umc.apiwiki.domain.wiki.enums.RequestState.APPROVED;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -41,4 +43,14 @@ public class WikiEditRequest {
     @CreatedDate // 생성 시 자동 주입
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+    public static WikiEditRequest createWikiEditRequest(Wiki wiki, User user, String newContentMd) {
+        WikiEditRequest editRequest = new WikiEditRequest();
+        editRequest.wiki = wiki;
+        editRequest.user = user;
+        editRequest.newContentMd = newContentMd;
+        editRequest.state = APPROVED;
+
+        return editRequest;
+    }
 }
