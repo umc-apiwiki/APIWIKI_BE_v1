@@ -30,9 +30,13 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j' // 실제 서버용 (MySQL)
     runtimeOnly 'com.h2database:h2'           // 테스트, 로컬용 (H2)
 
-    // 3. 롬복 (Lombok)
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    // 3. 롬복 (Lombok) Java 21 + query dsl 조합시 롬복 오류로 인해 수정하였습니다.
+//    compileOnly 'org.projectlombok:lombok'
+//    annotationProcessor 'org.projectlombok:lombok'
+
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+
 
     // 4. 인증/인가 (Security + JWT)
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -40,11 +44,12 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
 
-    // 5. QueryDSL (스프링 부트 3.x 이상은 Jakarta 버전 필수)
-    // implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
-    // annotationProcessor "com.querydsl:querydsl-apt:5.1.0:jakarta"
-    // annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-    // annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    // 5. QueryDSL (스프링 부트 3.x 이상은 Jakarta 버전 필수) - OpenFeign
+    implementation "io.github.openfeign.querydsl:querydsl-jpa:7.1"
+    implementation "io.github.openfeign.querydsl:querydsl-core:7.1"
+    annotationProcessor "io.github.openfeign.querydsl:querydsl-apt:7.1:jpa"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 
     // 6. Swagger (SpringDoc OpenAPI - 스프링 부트 3.4와 호완을 위해 2.7 이상을 사용)
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.3'
@@ -53,25 +58,30 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test' // 시큐리티 테스트용
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testCompileOnly 'org.projectlombok:lombok:1.18.32' // 텍스트 롬복 추가
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
+
 }
 
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
 }
 
-// QueryDSL Q클래스 생성 위치를 깔끔하게 정리 (선택 사항이지만 추천)
-/*
-def querydslDir = "$buildDir/generated/querydsl"
+// QueryDSL 관련 설정
+// generated/querydsl 폴더 생성 & 삽입
+def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
 
-tasks.withType(JavaCompile).configureEach {
-    options.getGeneratedSourceOutputDirectory().set(file(querydslDir))
-}
-
+// 소스 세트에 생성 경로 추가 (구체적인 경로 지정)
 sourceSets {
     main.java.srcDirs += [ querydslDir ]
 }
 
-clean {
-    delete file(querydslDir)
+// 컴파일 시 생성 경로 지정
+tasks.withType(JavaCompile).configureEach {
+    options.generatedSourceOutputDirectory.set(querydslDir)
 }
- */
+
+// clean 태스크에 생성 폴더 삭제 로직 추가
+clean.doLast {
+    file(querydslDir).deleteDir()
+}
