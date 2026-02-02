@@ -10,4 +10,9 @@ public class UserResDTO {
             String accessToken,
             String nickname
     ) {}
+
+    @Builder
+    public record MyProfileRes(
+            String nickname
+    ) {}
 }

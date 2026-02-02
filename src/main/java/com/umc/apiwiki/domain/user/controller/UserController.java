@@ -3,14 +3,12 @@ package com.umc.apiwiki.domain.user.controller;
 import com.umc.apiwiki.domain.user.dto.UserReqDTO;
 import com.umc.apiwiki.domain.user.dto.UserResDTO;
 import com.umc.apiwiki.domain.user.service.command.UserCommandService;
+import com.umc.apiwiki.domain.user.service.query.UserQueryService;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
 import com.umc.apiwiki.global.apiPayload.code.GeneralSuccessCode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController implements UserControllerDocs {
 
     private final UserCommandService  userCommandService;
+    private final UserQueryService userQueryService;
 
     @PostMapping("/auth/signup")
     @Override
@@ -39,5 +38,11 @@ public class UserController implements UserControllerDocs {
     @Override
     public ApiResponse<String> logout() {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK,"로그아웃 성공");
+    }
+
+    @GetMapping("/users/me")
+    @Override
+    public ApiResponse<UserResDTO.MyProfileRes> getMyProfile() {
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, userQueryService.getMyProfile());
     }
 }
