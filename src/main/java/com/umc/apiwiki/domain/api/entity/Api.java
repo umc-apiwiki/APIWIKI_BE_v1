@@ -27,10 +27,8 @@ public class Api extends BaseEntity {
     @Column(length = 120)
     private String summary;
 
-    @Lob
-    @Column(columnDefinition = "LONGTEXT")
-    private String logo; // Base64로 인코딩된 이미지 파일 자체
-
+    private String logo;
+    
     @Lob
     @Column(columnDefinition = "TEXT")
     private String longDescription;
