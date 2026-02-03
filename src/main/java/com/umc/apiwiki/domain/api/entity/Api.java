@@ -56,4 +56,12 @@ public class Api extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private ProviderCompany providerCompany;
+
+    // 조회수 증가 로직
+    public void increaseViewCount() {
+        if (this.viewCounts == null) {
+            this.viewCounts = 0L;
+        }
+        this.viewCounts++;
+    }
 }
