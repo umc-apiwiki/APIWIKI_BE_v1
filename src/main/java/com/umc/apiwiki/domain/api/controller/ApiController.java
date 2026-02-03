@@ -1,39 +1,53 @@
 package com.umc.apiwiki.domain.api.controller;
 
-import com.umc.apiwiki.domain.api.dto.ApiDTO;
-import com.umc.apiwiki.domain.api.service.query.ApiSearchQueryService;
-import com.umc.apiwiki.domain.api.service.query.ApiDetailQueryService;
+import com.umc.apiwiki.domain.api.dto.ApiResDTO;
 import com.umc.apiwiki.domain.api.enums.*;
+import com.umc.apiwiki.domain.api.service.command.ApiCommandService;
+import com.umc.apiwiki.domain.api.service.query.ApiDetailQueryService;
+import com.umc.apiwiki.domain.api.service.query.ApiSearchQueryService;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
 import com.umc.apiwiki.global.apiPayload.code.GeneralSuccessCode;
 import com.umc.apiwiki.global.apiPayload.dto.PageResponseDTO;
+import com.umc.apiwiki.global.security.userdetails.CustomUserDetails;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/apis")
 public class ApiController implements ApiControllerDocs{
 
     private final ApiDetailQueryService apiDetailQueryService;
     private final ApiSearchQueryService apiSearchQueryService;
+    private final ApiCommandService apiCommandService;
 
-    @GetMapping("/apis/{apiId}")
-    public ApiResponse<ApiDTO.ApiDetail> getApiDetail(@PathVariable Long apiId) {
+    @GetMapping("/{apiId}")
+    @Override
+    public ApiResponse<ApiResDTO.ApiDetail> getApiDetail(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long apiId
+    ) {
+        Long userId = (userDetails != null) ? userDetails.getUser().getId() : null;
+
         return ApiResponse.onSuccess(
                 GeneralSuccessCode.OK,
-                apiDetailQueryService.getApiDetail(apiId)
+                apiDetailQueryService.getApiDetail(apiId, userId)
         );
     }
 
-    @GetMapping("/apis")
-    public ApiResponse<PageResponseDTO<ApiDTO.ApiPreview>> searchApis(
+    @GetMapping("")
+    @Override
+    public ApiResponse<PageResponseDTO<ApiResDTO.ApiPreview>> searchApis(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+
             // page는 0-based 로 명시(Pageable 기준과 일치)
             // 음수 방지
             @RequestParam(defaultValue = "0") @PositiveOrZero int page,
@@ -49,8 +63,10 @@ public class ApiController implements ApiControllerDocs{
             @RequestParam(required = false, name = "pricingTypes") PricingType pricingType,
             @RequestParam(required = false) @Positive @DecimalMax("5.0") BigDecimal minRating
     ) {
+        Long userId = (userDetails != null) ? userDetails.getUser().getId() : null;
 
-        Page<ApiDTO.ApiPreview> resultPage = apiSearchQueryService.searchApis(
+        Page<ApiResDTO.ApiPreview> resultPage = apiSearchQueryService.searchApis(
+                userId,
                 page,
                 size,
                 categoryId,
@@ -65,4 +81,18 @@ public class ApiController implements ApiControllerDocs{
 
         return ApiResponse.onPageSuccess(GeneralSuccessCode.OK, resultPage);
     }
-}
+
+    @PostMapping("/{apiId}/favorite")
+    @PreAuthorize("isAuthenticated()")
+    @Override
+    public ApiResponse<ApiResDTO.FavoriteToggle> toggleFavorite(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long apiId
+    ) {
+        Long userId = userDetails.getUser().getId();
+
+        return ApiResponse.onSuccess(
+                GeneralSuccessCode.OK,
+                apiCommandService.toggleFavorite(userId, apiId)
+        );
+    }}

@@ -6,9 +6,15 @@ import lombok.*;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "user_favorite_apis")
-public class UserFavoriteApis {
+@AllArgsConstructor
+@Table(
+        name = "user_favorite_apis",
+        indexes = @Index(name = "idx_user_api", columnList = "user_id, api_id")
+
+)
+public class UserFavoriteApi {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

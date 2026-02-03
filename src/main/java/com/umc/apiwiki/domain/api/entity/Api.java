@@ -40,6 +40,7 @@ public class Api extends BaseEntity {
     @Column(precision = 3, scale = 1)
     private BigDecimal avgRating;
 
+    @Builder.Default
     @Column(columnDefinition = "bigint default 0")
     private Long viewCounts = 0L;
 

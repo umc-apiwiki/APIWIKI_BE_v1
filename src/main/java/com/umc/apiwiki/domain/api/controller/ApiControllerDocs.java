@@ -1,17 +1,21 @@
 package com.umc.apiwiki.domain.api.controller;
 
-import com.umc.apiwiki.domain.api.dto.ApiDTO;
+import com.umc.apiwiki.domain.api.dto.ApiResDTO;
 import com.umc.apiwiki.domain.api.enums.*;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
 import com.umc.apiwiki.global.apiPayload.dto.PageResponseDTO;
+import com.umc.apiwiki.global.security.userdetails.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.math.BigDecimal;
 
@@ -34,9 +38,13 @@ public interface ApiControllerDocs {
                     - mostReviewed : 리뷰 많은 순
                     """
     )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "API 상세 조회 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "요청한 API를 찾을 수 없습니다. (API4001)")
+    })
     @GetMapping("/apis")
-    ApiResponse<PageResponseDTO<ApiDTO.ApiPreview>> searchApis(
-
+    ApiResponse<PageResponseDTO<ApiResDTO.ApiPreview>> searchApis(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @PositiveOrZero int page,
             @Positive Integer size,
             Long categoryId,
@@ -61,7 +69,26 @@ public interface ApiControllerDocs {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "요청한 API를 찾을 수 없습니다. (API4001)")
     })
     @GetMapping("/apis/{apiId}")
-    ApiResponse<ApiDTO.ApiDetail> getApiDetail(
+    ApiResponse<ApiResDTO.ApiDetail> getApiDetail(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long apiId
+    );
+
+    @Operation(
+            summary = "API 좋아요 By 이노",
+            description = """
+                    해당 API를 좋아요(북마크) 합니다.
+                    이미 좋아요된 상태에서 한 번 더 호출하면 기존의 좋아요를 취소할 수 있습니다.
+                    """
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "API 상세 조회 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "요청한 API를 찾을 수 없습니다. (API4001)")
+    })
+    @PostMapping("/{apiId}/favorite")
+    @PreAuthorize("isAuthenticated()")
+    ApiResponse<ApiResDTO.FavoriteToggle> toggleFavorite(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long apiId
     );
 }
