@@ -91,4 +91,22 @@ public interface ApiControllerDocs {
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long apiId
     );
+
+    @Operation(
+            summary = "API 비용 정보 조회 By 제인",
+            description = """
+                API 상세 - 비용정보 탭에서 사용할 데이터를 조회합니다.
+                
+                ▪ pricingInfoCsv는 DB에 저장된 CSV 텍스트를 반환합니다.
+                ▪ pricingType은 무료/혼합/유료 필터링 및 뱃지 용도입니다.
+                """
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "API 비용 정보 조회 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "요청한 API를 찾을 수 없습니다. (API4001)")
+    })
+    @GetMapping("/apis/{apiId}/pricing")
+    ApiResponse<ApiResDTO.ApiPricing> getApiPricing(
+            @PathVariable Long apiId
+    );
 }
