@@ -7,7 +7,11 @@ import lombok.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "user_favorite_apis")
+@Table(
+        name = "user_favorite_apis",
+        indexes = @Index(name = "idx_user_api", columnList = "user_id, api_id")
+
+)
 public class UserFavoriteApis {
 
     @Id
