@@ -15,6 +15,11 @@ public class UserResDTO {
     ) {}
 
     @Builder
+    public record MyProfileRes(
+            String nickname
+    ) {}
+
+    @Builder
     public record MyWikiHistory(
             Long requestId,
             Long apiId,

@@ -8,6 +8,7 @@ import com.umc.apiwiki.global.security.userdetails.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -81,4 +82,22 @@ public interface UserControllerDocs {
             @RequestParam(defaultValue = "0") @PositiveOrZero int page,
             @RequestParam(required = false, defaultValue = "16") @Positive Integer size
     );
+
+    @Operation(
+            summary = "내 프로필 조회 API By 제인",
+            description = """
+                    로그인한 사용자의 프로필 정보를 조회합니다.<br>
+                    JWT 인증이 필요하며, 토큰에 담긴 이메일(subject)을 기반으로 사용자를 식별합니다.<br>
+                    <br>
+                    **[응답 정보]**<br>
+                    - nickname: 사용자 닉네임
+                    """
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증되지 않은 사용자"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "사용자 정보 없음")
+    })
+    @GetMapping("/users/me")
+    ApiResponse<UserResDTO.MyProfileRes> getMyProfile();
 }

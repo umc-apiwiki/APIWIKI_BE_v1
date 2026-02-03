@@ -3,6 +3,7 @@ package com.umc.apiwiki.domain.user.controller;
 import com.umc.apiwiki.domain.user.dto.UserReqDTO;
 import com.umc.apiwiki.domain.user.dto.UserResDTO;
 import com.umc.apiwiki.domain.user.service.command.UserCommandService;
+import com.umc.apiwiki.domain.user.service.query.UserQueryService;
 import com.umc.apiwiki.domain.wiki.service.query.WikiQueryService;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
 import com.umc.apiwiki.global.apiPayload.code.GeneralSuccessCode;
@@ -21,7 +22,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1")
 public class UserController implements UserControllerDocs {
 
-    private final UserCommandService userCommandService;
+    private final UserCommandService  userCommandService;
+    private final UserQueryService userQueryService;
     private final WikiQueryService wikiQueryService;
 
     @PostMapping("/auth/signup")
@@ -56,5 +58,11 @@ public class UserController implements UserControllerDocs {
         Long userId = userDetails.getUser().getId();
 
         return  ApiResponse.onPageSuccess(GeneralSuccessCode.OK, wikiQueryService.returnMyWikiHistory(page, size, userId));
+    }
+
+    @GetMapping("/users/me")
+    @Override
+    public ApiResponse<UserResDTO.MyProfileRes> getMyProfile() {
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, userQueryService.getMyProfile());
     }
 }
