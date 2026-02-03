@@ -1,5 +1,6 @@
 package com.umc.apiwiki.domain.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.umc.apiwiki.domain.api.enums.AuthType;
 import com.umc.apiwiki.domain.api.enums.PricingType;
 import com.umc.apiwiki.domain.api.enums.ProviderCompany;
@@ -20,7 +21,9 @@ public class ApiDTO {
             Long viewCounts,
             PricingType pricingType,
             AuthType authType,
-            ProviderCompany providerCompany
+            ProviderCompany providerCompany,
+            @JsonProperty("isFavorited")
+            boolean isFavorited
     ) {}
 
     // 상세 조회 DTO by 재인
@@ -35,7 +38,9 @@ public class ApiDTO {
             List<CategoryItem> categories,
             String logo,
             LocalDateTime createdAt,
-            LocalDateTime updatedAt
+            LocalDateTime updatedAt,
+            @JsonProperty("isFavorited")
+            boolean isFavorited
     ) {}
 
     public record CategoryItem(

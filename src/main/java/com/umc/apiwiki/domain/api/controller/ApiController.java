@@ -1,18 +1,20 @@
 package com.umc.apiwiki.domain.api.controller;
 
 import com.umc.apiwiki.domain.api.dto.ApiDTO;
-import com.umc.apiwiki.domain.api.service.query.ApiSearchQueryService;
-import com.umc.apiwiki.domain.api.service.query.ApiDetailQueryService;
 import com.umc.apiwiki.domain.api.enums.*;
+import com.umc.apiwiki.domain.api.service.query.ApiDetailQueryService;
+import com.umc.apiwiki.domain.api.service.query.ApiSearchQueryService;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
 import com.umc.apiwiki.global.apiPayload.code.GeneralSuccessCode;
 import com.umc.apiwiki.global.apiPayload.dto.PageResponseDTO;
+import com.umc.apiwiki.global.security.userdetails.CustomUserDetails;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
@@ -25,15 +27,24 @@ public class ApiController implements ApiControllerDocs{
     private final ApiSearchQueryService apiSearchQueryService;
 
     @GetMapping("/apis/{apiId}")
-    public ApiResponse<ApiDTO.ApiDetail> getApiDetail(@PathVariable Long apiId) {
+    @Override
+    public ApiResponse<ApiDTO.ApiDetail> getApiDetail(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long apiId
+    ) {
+        Long userId = (userDetails != null) ? userDetails.getUser().getId() : null;
+
         return ApiResponse.onSuccess(
                 GeneralSuccessCode.OK,
-                apiDetailQueryService.getApiDetail(apiId)
+                apiDetailQueryService.getApiDetail(apiId, userId)
         );
     }
 
     @GetMapping("/apis")
+    @Override
     public ApiResponse<PageResponseDTO<ApiDTO.ApiPreview>> searchApis(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+
             // page는 0-based 로 명시(Pageable 기준과 일치)
             // 음수 방지
             @RequestParam(defaultValue = "0") @PositiveOrZero int page,
@@ -49,8 +60,10 @@ public class ApiController implements ApiControllerDocs{
             @RequestParam(required = false, name = "pricingTypes") PricingType pricingType,
             @RequestParam(required = false) @Positive @DecimalMax("5.0") BigDecimal minRating
     ) {
+        Long userId = (userDetails != null) ? userDetails.getUser().getId() : null;
 
         Page<ApiDTO.ApiPreview> resultPage = apiSearchQueryService.searchApis(
+                userId,
                 page,
                 size,
                 categoryId,

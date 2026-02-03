@@ -4,12 +4,14 @@ import com.umc.apiwiki.domain.api.dto.ApiDTO;
 import com.umc.apiwiki.domain.api.enums.*;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
 import com.umc.apiwiki.global.apiPayload.dto.PageResponseDTO;
+import com.umc.apiwiki.global.security.userdetails.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -36,7 +38,7 @@ public interface ApiControllerDocs {
     )
     @GetMapping("/apis")
     ApiResponse<PageResponseDTO<ApiDTO.ApiPreview>> searchApis(
-
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @PositiveOrZero int page,
             @Positive Integer size,
             Long categoryId,
@@ -62,6 +64,7 @@ public interface ApiControllerDocs {
     })
     @GetMapping("/apis/{apiId}")
     ApiResponse<ApiDTO.ApiDetail> getApiDetail(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long apiId
     );
 }

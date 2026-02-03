@@ -12,7 +12,7 @@ import lombok.*;
         indexes = @Index(name = "idx_user_api", columnList = "user_id, api_id")
 
 )
-public class UserFavoriteApis {
+public class UserFavoriteApi {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
