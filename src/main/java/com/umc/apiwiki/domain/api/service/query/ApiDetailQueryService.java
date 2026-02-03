@@ -23,12 +23,15 @@ public class ApiDetailQueryService {
     private EntityManager em;
     private final UserFavoriteApiRepository favoriteRepository;
 
+    @Transactional
     public ApiResDTO.ApiDetail getApiDetail(Long apiId, Long userId) {
 
         Api api = em.find(Api.class, apiId);
         if (api == null) {
             throw new GeneralException(GeneralErrorCode.API_NOT_FOUND);
         }
+
+        api.increaseViewCount();
 
         // 좋아요 여부 확인 (userId가 null이면 false)
         boolean isFavorited = userId != null && favoriteRepository.existsByUserIdAndApiId(userId, apiId);
