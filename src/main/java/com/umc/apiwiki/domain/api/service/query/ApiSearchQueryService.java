@@ -4,7 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.umc.apiwiki.domain.api.dto.ApiDTO;
+import com.umc.apiwiki.domain.api.dto.ApiResDTO;
 import com.umc.apiwiki.domain.api.entity.QApi;
 import com.umc.apiwiki.domain.api.entity.QApiCategoriesMap;
 import com.umc.apiwiki.domain.api.enums.*;
@@ -28,7 +28,7 @@ public class ApiSearchQueryService {
 
     private final JPAQueryFactory queryFactory;
 
-    public Page<ApiDTO.ApiPreview> searchApis(
+    public Page<ApiResDTO.ApiPreview> searchApis(
             Long userId,
             int page,
             Integer size,
@@ -73,7 +73,7 @@ public class ApiSearchQueryService {
         // 1. 쿼리 기본 구조 생성
         var query = queryFactory
                 .select(Projections.constructor(
-                        ApiDTO.ApiPreview.class,
+                        ApiResDTO.ApiPreview.class,
                         api.id,
                         api.name,
                         api.summary,
@@ -118,7 +118,7 @@ public class ApiSearchQueryService {
             query.groupBy(favorite.id);
         }
 
-        List<ApiDTO.ApiPreview> content = query
+        List<ApiResDTO.ApiPreview> content = query
                 .orderBy(order)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

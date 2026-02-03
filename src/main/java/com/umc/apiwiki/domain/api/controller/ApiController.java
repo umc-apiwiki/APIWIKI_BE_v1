@@ -1,7 +1,8 @@
 package com.umc.apiwiki.domain.api.controller;
 
-import com.umc.apiwiki.domain.api.dto.ApiDTO;
+import com.umc.apiwiki.domain.api.dto.ApiResDTO;
 import com.umc.apiwiki.domain.api.enums.*;
+import com.umc.apiwiki.domain.api.service.command.ApiCommandService;
 import com.umc.apiwiki.domain.api.service.query.ApiDetailQueryService;
 import com.umc.apiwiki.domain.api.service.query.ApiSearchQueryService;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
@@ -13,6 +14,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,15 +22,16 @@ import java.math.BigDecimal;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/apis")
 public class ApiController implements ApiControllerDocs{
 
     private final ApiDetailQueryService apiDetailQueryService;
     private final ApiSearchQueryService apiSearchQueryService;
+    private final ApiCommandService apiCommandService;
 
-    @GetMapping("/apis/{apiId}")
+    @GetMapping("/{apiId}")
     @Override
-    public ApiResponse<ApiDTO.ApiDetail> getApiDetail(
+    public ApiResponse<ApiResDTO.ApiDetail> getApiDetail(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long apiId
     ) {
@@ -40,9 +43,9 @@ public class ApiController implements ApiControllerDocs{
         );
     }
 
-    @GetMapping("/apis")
+    @GetMapping("")
     @Override
-    public ApiResponse<PageResponseDTO<ApiDTO.ApiPreview>> searchApis(
+    public ApiResponse<PageResponseDTO<ApiResDTO.ApiPreview>> searchApis(
             @AuthenticationPrincipal CustomUserDetails userDetails,
 
             // page는 0-based 로 명시(Pageable 기준과 일치)
@@ -62,7 +65,7 @@ public class ApiController implements ApiControllerDocs{
     ) {
         Long userId = (userDetails != null) ? userDetails.getUser().getId() : null;
 
-        Page<ApiDTO.ApiPreview> resultPage = apiSearchQueryService.searchApis(
+        Page<ApiResDTO.ApiPreview> resultPage = apiSearchQueryService.searchApis(
                 userId,
                 page,
                 size,
@@ -78,4 +81,18 @@ public class ApiController implements ApiControllerDocs{
 
         return ApiResponse.onPageSuccess(GeneralSuccessCode.OK, resultPage);
     }
-}
+
+    @PostMapping("/{apiId}/favorite")
+    @PreAuthorize("isAuthenticated()")
+    @Override
+    public ApiResponse<ApiResDTO.FavoriteToggle> toggleFavorite(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long apiId
+    ) {
+        Long userId = userDetails.getUser().getId();
+
+        return ApiResponse.onSuccess(
+                GeneralSuccessCode.OK,
+                apiCommandService.toggleFavorite(userId, apiId)
+        );
+    }}

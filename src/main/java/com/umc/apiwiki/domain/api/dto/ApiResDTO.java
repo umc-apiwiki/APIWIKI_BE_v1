@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ApiDTO {
+public class ApiResDTO {
 
     // Explore / 목록 조회 DTO by 악어
     public record ApiPreview(
@@ -46,5 +46,11 @@ public class ApiDTO {
     public record CategoryItem(
             Long categoryId,
             String name
+    ) {}
+
+    // 좋아요 응답 DTO by 이노
+    public record FavoriteToggle(
+            Long apiId,
+            boolean isFavorited
     ) {}
 }

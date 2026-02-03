@@ -6,7 +6,9 @@ import lombok.*;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Table(
         name = "user_favorite_apis",
         indexes = @Index(name = "idx_user_api", columnList = "user_id, api_id")

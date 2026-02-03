@@ -1,6 +1,6 @@
 package com.umc.apiwiki.domain.api.service.query;
 
-import com.umc.apiwiki.domain.api.dto.ApiDTO;
+import com.umc.apiwiki.domain.api.dto.ApiResDTO;
 import com.umc.apiwiki.domain.api.entity.Api;
 import com.umc.apiwiki.domain.api.entity.Category;
 import com.umc.apiwiki.domain.user.repository.UserFavoriteApiRepository;
@@ -23,7 +23,7 @@ public class ApiDetailQueryService {
     private EntityManager em;
     private final UserFavoriteApiRepository favoriteRepository;
 
-    public ApiDTO.ApiDetail getApiDetail(Long apiId, Long userId) {
+    public ApiResDTO.ApiDetail getApiDetail(Long apiId, Long userId) {
 
         Api api = em.find(Api.class, apiId);
         if (api == null) {
@@ -42,14 +42,14 @@ public class ApiDetailQueryService {
                 .setParameter("apiId", apiId)
                 .getResultList();
 
-        List<ApiDTO.CategoryItem> categoryItems = categories.stream()
-                .map(c -> new ApiDTO.CategoryItem(
+        List<ApiResDTO.CategoryItem> categoryItems = categories.stream()
+                .map(c -> new ApiResDTO.CategoryItem(
                         c.getId(),
                         c.getName()
                 ))
                 .toList();
 
-        return new ApiDTO.ApiDetail(
+        return new ApiResDTO.ApiDetail(
                 api.getId(),
                 api.getName(),
                 api.getSummary(),
