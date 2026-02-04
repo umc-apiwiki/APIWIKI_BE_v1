@@ -26,7 +26,7 @@ public class ApiResDTO {
             boolean isFavorited
     ) {}
 
-    // 상세 조회 DTO by 재인
+    // 상세 조회 DTO by 제인
     public record ApiDetail(
             Long apiId,
             String name,
@@ -52,5 +52,12 @@ public class ApiResDTO {
     public record FavoriteToggle(
             Long apiId,
             boolean isFavorited
+    ) {}
+
+    // 비용 정보 응답 DTO by 제인
+    public record ApiPricing(
+            Long apiId,
+            PricingType pricingType,
+            String pricingInfoCsv
     ) {}
 }

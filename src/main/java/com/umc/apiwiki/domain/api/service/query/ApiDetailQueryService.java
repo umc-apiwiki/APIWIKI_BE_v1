@@ -67,4 +67,18 @@ public class ApiDetailQueryService {
                 isFavorited
         );
     }
+
+    // 비용 정보 탭 조회
+    public ApiResDTO.ApiPricing getApiPricing(Long apiId) {
+        Api api = em.find(Api.class, apiId);
+        if (api == null) {
+            throw new GeneralException(GeneralErrorCode.API_NOT_FOUND);
+        }
+
+        return new ApiResDTO.ApiPricing(
+                api.getId(),
+                api.getPricingType(),
+                api.getPricingInfo()
+        );
+    }
 }

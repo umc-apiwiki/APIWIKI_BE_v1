@@ -95,4 +95,17 @@ public class ApiController implements ApiControllerDocs{
                 GeneralSuccessCode.OK,
                 apiCommandService.toggleFavorite(userId, apiId)
         );
-    }}
+    }
+
+    @GetMapping("/{apiId}/pricing")
+    @Override
+    public ApiResponse<ApiResDTO.ApiPricing> getApiPricing(
+            @PathVariable Long apiId
+    ) {
+        return ApiResponse.onSuccess(
+                GeneralSuccessCode.OK,
+                apiDetailQueryService.getApiPricing(apiId)
+        );
+    }
+
+}
