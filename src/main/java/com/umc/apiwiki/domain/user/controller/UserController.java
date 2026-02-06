@@ -44,7 +44,7 @@ public class UserController implements UserControllerDocs {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, userCommandService.Login(dto));
     }
 
-    @PatchMapping("/auth/logout")
+    @PostMapping("/auth/logout")
     @Override
     public ApiResponse<String> logout() {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, "로그아웃 성공");
