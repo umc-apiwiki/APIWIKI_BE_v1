@@ -7,6 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ApiReviewRepository extends JpaRepository<ApiReview, Long> {
-    // 활동 내역용
-    List<ApiReview> findAllByUserIdOrderByCreatedAtDesc(Long userId);
+
 }

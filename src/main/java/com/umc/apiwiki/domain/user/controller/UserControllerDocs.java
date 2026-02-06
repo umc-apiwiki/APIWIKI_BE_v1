@@ -107,17 +107,9 @@ public interface UserControllerDocs {
                 로그인한 사용자의 활동 내역을 조회합니다.<br>
                 활동 내역에는 다음 정보가 포함됩니다.<br>
                 <br>
-                ▪ 사용자가 작성한 API 리뷰 목록<br>
                 ▪ 사용자가 좋아요한 API 목록<br>
                 <br>
                 JWT 인증이 필요하며, 현재 로그인한 사용자 기준으로 조회됩니다.<br>
-                <br>
-                **[리뷰 응답 필드]**<br>
-                - apiId: API ID<br>
-                - apiName: API 이름<br>
-                - rating: 평점<br>
-                - comment: 리뷰 내용<br>
-                - createdAt: 리뷰 작성 시간<br>
                 <br>
                 **[좋아요 응답 필드]**<br>
                 - apiId: API ID<br>

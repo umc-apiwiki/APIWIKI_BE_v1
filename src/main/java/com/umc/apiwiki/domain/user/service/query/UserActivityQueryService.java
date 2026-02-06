@@ -1,6 +1,5 @@
 package com.umc.apiwiki.domain.user.service.query;
 
-import com.umc.apiwiki.domain.community.repository.review.ApiReviewRepository;
 import com.umc.apiwiki.domain.user.dto.UserResDTO;
 import com.umc.apiwiki.domain.user.repository.UserFavoriteApiRepository;
 import com.umc.apiwiki.global.apiPayload.code.GeneralErrorCode;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UserActivityQueryService {
 
-    private final ApiReviewRepository apiReviewRepository;
     private final UserFavoriteApiRepository userFavoriteApiRepository;
 
     public UserResDTO.MyActivitiesRes getMyActivities() {
@@ -29,12 +27,6 @@ public class UserActivityQueryService {
 
         Long userId = userDetails.getUser().getId();
 
-        var reviews = apiReviewRepository
-                .findAllByUserIdOrderByCreatedAtDesc(userId)
-                .stream()
-                .map(UserResDTO.MyReviewRes::from)
-                .toList();
-
         var favorites = userFavoriteApiRepository
                 .findAllByUserId(userId)
                 .stream()
@@ -42,7 +34,6 @@ public class UserActivityQueryService {
                 .toList();
 
         return UserResDTO.MyActivitiesRes.builder()
-                .reviews(reviews)
                 .favorites(favorites)
                 .build();
     }
