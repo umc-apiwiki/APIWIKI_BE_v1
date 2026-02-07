@@ -8,14 +8,16 @@ import com.umc.apiwiki.global.security.userdetails.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.GetMapping;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 public interface UserControllerDocs {
 
@@ -102,18 +104,12 @@ public interface UserControllerDocs {
     ApiResponse<UserResDTO.MyProfileRes> getMyProfile();
 
     @Operation(
-            summary = "내 활동 내역 조회 API By 제인",
+            summary = "내 활동 내역 조회 API By 이노",
             description = """
-                로그인한 사용자의 활동 내역을 조회합니다.<br>
-                활동 내역에는 다음 정보가 포함됩니다.<br>
+                로그인한 사용자의 활동(좋아요) 내역을 **날짜별 타임라인** 형태로 조회합니다.<br>
+                가장 최근에 활동한 날짜가 먼저 나오며, 각 API의 상세 정보(평점, 리뷰 수 등)가 포함됩니다.<br>
                 <br>
-                ▪ 사용자가 좋아요한 API 목록<br>
-                <br>
-                JWT 인증이 필요하며, 현재 로그인한 사용자 기준으로 조회됩니다.<br>
-                <br>
-                **[좋아요 응답 필드]**<br>
-                - apiId: API ID<br>
-                - apiName: API 이름
+                (History: 초기 구조 설계 - 제인, 상세 구현 및 그룹화 로직 적용 - 이노)
                 """
     )
     @ApiResponses({
@@ -122,5 +118,5 @@ public interface UserControllerDocs {
     })
     @GetMapping("/users/me/activities")
     @PreAuthorize("isAuthenticated()")
-    ApiResponse<UserResDTO.MyActivitiesRes> getMyActivities();
+    ApiResponse<List<UserResDTO.DailyActivityRes>> getMyActivities();
 }

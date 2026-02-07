@@ -1,9 +1,10 @@
 package com.umc.apiwiki.domain.user.dto;
 
-import com.umc.apiwiki.domain.user.entity.UserFavoriteApi;
+import com.umc.apiwiki.domain.api.dto.ApiResDTO;
 import com.umc.apiwiki.domain.wiki.entity.WikiEditRequest;
 import lombok.Builder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -39,20 +40,9 @@ public class UserResDTO {
     }
 
     @Builder
-    public record MyActivitiesRes(
-            List<MyFavoriteRes> favorites
+    public record DailyActivityRes(
+            LocalDate date,
+            int count,
+            List<ApiResDTO.ApiPreview> activities
     ) {}
-
-    @Builder
-    public record MyFavoriteRes(
-            Long apiId,
-            String apiName
-    ) {
-        public static MyFavoriteRes from(UserFavoriteApi favorite) {
-            return MyFavoriteRes.builder()
-                    .apiId(favorite.getApi().getId())
-                    .apiName(favorite.getApi().getName())
-                    .build();
-        }
-    }
 }

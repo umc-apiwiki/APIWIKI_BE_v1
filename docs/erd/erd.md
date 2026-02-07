@@ -82,6 +82,7 @@ erDiagram
         long favorite_apis_id PK
         long user_id FK
         long api_id FK
+        datetime created_at
     }
 
     api_review {

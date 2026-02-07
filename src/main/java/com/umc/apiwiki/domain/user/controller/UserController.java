@@ -18,6 +18,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
@@ -71,7 +73,7 @@ public class UserController implements UserControllerDocs {
     @GetMapping("/users/me/activities")
     @PreAuthorize("isAuthenticated()")
     @Override
-    public ApiResponse<UserResDTO.MyActivitiesRes> getMyActivities() {
+    public ApiResponse<List<UserResDTO.DailyActivityRes>> getMyActivities() {
         return ApiResponse.onSuccess(
                 GeneralSuccessCode.OK,
                 userActivityQueryService.getMyActivities()
