@@ -1,6 +1,7 @@
 package com.umc.apiwiki.domain.community.controller.review;
 
 import com.umc.apiwiki.domain.community.dto.review.ApiReviewReqDTO;
+import com.umc.apiwiki.domain.community.dto.review.ApiReviewResDTO;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -27,7 +28,7 @@ public interface ApiReviewControllerDocs {
     })
     @PostMapping("/apis/{apiId}/reviews")
     @PreAuthorize("isAuthenticated()")
-    ApiResponse<String> createReview(
+    ApiResponse<ApiReviewResDTO.Create> createReview(
             @PathVariable Long apiId,
             @RequestBody ApiReviewReqDTO.Create dto,
             @AuthenticationPrincipal CustomUserDetails userDetails

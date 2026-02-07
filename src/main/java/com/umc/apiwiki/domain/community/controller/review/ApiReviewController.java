@@ -1,6 +1,7 @@
 package com.umc.apiwiki.domain.community.controller.review;
 
 import com.umc.apiwiki.domain.community.dto.review.ApiReviewReqDTO;
+import com.umc.apiwiki.domain.community.dto.review.ApiReviewResDTO;
 import com.umc.apiwiki.domain.community.service.command.ApiReviewCommandService;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
 import com.umc.apiwiki.global.apiPayload.code.GeneralSuccessCode;
@@ -21,7 +22,7 @@ public class ApiReviewController implements ApiReviewControllerDocs {
     @PostMapping("")
     @PreAuthorize("isAuthenticated()")
     @Override
-    public ApiResponse<String> createReview(
+    public ApiResponse<ApiReviewResDTO.Create> createReview(
             @PathVariable Long apiId,
             @RequestBody @Valid ApiReviewReqDTO.Create dto,
             @AuthenticationPrincipal CustomUserDetails userDetails

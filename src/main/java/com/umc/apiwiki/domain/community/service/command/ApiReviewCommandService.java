@@ -3,6 +3,7 @@ package com.umc.apiwiki.domain.community.service.command;
 import com.umc.apiwiki.domain.api.entity.Api;
 import com.umc.apiwiki.domain.api.repository.ApiRepository;
 import com.umc.apiwiki.domain.community.dto.review.ApiReviewReqDTO;
+import com.umc.apiwiki.domain.community.dto.review.ApiReviewResDTO;
 import com.umc.apiwiki.domain.community.entity.review.ApiReview;
 import com.umc.apiwiki.domain.community.repository.review.ApiReviewRepository;
 import com.umc.apiwiki.domain.user.entity.User;
@@ -22,7 +23,7 @@ public class ApiReviewCommandService {
     private final ApiRepository apiRepository;
     private final UserRepository userRepository;
 
-    public String createReview(Long apiId, Long userId, ApiReviewReqDTO.Create dto) {
+    public ApiReviewResDTO.Create createReview(Long apiId, Long userId, ApiReviewReqDTO.Create dto) {
         // 1. API 존재 여부 확인
         Api api = apiRepository.findById(apiId)
                 .orElseThrow(() -> new GeneralException(GeneralErrorCode.API_NOT_FOUND));
@@ -41,10 +42,10 @@ public class ApiReviewCommandService {
 
         ApiReview savedReview = apiReviewRepository.save(newReview);
 
-        // 4. (추후 확장: 평균 평점 계산 등)
-
-        // 5. 응답 반환
-        return "리뷰 작성 성공";
+        // 4. 응답 반환
+        return ApiReviewResDTO.Create.builder()
+                .reviewId(savedReview.getId())
+                .build();
     }
 
     public String deleteReview(Long apiId, Long reviewId, Long userId) {
