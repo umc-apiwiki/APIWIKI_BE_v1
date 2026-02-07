@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Tag(name = "API 탐색", description = "Explore 페이지 API 목록 조회 + 필터 + 상세 조회")
 public interface ApiControllerDocs {
@@ -107,6 +108,33 @@ public interface ApiControllerDocs {
     })
     @GetMapping("/apis/{apiId}/pricing")
     ApiResponse<ApiResDTO.ApiPricing> getApiPricing(
+            @PathVariable Long apiId
+    );
+
+    @Operation(
+            summary = "비슷한 API 추천 조회 By 악어",
+            description = """
+                    API 상세 페이지 하단의 '비슷한 API' 영역에 사용됩니다.
+                    
+                    ▪ 기준 API와 같은 카테고리를 가진 API를 반환합니다.
+                    ▪ 자기 자신(API)은 제외됩니다.
+                    ▪ 최신 등록순으로 최대 5개를 반환합니다.
+                    ▪ 로그인 상태인 경우, 각 API의 좋아요 여부(isFavorited)가 함께 반환됩니다.
+                    """
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "비슷한 API 조회 성공"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "404",
+                    description = "요청한 API를 찾을 수 없습니다. (API4001)"
+            )
+    })
+    @GetMapping("/apis/{apiId}/similar")
+    ApiResponse<List<ApiResDTO.ApiSimilarPreview>> getSimilarApis(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long apiId
     );
 }

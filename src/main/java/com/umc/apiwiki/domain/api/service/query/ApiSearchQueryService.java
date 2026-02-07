@@ -77,6 +77,7 @@ public class ApiSearchQueryService {
                         api.id,
                         api.name,
                         api.summary,
+                        api.logo,
                         api.avgRating.coalesce(BigDecimal.ZERO),
                         review.id.count(),
                         api.viewCounts.coalesce(0L),

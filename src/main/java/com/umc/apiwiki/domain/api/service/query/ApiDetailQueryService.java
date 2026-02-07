@@ -81,4 +81,52 @@ public class ApiDetailQueryService {
                 api.getPricingInfo()
         );
     }
+
+    // 비슷한 API 조회 (같은 카테고리 기반, 최신순 5개)
+    public List<ApiResDTO.ApiSimilarPreview> getSimilarApis(Long apiId, Long userId) {
+
+        // 기준 API 존재 여부 확인
+        if (em.find(Api.class, apiId) == null) {
+            throw new GeneralException(GeneralErrorCode.API_NOT_FOUND);
+        }
+
+        // 같은 카테고리를 가진 다른 API 조회
+        List<Api> similarApis = em.createQuery("""
+            select distinct m.api
+            from ApiCategoriesMap m
+            where m.category.id in (
+                select m2.category.id
+                from ApiCategoriesMap m2
+                where m2.api.id = :apiId
+            )
+            and m.api.id <> :apiId
+            order by m.api.createdAt desc
+            """, Api.class)
+                .setParameter("apiId", apiId)
+                .setMaxResults(5)
+                .getResultList();
+
+        // ApiPreview DTO 변환
+        return similarApis.stream()
+                .map(api -> toSimilarPreview(api, userId))
+                .toList();
+    }
+    private ApiResDTO.ApiSimilarPreview toSimilarPreview(Api api, Long userId) {
+
+        boolean isFavorited =
+                userId != null &&
+                        favoriteRepository.existsByUserIdAndApiId(userId, api.getId());
+
+        return new ApiResDTO.ApiSimilarPreview(
+                api.getId(),
+                api.getName(),
+                api.getLogo(),
+                api.getSummary(),
+                api.getAvgRating(),
+                api.getPricingType(),
+                api.getAuthType(),
+                api.getProviderCompany(),
+                isFavorited
+        );
+    }
 }

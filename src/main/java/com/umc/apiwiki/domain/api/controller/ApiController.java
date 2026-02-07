@@ -19,6 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -108,4 +109,18 @@ public class ApiController implements ApiControllerDocs{
         );
     }
 
+    // 비슷한 API 반환
+    @GetMapping("/{apiId}/similar")
+    @Override
+    public ApiResponse<List<ApiResDTO.ApiSimilarPreview>> getSimilarApis(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long apiId
+    ) {
+        Long userId = (userDetails != null) ? userDetails.getUser().getId() : null;
+
+        return ApiResponse.onSuccess(
+                GeneralSuccessCode.OK,
+                apiDetailQueryService.getSimilarApis(apiId, userId)
+        );
+    }
 }
