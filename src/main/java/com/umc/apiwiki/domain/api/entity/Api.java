@@ -62,4 +62,9 @@ public class Api extends BaseEntity {
         }
         this.viewCounts++;
     }
+
+    // 별점 업데이트 로직
+    public void updateAvgRating(BigDecimal avgRating) {
+        this.avgRating = avgRating;
+    }
 }

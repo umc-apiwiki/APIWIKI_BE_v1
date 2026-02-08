@@ -50,7 +50,7 @@ public interface ApiReviewControllerDocs {
     })
     @DeleteMapping("/apis/{apiId}/reviews/{reviewId}")
     @PreAuthorize("isAuthenticated()")
-    ApiResponse<String> deleteReview(
+    ApiResponse<ApiReviewResDTO.Create> deleteReview(
             @PathVariable Long apiId,
             @PathVariable Long reviewId,
             @AuthenticationPrincipal CustomUserDetails userDetails

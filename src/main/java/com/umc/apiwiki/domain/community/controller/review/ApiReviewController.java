@@ -38,7 +38,7 @@ public class ApiReviewController implements ApiReviewControllerDocs {
     @DeleteMapping("/{reviewId}")
     @PreAuthorize("isAuthenticated()")
     @Override
-    public ApiResponse<String> deleteReview(
+    public ApiResponse<ApiReviewResDTO.Create> deleteReview(
             @PathVariable Long apiId,
             @PathVariable Long reviewId,
             @AuthenticationPrincipal CustomUserDetails userDetails
