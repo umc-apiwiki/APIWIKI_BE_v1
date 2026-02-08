@@ -63,6 +63,7 @@ public class ApiResDTO {
     ) {}
 
     // 비슷한 API 반환 DTO by 악어
+    // 비슷한 API 응답 DTO
     public record ApiSimilarPreview(
             Long apiId,
             String name,
@@ -72,6 +73,7 @@ public class ApiResDTO {
             PricingType pricingType,
             AuthType authType,
             ProviderCompany providerCompany,
+            @JsonProperty("isFavorited")
             boolean isFavorited
     ) {}
 }

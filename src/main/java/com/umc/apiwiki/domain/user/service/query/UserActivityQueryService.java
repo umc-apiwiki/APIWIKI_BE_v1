@@ -54,6 +54,7 @@ public class UserActivityQueryService {
                                 api.id,
                                 api.name,
                                 api.summary,
+                                api.logo,
                                 api.avgRating.coalesce(BigDecimal.ZERO),
                                 review.id.count(), // 리뷰 수
                                 api.viewCounts.coalesce(0L),
