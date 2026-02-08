@@ -3,6 +3,7 @@ package com.umc.apiwiki.domain.user.controller;
 import com.umc.apiwiki.domain.user.dto.UserReqDTO;
 import com.umc.apiwiki.domain.user.dto.UserResDTO;
 import com.umc.apiwiki.domain.user.service.command.UserCommandService;
+import com.umc.apiwiki.domain.user.service.query.UserActivityQueryService;
 import com.umc.apiwiki.domain.user.service.query.UserQueryService;
 import com.umc.apiwiki.domain.wiki.service.query.WikiQueryService;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
@@ -17,6 +18,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
@@ -25,6 +28,7 @@ public class UserController implements UserControllerDocs {
     private final UserCommandService  userCommandService;
     private final UserQueryService userQueryService;
     private final WikiQueryService wikiQueryService;
+    private final UserActivityQueryService userActivityQueryService;
 
     @PostMapping("/auth/signup")
     @Override
@@ -42,7 +46,7 @@ public class UserController implements UserControllerDocs {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, userCommandService.Login(dto));
     }
 
-    @PatchMapping("/auth/logout")
+    @PostMapping("/auth/logout")
     @Override
     public ApiResponse<String> logout() {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, "로그아웃 성공");
@@ -64,5 +68,15 @@ public class UserController implements UserControllerDocs {
     @Override
     public ApiResponse<UserResDTO.MyProfileRes> getMyProfile() {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, userQueryService.getMyProfile());
+    }
+
+    @GetMapping("/users/me/activities")
+    @PreAuthorize("isAuthenticated()")
+    @Override
+    public ApiResponse<List<UserResDTO.DailyActivityRes>> getMyActivities() {
+        return ApiResponse.onSuccess(
+                GeneralSuccessCode.OK,
+                userActivityQueryService.getMyActivities()
+        );
     }
 }

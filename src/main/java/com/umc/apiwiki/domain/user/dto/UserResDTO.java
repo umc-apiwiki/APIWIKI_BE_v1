@@ -1,9 +1,12 @@
 package com.umc.apiwiki.domain.user.dto;
 
+import com.umc.apiwiki.domain.api.dto.ApiResDTO;
 import com.umc.apiwiki.domain.wiki.entity.WikiEditRequest;
 import lombok.Builder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class UserResDTO {
 
@@ -35,4 +38,11 @@ public class UserResDTO {
                     .build();
         }
     }
+
+    @Builder
+    public record DailyActivityRes(
+            LocalDate date,
+            int count,
+            List<ApiResDTO.ApiPreview> activities
+    ) {}
 }

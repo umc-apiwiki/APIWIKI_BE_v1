@@ -3,6 +3,7 @@ package com.umc.apiwiki.domain.api.service.command;
 import com.umc.apiwiki.domain.api.dto.ApiResDTO;
 import com.umc.apiwiki.domain.api.entity.Api;
 import com.umc.apiwiki.domain.api.repository.ApiRepository;
+import com.umc.apiwiki.domain.community.repository.review.ApiReviewRepository;
 import com.umc.apiwiki.domain.user.entity.User;
 import com.umc.apiwiki.domain.user.entity.UserFavoriteApi;
 import com.umc.apiwiki.domain.user.repository.UserFavoriteApiRepository;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Optional;
 
 @Service
@@ -23,6 +26,7 @@ public class ApiCommandService {
     private final UserFavoriteApiRepository favoriteRepository;
     private final ApiRepository apiRepository;
     private final UserRepository userRepository;
+    private final ApiReviewRepository apiReviewRepository;
 
     public ApiResDTO.FavoriteToggle toggleFavorite(Long userId, Long apiId) {
 
@@ -55,4 +59,24 @@ public class ApiCommandService {
 
         return new ApiResDTO.FavoriteToggle(apiId, isFavorited);
     }
+
+    public void updateAvgRating(Long apiId) {
+        Api api = apiRepository.findById(apiId)
+                .orElseThrow(() -> new GeneralException(GeneralErrorCode.API_NOT_FOUND));
+
+        Double avg = apiReviewRepository.calculateAvgRating(apiId);
+
+        // 리뷰가 하나도 없을 때
+        if (avg == null) {
+            api.updateAvgRating(null);
+            return;
+        }
+
+        // BigDecimal 변환 + 소수점 1자리 반올림
+        BigDecimal avgRating = BigDecimal.valueOf(avg)
+                .setScale(1, RoundingMode.HALF_UP);
+
+        api.updateAvgRating(avgRating);
+    }
+
 }

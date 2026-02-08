@@ -8,14 +8,16 @@ import com.umc.apiwiki.global.security.userdetails.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.GetMapping;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 public interface UserControllerDocs {
 
@@ -100,4 +102,19 @@ public interface UserControllerDocs {
     })
     @GetMapping("/users/me")
     ApiResponse<UserResDTO.MyProfileRes> getMyProfile();
+
+    @Operation(
+            summary = "내 활동 내역 조회 API By 이노",
+            description = """
+                로그인한 사용자의 활동(좋아요) 내역을 **날짜별 타임라인** 형태로 조회합니다.<br>
+                가장 최근에 활동한 날짜가 먼저 나오며, 각 API의 상세 정보(평점, 리뷰 수 등)가 포함됩니다.<br>
+                """
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증되지 않은 사용자")
+    })
+    @GetMapping("/users/me/activities")
+    @PreAuthorize("isAuthenticated()")
+    ApiResponse<List<UserResDTO.DailyActivityRes>> getMyActivities();
 }
