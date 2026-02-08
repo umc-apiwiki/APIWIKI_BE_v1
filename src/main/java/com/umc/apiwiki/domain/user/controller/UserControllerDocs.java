@@ -108,8 +108,6 @@ public interface UserControllerDocs {
             description = """
                 로그인한 사용자의 활동(좋아요) 내역을 **날짜별 타임라인** 형태로 조회합니다.<br>
                 가장 최근에 활동한 날짜가 먼저 나오며, 각 API의 상세 정보(평점, 리뷰 수 등)가 포함됩니다.<br>
-                <br>
-                (History: 초기 구조 설계 - 제인, 상세 구현 및 그룹화 로직 적용 - 이노)
                 """
     )
     @ApiResponses({
