@@ -82,16 +82,7 @@ public class UserActivityQueryService {
                                 Collectors.toList()
                         )
                 ));
-
-        // 5. 응답 DTO 변환
-        List<UserResDTO.DailyActivityRes> timeline = groupedMap.entrySet().stream()
-                .map(entry -> UserResDTO.DailyActivityRes.builder()
-                        .date(entry.getKey())
-                        .count(entry.getValue().size())
-                        .activities(entry.getValue())
-                        .build())
-                .toList();
-
+        
         return groupedMap.entrySet().stream()
                 .map(entry -> UserResDTO.DailyActivityRes.builder()
                         .date(entry.getKey())
