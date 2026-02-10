@@ -85,7 +85,7 @@ public class ApiDetailQueryService {
     }
 
     // 비슷한 API 조회 (같은 카테고리 기반, 최신순 5개)
-    public List<ApiResDTO.ApiSimilarPreview> getSimilarApis(Long apiId, Long userId) {
+    public List<ApiResDTO.ApiSimilarPreview> getSimilarApis(Long apiId) {
 
         if (em.find(Api.class, apiId) == null) {
             throw new GeneralException(GeneralErrorCode.API_NOT_FOUND);
@@ -105,33 +105,19 @@ public class ApiDetailQueryService {
                 .setParameter("apiId", apiId)
                 .setMaxResults(5)
                 .getResultList();
-        final Set<Long> likedApiIds = new HashSet<>();
-
-        if (userId != null && !similarApis.isEmpty()) {
-            List<Long> apiIds = similarApis.stream()
-                    .map(Api::getId)
-                    .toList();
-
-            likedApiIds.addAll(
-                    favoriteRepository.findFavoriteApiIds(userId, apiIds)
-            );
-        }
 
         return similarApis.stream()
-                .map(api -> toSimilarPreview(api, likedApiIds.contains(api.getId())))
+                .map(this::toSimilarPreview)
                 .toList();
     }
-    private ApiResDTO.ApiSimilarPreview toSimilarPreview(Api api, boolean isFavorited) {
+    private ApiResDTO.ApiSimilarPreview toSimilarPreview(Api api) {
         return new ApiResDTO.ApiSimilarPreview(
                 api.getId(),
                 api.getName(),
                 api.getLogo(),
-                api.getSummary(),
                 api.getAvgRating(),
                 api.getPricingType(),
-                api.getAuthType(),
-                api.getProviderCompany(),
-                isFavorited
+                api.getViewCounts()
         );
     }
 }

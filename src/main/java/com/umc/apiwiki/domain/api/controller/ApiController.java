@@ -120,7 +120,7 @@ public class ApiController implements ApiControllerDocs{
 
         return ApiResponse.onSuccess(
                 GeneralSuccessCode.OK,
-                apiDetailQueryService.getSimilarApis(apiId, userId)
+                apiDetailQueryService.getSimilarApis(apiId)
         );
     }
 }
