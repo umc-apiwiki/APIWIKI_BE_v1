@@ -68,12 +68,8 @@ public class ApiResDTO {
             Long apiId,
             String name,
             String logo,
-            String summary,
             BigDecimal avgRating,
             PricingType pricingType,
-            AuthType authType,
-            ProviderCompany providerCompany,
-            @JsonProperty("isFavorited")
-            boolean isFavorited
+            Long viewCounts
     ) {}
 }

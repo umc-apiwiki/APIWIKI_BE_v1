@@ -116,11 +116,9 @@ public class ApiController implements ApiControllerDocs{
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long apiId
     ) {
-        Long userId = (userDetails != null) ? userDetails.getUser().getId() : null;
-
         return ApiResponse.onSuccess(
                 GeneralSuccessCode.OK,
-                apiDetailQueryService.getSimilarApis(apiId, userId)
+                apiDetailQueryService.getSimilarApis(apiId)
         );
     }
 }
