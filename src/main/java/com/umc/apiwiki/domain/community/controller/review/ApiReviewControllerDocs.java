@@ -55,4 +55,22 @@ public interface ApiReviewControllerDocs {
             @PathVariable Long reviewId,
             @AuthenticationPrincipal CustomUserDetails userDetails
     );
+
+    @Operation(
+            summary = "리뷰 조회 API By 제인",
+            description = """
+                    특정 API에 대한 리뷰 목록을 조회합니다.<br>
+                    리뷰는 최신순으로 정렬되며, 16개 단위로 페이징됩니다.<br>
+                    평균 별점과 전체 리뷰 개수를 함께 반환합니다.
+                    """
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "리뷰 조회 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "API 없음")
+    })
+    @GetMapping("/apis/{apiId}/reviews")
+    ApiResponse<ApiReviewResDTO.ReviewList> getReviews(
+            @PathVariable Long apiId,
+            @RequestParam(defaultValue = "0") int page
+    );
 }

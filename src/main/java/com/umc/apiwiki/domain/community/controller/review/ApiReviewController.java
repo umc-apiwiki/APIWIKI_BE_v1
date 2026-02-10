@@ -3,6 +3,7 @@ package com.umc.apiwiki.domain.community.controller.review;
 import com.umc.apiwiki.domain.community.dto.review.ApiReviewReqDTO;
 import com.umc.apiwiki.domain.community.dto.review.ApiReviewResDTO;
 import com.umc.apiwiki.domain.community.service.command.ApiReviewCommandService;
+import com.umc.apiwiki.domain.community.service.query.ApiReviewQueryService;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
 import com.umc.apiwiki.global.apiPayload.code.GeneralSuccessCode;
 import com.umc.apiwiki.global.security.userdetails.CustomUserDetails;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class ApiReviewController implements ApiReviewControllerDocs {
 
     private final ApiReviewCommandService apiReviewCommandService;
+    private final ApiReviewQueryService apiReviewQueryService;
 
     @PostMapping("")
     @PreAuthorize("isAuthenticated()")
@@ -48,6 +50,18 @@ public class ApiReviewController implements ApiReviewControllerDocs {
         return ApiResponse.onSuccess(
                 GeneralSuccessCode.OK,
                 apiReviewCommandService.deleteReview(apiId, reviewId, userId)
+        );
+    }
+
+    @GetMapping("")
+    @Override
+    public ApiResponse<ApiReviewResDTO.ReviewList> getReviews(
+            @PathVariable Long apiId,
+            @RequestParam(defaultValue = "0") int page
+    ) {
+        return ApiResponse.onSuccess(
+                GeneralSuccessCode.OK,
+                apiReviewQueryService.getApiReviews(apiId, page)
         );
     }
 }
