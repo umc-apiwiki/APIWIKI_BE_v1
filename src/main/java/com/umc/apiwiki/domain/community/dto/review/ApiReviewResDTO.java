@@ -17,6 +17,7 @@ public class ApiReviewResDTO {
 
     // 개별 리뷰 응답 DTO
     public static record ReviewItem(
+            Long reviewId,
             String nickname,
             String comment,
             Float rating,
@@ -24,6 +25,7 @@ public class ApiReviewResDTO {
     ) {
         public static ReviewItem from(ApiReview review) {
             return new ReviewItem(
+                    review.getId(),
                     review.getUser().getNickname(),
                     review.getComment(),
                     review.getRating(),
