@@ -2,6 +2,7 @@ package com.umc.apiwiki.domain.user.controller;
 
 import com.umc.apiwiki.domain.user.dto.ProfileReqDTO;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
+import com.umc.apiwiki.global.security.userdetails.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,41 +17,39 @@ public interface ProfileControllerDocs {
             description = """
                     닉네임 중복 여부를 확인합니다.
 
-                    - JWT 인증이 필요합니다.
-                    - 현재 로그인한 사용자의 닉네임은 제외됩니다.
-                    - 중복일 경우 USER4001 에러를 반환합니다.
+                    - JWT 인증 필요
+                    - 본인 닉네임은 제외
+                    - 중복 시 USER4001 반환
                     """
     )
     @GetMapping("/profile/nickname/check")
     ApiResponse<Void> checkNicknameDuplicate(
             @RequestParam String nickname,
-
             @Parameter(hidden = true)
-            @AuthenticationPrincipal String email
+            @AuthenticationPrincipal CustomUserDetails userDetails
     );
 
     @Operation(
             summary = "프로필 수정 API By 악어",
             description = """
-                    프로필 정보를 수정합니다.
+                    닉네임 / 비밀번호 수정
 
-                    - 닉네임 / 비밀번호 부분 수정 가능
-                    - 변경 값이 없으면 USER4004 에러
+                    - 하나 또는 동시에 변경 가능
+                    - 변경 값 없으면 USER4004
                     - JWT 인증 필요
                     """
     )
     @PatchMapping("/profile")
     ApiResponse<Void> updateProfile(
             @Parameter(hidden = true)
-            @AuthenticationPrincipal String email,
-
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody ProfileReqDTO.Update request
     );
 
     @Operation(
             summary = "회원 탈퇴 API By 악어",
             description = """
-                    회원 탈퇴를 진행합니다.
+                    회원 탈퇴
 
                     - 하드 딜리트
                     - 복구 불가
@@ -60,6 +59,6 @@ public interface ProfileControllerDocs {
     @DeleteMapping("/profile")
     ApiResponse<Void> deleteUser(
             @Parameter(hidden = true)
-            @AuthenticationPrincipal String email
+            @AuthenticationPrincipal CustomUserDetails userDetails
     );
 }

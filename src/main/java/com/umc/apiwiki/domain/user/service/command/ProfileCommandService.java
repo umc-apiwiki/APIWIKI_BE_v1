@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class ProfileCommandService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
