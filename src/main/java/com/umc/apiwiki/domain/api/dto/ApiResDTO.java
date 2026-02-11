@@ -41,7 +41,16 @@ public class ApiResDTO {
             LocalDateTime createdAt,
             LocalDateTime updatedAt,
             @JsonProperty("isFavorited")
-            boolean isFavorited
+            boolean isFavorited,
+            WikiItem wiki
+    ) {}
+
+    public record WikiItem(
+            Long wikiId,
+            String contentMd,
+            Long version,
+            String lastEditorNickname,
+            LocalDateTime updatedAt
     ) {}
 
     public record CategoryItem(

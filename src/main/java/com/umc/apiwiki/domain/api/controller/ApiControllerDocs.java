@@ -63,7 +63,7 @@ public interface ApiControllerDocs {
     // API 상세 조회
     @Operation(
             summary = "API 상세 조회 By 제인",
-            description = "API 개요 탭에서 한줄 설명, 카테고리 태그, 긴 설명 등을 반환합니다."
+            description = "API 개요 탭에서 한줄 설명, 카테고리 태그, Wiki 문서 등을 반환합니다."
     )
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "API 상세 조회 성공"),

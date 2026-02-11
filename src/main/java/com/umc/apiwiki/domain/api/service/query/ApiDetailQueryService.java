@@ -4,6 +4,8 @@ import com.umc.apiwiki.domain.api.dto.ApiResDTO;
 import com.umc.apiwiki.domain.api.entity.Api;
 import com.umc.apiwiki.domain.api.entity.Category;
 import com.umc.apiwiki.domain.user.repository.UserFavoriteApiRepository;
+import com.umc.apiwiki.domain.wiki.entity.Wiki;
+import com.umc.apiwiki.domain.wiki.repository.WikiRepository;
 import com.umc.apiwiki.global.apiPayload.code.GeneralErrorCode;
 import com.umc.apiwiki.global.apiPayload.exception.GeneralException;
 import jakarta.persistence.EntityManager;
@@ -22,6 +24,7 @@ public class ApiDetailQueryService {
     @PersistenceContext
     private EntityManager em;
     private final UserFavoriteApiRepository favoriteRepository;
+    private final WikiRepository wikiRepository;
 
     @Transactional
     public ApiResDTO.ApiDetail getApiDetail(Long apiId, Long userId) {
@@ -52,6 +55,19 @@ public class ApiDetailQueryService {
                 ))
                 .toList();
 
+        Wiki wiki = wikiRepository.findByApiId(apiId).orElse(null);
+
+        ApiResDTO.WikiItem wikiItem = null;
+        if (wiki != null) {
+            wikiItem = new ApiResDTO.WikiItem(
+                    wiki.getId(),
+                    wiki.getContentMd(),
+                    wiki.getVersion(),
+                    wiki.getUser() != null ? wiki.getUser().getNickname() : null,
+                    wiki.getUpdatedAt()
+            );
+        }
+
         return new ApiResDTO.ApiDetail(
                 api.getId(),
                 api.getName(),
@@ -64,7 +80,8 @@ public class ApiDetailQueryService {
                 api.getLogo(),
                 api.getCreatedAt(),
                 api.getUpdatedAt(),
-                isFavorited
+                isFavorited,
+                wikiItem
         );
     }
 
