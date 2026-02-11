@@ -35,4 +35,12 @@ public class User extends BaseEntity {
     private Provider provider;
 
     private LocalDateTime deletedAt; // Soft Delete 용
+
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void changePassword(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
 }
