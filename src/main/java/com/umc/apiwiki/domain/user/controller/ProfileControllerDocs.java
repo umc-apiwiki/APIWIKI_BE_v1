@@ -7,9 +7,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+
 public interface ProfileControllerDocs {
     @Operation(
-            summary = "닉네임 중복 확인",
+            summary = "닉네임 중복 확인 API By 악어",
             description = """
                     닉네임 중복 여부를 확인합니다.
                     
@@ -27,7 +28,7 @@ public interface ProfileControllerDocs {
     );
 
     @Operation(
-            summary = "프로필 수정",
+            summary = "프로필 수정 API By 악어",
             description = """
                     프로필 정보를 수정합니다.
                     
@@ -46,7 +47,7 @@ public interface ProfileControllerDocs {
     );
 
     @Operation(
-            summary = "회원 탈퇴",
+            summary = "회원 탈퇴 API By 악어",
             description = """
                     회원 탈퇴를 진행합니다.
                     
