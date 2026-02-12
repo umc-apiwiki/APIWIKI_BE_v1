@@ -94,7 +94,7 @@ public class UserCommandService {
 
     public UserResDTO.LoginRes Login(UserReqDTO.LoginReq dto) {
         // 1. 이메일로 유저 찾기
-        User user = userRepository.findByEmail(dto.email())
+        User user = userRepository.findByEmailAndDeletedAtIsNull(dto.email())
                 .orElseThrow(() -> new GeneralException(GeneralErrorCode.USER_NOT_FOUND));
 
         // 2. 비밀번호 검증
