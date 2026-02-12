@@ -5,6 +5,7 @@ import com.umc.apiwiki.domain.user.service.command.ProfileCommandService;
 import com.umc.apiwiki.global.apiPayload.ApiResponse;
 import com.umc.apiwiki.global.apiPayload.code.GeneralSuccessCode;
 import com.umc.apiwiki.global.security.userdetails.CustomUserDetails;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class ProfileController implements ProfileControllerDocs {
 
     @Override
     @PatchMapping
-    public ApiResponse<Void> updateProfile(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody ProfileReqDTO.Update request) {
+    public ApiResponse<Void> updateProfile(@AuthenticationPrincipal CustomUserDetails userDetails, @Valid @RequestBody ProfileReqDTO.Update request) {
         profileCommandService.updateProfile(userDetails.getUsername(), request);
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
     }

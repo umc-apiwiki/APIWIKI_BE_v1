@@ -40,8 +40,10 @@ public enum GeneralErrorCode implements BaseErrorCode{
     API_NOT_PROCESSABLE(HttpStatus.BAD_REQUEST, "API4004", "요청을 처리할 수 없습니다."),
     API_FORBIDDEN(HttpStatus.FORBIDDEN, "API4005", "요청에 대한 권한이 없습니다."),
 
+    // 프로필 관련 에러
     INVALID_PROFILE_UPDATE(HttpStatus.BAD_REQUEST,"USER4004","수정할 프로필 정보가 없습니다."),
-    NICKNAME_DUPLICATED(HttpStatus.BAD_REQUEST, "USER4001", "이미 사용 중인 닉네임입니다.");
+    NICKNAME_DUPLICATED(HttpStatus.BAD_REQUEST, "USER4001", "이미 사용 중인 닉네임입니다."),
+    PASSWORD_CONFIRM_MISMATCH(HttpStatus.BAD_REQUEST, "USER4005", "새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
 
     private final HttpStatus status;
     private final String code;
