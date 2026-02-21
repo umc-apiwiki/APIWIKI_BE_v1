@@ -9,46 +9,45 @@
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-orange?logo=mysql&logoColor=white)
 ![AWS EC2](https://img.shields.io/badge/AWS%20EC2-232F3E?logo=amazon-aws&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?logo=github-actions&logoColor=white)
+![Nginx](https://img.shields.io/badge/Nginx-009639?logo=nginx&logoColor=white)
 
 ## 🔥 서비스 목표
-API 위키는 개발자들이 프로젝트에 적합한 API를 빠르고 정확하게 선택할 수 있도록 돕는 커뮤니티 기반 정보 플랫폼입니다.<br/>
-위키피디아의 협업 방식과 Hugging Face의 실사용자 검증 모델을 결합하여,<br/>
-분산된 API 정보를 한 곳에 모으고 실제 개발자들의 경험을 공유하는 생태계를 구축합니다.<br/>
+API 위키는 개발자들이 프로젝트에 적합한 API를 빠르고 정확하게 선택할 수 있도록 돕는 커뮤니티 기반 정보 플랫폼입니다.
 
 - **핵심 목표**: API 조사 시간을 8시간에서 2시간으로 70% 단축
 - **품질 목표**: API 선택 후 교체율을 35%에서 10%로 감소
 - **커뮤니티 목표**: 월간 활성 기여자 100명 이상 확보
 
-## 📚 Documentation & Rules
-
-프로젝트의 설계 문서와 협업 규칙은 `docs/` 디렉토리에서 상세하게 관리하고 있습니다.
-
-| 문서 종류 | 내용 및 링크                                                                             |
-| --- |-------------------------------------------------------------------------------------|
-| **Ground Rules** | **[📜 팀 협업 규칙 및 기술 스택 상세](./docs/project-rules.md)**                                |
-| **DB Design** | **[💾 ERD](./docs/erd/erd.md)**                                                     |
-| **Infrastructure** | **[☁️ 인프라 구성 다이어그램](./docs/infra/architecture.png)**                                |
-| **API Spec** | **[Swagger UI](https://apiwiki-api.my-project.cloud/swagger-ui/index.html)** （배포 환경）|
-
 ## 🏗️ Architecture (Infra & Deployment)
 
-현재 AWS EC2 환경에 배포되어 있으며, **Nginx**를 리버스 프록시로 사용하여 <b>HTTPS(SSL)</b> 보안이 적용되어 있습니다.<br/>
-GitHub Actions를 통해 **CI/CD 자동 배포 파이프라인**이 구축되어 있습니다.<br/>
+**AWS EC2** 환경에서 운영되며, **Nginx**를 활용해 보안과 트래픽 관리를 최적화했습니다.
+
+![API 명세서 캡처본 보기](./docs/architecture.png)
 
 * **Server URL:** `https://apiwiki-api.my-project.cloud`
-* **Docs (Swagger):** `https://apiwiki-api.my-project.cloud/swagger-ui/index.html`
+* **Docs (Swagger):** [API 명세서 캡처본 보기](./docs/swagger-ui-capture.png) *(서버 종료 후를 대비해 캡처본 링크로 변경 추천)*
 
 ### 🔄 CI/CD Process
-1.  GitHub `main` 브랜치에 코드 Push
-2.  **GitHub Actions** 트리거 (Build & Test)
-3.  `.jar` 파일 빌드 후 AWS EC2로 전송 (SCP)
-4.  EC2 내부 `deploy.sh` 스크립트 실행
-5.  기존 프로세스 종료 및 **자동 재배포**
+**GitHub Actions**를 통한 자동 배포 파이프라인이 구축되어 있습니다.
+1. GitHub `main` 브랜치에 코드 Push
+2. **GitHub Actions** 트리거 (Build & Test)
+3. `.jar` 파일 빌드 후 AWS EC2로 전송
+4. EC2 내부 배포 스크립트 실행 및 **Systemd**를 통한 서비스 재시작
 
-> **⚠️ 배포 시 유의사항 (Known Limitations)**<br/>
-> 현재 인프라 비용 절감 및 구조 단순화를 위해 **단일 인스턴스 배포 방식**을 채택하고 있습니다.<br/>
-> 이에 따라 배포 스크립트 실행 시 기존 프로세스가 종료되고 새 프로세스가 실행되는 동안 <b>약 15~30초 간의 다운타임(서비스 일시 중단)</b>이 발생합니다.<br/>
-> 추후 트래픽 증가 시 **Nginx를 활용한 Blue/Green 무중단 배포** 도입을 통해 개선할 예정입니다.<br/>
+> **⚠️ 배포 시 유의사항 (단일 인스턴스 환경)**
+> 리소스 최적화를 위해 단일 인스턴스 배포 방식을 채택했습니다. 
+> Nginx가 트래픽을 프록시하는 동안, 백엔드 프로세스 재시작 시 **약 5~15초의 최소화된 다운타임**이 발생합니다.
+
+## 💡 Technical Highlights (백엔드 핵심 성과)
+
+* **배포 프로세스 고도화 및 안정성 확보**
+  * 기존 쉘 스크립트(`nohup`)의 한계를 극복하고자 리눅스 **Systemd**를 도입하여, 프로세스 생명주기 관리 및 비정상 종료 시 자동 복구 환경 구축. [🔗 PR #19](https://github.com/umc-apiwiki/APIWIKI_BE_v1/pull/20)
+* **유연한 보안 구성과 시크릿 관리**
+  * `@ConditionalOnProperty`를 활용해 단일 코드베이스에서 로컬(H2)과 운영(RDS) 환경의 보안 설정을 유연하게 격리.
+  * GitHub Secrets, `.env`, Systemd `EnvironmentFile`을 연동한 안전한 환경변수 파이프라인 구축. [🔗 PR #4](https://github.com/umc-apiwiki/APIWIKI_BE_v1/pull/4)
+* **데이터 전처리 자동화 및 코드 품질 관리**
+  * 기획 데이터를 **Python 스크립트**로 파싱 및 가공하여 DB 맞춤형 포맷으로 마이그레이션 수행. [🔗 PR #43](https://github.com/umc-apiwiki/APIWIKI_BE_v1/pull/43)
+  * PR 기반 코드 리뷰 문화를 정착시켜, N+1 문제 조기 발견 및 성능 최적화 진행. [🔗 PR #63](https://github.com/umc-apiwiki/APIWIKI_BE_v1/pull/63)
 
 ## 🛠️ Getting Started (Local Development)
 
