@@ -49,7 +49,7 @@ API 위키는 개발자들이 프로젝트에 적합한 API를 빠르고 정확�
 
 **AWS EC2** 환경에서 운영되며, **Nginx**를 활용해 보안과 트래픽 관리를 최적화했습니다.
 
-![인프라 아키텍처 다이어그램](./docs/infra/architecture.png)
+![인프라 아키텍처 다이어그램](./docs/infra/infra-architecture.png)
 
 * **Server URL:** `https://apiwiki-api.my-project.cloud`
 * **Docs (Swagger):** [API 명세서 캡처본 보기](./docs/api/api-specification.pdf)
